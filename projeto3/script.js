@@ -11,7 +11,7 @@ function setOperation(op){
     if(display.value == "") return;
     firstNumber = display.value;
     currentOperation = op;
-    display.value = "";
+    display.value += " " + op + " ";
 }
 
 function calculateResult(){
