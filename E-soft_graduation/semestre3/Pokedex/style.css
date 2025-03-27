@@ -1,0 +1,44 @@
+
+body {
+    background-image: url('image.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: aliceblue;
+}
+
+
+.caixa {
+    width: 500px;
+    height: 500px;
+    background-color: #000000;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+}
+
+
+.caixa img {
+    max-width: 100px;
+    display: block;
+    margin: 0 auto;
+}
+
+.list-group-item {
+    background-color: #222;
+    color: white;
+    border: 1px solid #444;
+}
+
+.titulo{
+    color: red;
+    font-weight: bold;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+}
+
+
