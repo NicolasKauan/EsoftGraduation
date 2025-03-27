@@ -34,11 +34,30 @@ typedef struct {
 PESSOA cliente[5];
 
 void ordenaPessoa(PESSOA cliente[], int n);
+void cadastroPessoa();
+
 
 int main() {
     int bytesEndereco = sizeof(ENDERECO);
     int bytesPessoa = sizeof(PESSOA);
 
+    // Ordenação das pessoas por nome
+    ordenaPessoa(cliente, 5);
+
+    // Exibição dos dados ordenados
+    printf("\nLista de pessoas ordenadas por nome:\n");
+    for (int i = 0; i < 5; i++) {
+        printf("\nNome: %s\nCPF: %s\nTelefone: %s\nCidade: %s\nEstado: %s\n", 
+            cliente[i].nome, cliente[i].cpf, cliente[i].fone, cliente[i].endereco.cidade, cliente[i].endereco.estado);
+    }
+    
+    printf("\nTamanho da struct Endereco: %d bytes (%d bits)\n", bytesEndereco, bytesEndereco * 8);
+    printf("Tamanho da struct Pessoa: %d bytes (%d bits)\n", bytesPessoa, bytesPessoa * 8);
+
+    return 0;
+}
+
+void cadastroPessoa(){
     for (int i = 0; i < 5; i++) {
         printf("\nCadastro da pessoa %d:\n", i + 1);
         
@@ -77,21 +96,22 @@ int main() {
         printf("CEP: ");
         scanf(" %[^\n]", cliente[i].endereco.cep);
     }
-
-    // Ordenação das pessoas por nome
-    ordenaPessoa(cliente, 5);
-
-    // Exibição dos dados ordenados
-    printf("\nLista de pessoas ordenadas por nome:\n");
-    for (int i = 0; i < 5; i++) {
-        printf("\nNome: %s\nCPF: %s\nTelefone: %s\nCidade: %s\nEstado: %s\n", 
-            cliente[i].nome, cliente[i].cpf, cliente[i].fone, cliente[i].endereco.cidade, cliente[i].endereco.estado);
+}
+void lerArquivo() {
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo %s\n", filename);
+        exit(1);
     }
-    
-    printf("\nTamanho da struct Endereco: %d bytes (%d bits)\n", bytesEndereco, bytesEndereco * 8);
-    printf("Tamanho da struct Pessoa: %d bytes (%d bits)\n", bytesPessoa, bytesPessoa * 8);
 
-    return 0;
+    for (int i = 0; i < 5; i++) {
+        fscanf(file, " %49[^;];%11[^;];%14[^;];%c;%hd;%49[^;];%hd;%29[^;];%2[^;];%9[^\n]\n",
+            cliente[i].nome, cliente[i].cpf, cliente[i].fone, &cliente[i].sexo, &cliente[i].idade,
+            cliente[i].endereco.logradouro, &cliente[i].endereco.numero, cliente[i].endereco.cidade, 
+            cliente[i].endereco.estado, cliente[i].endereco.cep);
+    }
+
+    fclose(file);
 }
 
 // Função para ordenar as pessoas por nome
