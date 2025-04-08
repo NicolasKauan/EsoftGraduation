@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <title>Document</title>
+  <style>
+    label {
+      font-weight: 100;
+      margin-bottom: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Formulário de cadastro -->
+    <form>
+      <div class="mb-3">
+        <label for="nameFild">Nome</label>
+        <input type="text" name="nameFild" id="nameFild" class="form-control" required />
+      </div>
+      <div class="mb-3">
+        <label for="idadeFild">Idade</label>
+        <input type="text" name="idadeFild" id="idadeFild" class="form-control" required />
+      </div>
+      <div class="d-grid gap-2 mb-3">
+        <button class="btn btn-primary" onclick="adicionarItem()" type="button">Adicionar</button>
+      </div>
+    </form>
+
+    <!-- Formulário de busca/remover -->
+    <form>
+      <div class="row">
+        <div class="col-8">
+          <input type="text" id="searchField" class="form-control" name="searchField" placeholder="Digite um index para deletar ou o nome para buscar" />
+        </div>
+        <div class="col-2">
+          <div class="btn btn-primary">
+            <button class="btn btn-primary" onclick="verificarItemNoArray()" type="button">Verificar</button>
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="btn btn-primary">
+            <button class="btn btn-primary" onclick="removerIndexNoArray()" type="button">Remover</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    let tabelaPessoas = [];
+
+    function adicionarItem() {
+      const nomeValue = document.getElementById("nameFild").value.trim();
+      const idadeValue = document.getElementById("idadeFild").value.trim();
+
+      if (nomeValue === "" || !isNaN(parseInt(nomeValue))) {
+        alert("O nome está vazio ou contém números.");
+        return;
+      }
+
+      if (idadeValue === "" || isNaN(parseInt(idadeValue))) {
+        alert("A idade está vazia ou não é um número.");
+        return;
+      }
+
+      adicionarItemAoArray(nomeValue, idadeValue);
+      visualizarArrayAtualizado();
+
+      // Limpa os campos
+      document.getElementById("nameFild").value = "";
+      document.getElementById("idadeFild").value = "";
+    }
+
+    function adicionarItemAoArray(nome = "", idade = "") {
+      tabelaPessoas.push({ nome, idade });
+    }
+
+    function visualizarArrayAtualizado() {
+      console.clear();
+      tabelaPessoas.forEach(function (item) {
+        console.log(`A pessoa ${item.nome} possui ${item.idade} anos.`);
+      });
+      console.log("-----------------------------");
+    }
+
+    function verificarItemNoArray() {
+      const nomeValue = document.getElementById("searchField").value.trim();
+      const encontrados = [];
+
+      tabelaPessoas.forEach(function (item) {
+        if (item.nome === nomeValue) {
+          encontrados.push(item);
+        }
+      });
+
+      if (encontrados.length === 0) {
+        alert("Item não encontrado");
+      } else if (encontrados.length > 1) {
+        console.log("Foram encontrados os seguintes registros:");
+        encontrados.forEach(function (item) {
+          console.log(`Nome: ${item.nome}, Idade: ${item.idade}`);
+        });
+        alert(`Foram encontrados ${encontrados.length} registros com esse nome. Veja no console.`);
+      } else {
+        alert(`Encontrado: ${encontrados[0].nome}, ${encontrados[0].idade} anos`);
+      }
+    }
+
+    function removerIndexNoArray() {
+      const indexASerRemovido = parseInt(document.getElementById("searchField").value.trim());
+
+      if (isNaN(indexASerRemovido) || indexASerRemovido < 0 || indexASerRemovido >= tabelaPessoas.length) {
+        alert("Índice inválido");
+        return;
+      }
+
+      tabelaPessoas.splice(indexASerRemovido, 1);
+      visualizarArrayAtualizado();
+    }
+  </script>
+</body>
+</html>
