@@ -1,0 +1,20 @@
+MATEI JÁ TENHO 6 TABELAS, Aluno, TelefoneAluno, Disciplina, Professor, Curso, ProfessorDisciplina
+
+Das tabelas matei: 
+Aluno(MatriculaAluno, NomeAluno, EmailAluno);
+
+TelefoneAluno(idTelefone, MatriculaAluno);
+
+Disciplina(NomeDisciplina, CodDisciplina);
+
+Curso(CodCurso, NomeCurso, CargaHorariaDisciplina);
+
+CursoDisciplina(CodCurso, CodDisciplina);
+
+Professor(NomeProfessor, EmailProfessor);
+
+ProfessorDisciplina(CodProfessor, CodDisciplina);
+
+HistoricoEscolar(MatriculaAluno, CodDisciplina, PeriodoLetivo, Nota, Faltas);
+
+Pronto!!
