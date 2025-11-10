@@ -20,3 +20,34 @@ INSERT INTO itens (nome,preco_vase, tipo, preco_final, imposto) VALUES (?,?,?,?,
 	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:315)
 	at ItemStorage.salvarItem(ItemStorage.java:29)
 	at Main.main(Main.java:27)
+2025-11-10 19:31:28.476451-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ITEM" not found; SQL statement:
+UPDATE item SET preco_base = ? WHERE id = ?; [42102-240]
+2025-11-10 19:32:32.191371-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Parameter "#1" is not set; SQL statement:
+UPDATE itens SET preco_base = ? WHERE id = ? [90012-240]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:97)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:203)
+	at org.h2.command.CommandContainer.query(CommandContainer.java:221)
+	at org.h2.command.Command.executeQuery(Command.java:198)
+	at org.h2.jdbc.JdbcPreparedStatement.executeQuery(JdbcPreparedStatement.java:130)
+	at ItemStorage.atualizarPrecoBase(ItemStorage.java:85)
+	at Main.main(Main.java:43)
+2025-11-10 19:34:24.563246-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Parameter "#1" is not set; SQL statement:
+UPDATE itens SET preco_base = ? WHERE id = ? [90012-240]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:97)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:203)
+	at org.h2.command.CommandContainer.query(CommandContainer.java:221)
+	at org.h2.command.Command.executeQuery(Command.java:198)
+	at org.h2.jdbc.JdbcPreparedStatement.executeQuery(JdbcPreparedStatement.java:130)
+	at ItemStorage.atualizarPrecoBase(ItemStorage.java:85)
+	at Main.main(Main.java:43)

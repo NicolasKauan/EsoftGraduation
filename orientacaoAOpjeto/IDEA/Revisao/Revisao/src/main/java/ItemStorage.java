@@ -1,3 +1,4 @@
+import javax.xml.transform.Source;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class ItemStorage {
             veiculo.setString(1, item.getNome());
             veiculo.setDouble(2, item.getPrecoBase());
             veiculo.setString(3, item.getTipo());
-            veiculo.setDouble(4, item.precoFinal());
+            veiculo.setDouble(4, item.calcularPrecoFinal());
             veiculo.setDouble(5,item.calcularImposto());
             int resultado = veiculo.executeUpdate();
             if(resultado == 1){
@@ -43,30 +44,67 @@ public class ItemStorage {
     }
     public List<ItemVendavel> buscarTodosItens(){
         String sql = "SELECT * FROM itens;";
-        List<ItemVendavel> saida = new ArrayList<>();
+        List<ItemVendavel> itens = new ArrayList<>();
+
+        try(Connection conexao = ConexaoComBanco.getConexaoComBanco()) {
+            PreparedStatement veiculo = conexao.prepareStatement(sql);
+            ResultSet cursor = veiculo.executeQuery();
+            while (cursor.next()) {
+                int id = cursor.getInt("id");
+                String nome = cursor.getString("nome");
+                Double preco_base = cursor.getDouble("preco_base");
+                String tipo = cursor.getString("tipo");
+                Double preco_final = cursor.getDouble("preco_final");
+                Double imposto = cursor.getDouble("imposto");
+                ItemVendavel item = new ItemVendavel(nome, preco_base) {
+                    @Override
+                    public double calcularPrecoFinal() {
+                        return preco_final;
+                    }
+
+                    @Override
+                    public String getTipo() {
+                        return tipo;
+                    }
+
+                    @Override
+                    public double calcularImposto() {
+                        return imposto;
+                    }
+                };
+                item.setId(id);
+                itens.add(item);
+            };
+        } catch(SQLException erro){
+            System.out.println("Erro ao buscar todos os itens!");
+        }
+        return itens;
+    }
+    public void atualizarPrecoBase(double novoPrecoBase, int id){
+        String sql = "UPDATE itens SET preco_base = ? WHERE id = ?;";
+
+        try (Connection conexao = ConexaoComBanco.getConexaoComBanco()){
+            PreparedStatement veiculo = conexao.prepareStatement(sql);
+            veiculo.setDouble(1, novoPrecoBase);
+            veiculo.setInt(2, id);
+            veiculo.executeUpdate();
+            System.out.println("Item atualizado com sucesso!");
+        }catch (SQLException erro){
+            System.out.println("Erro ao atualizar o item!");
+        }
+
+    }
+    public void deletarItem(int id){
+        String sql = "DELETE FROM itens WHERE id = ?";
 
         try(Connection conexao = ConexaoComBanco.getConexaoComBanco()){
             PreparedStatement veiculo = conexao.prepareStatement(sql);
-            ResultSet cursor = veiculo.executeQuery();
-            while(cursor.next()){
-                saida.add( new ItemResumo(
-                        cursor.getInt("id");
-                        cursor.getString("nome");
-                        cursor.getDouble("preco_base");
-                        cursor.getString("tipo");
-                        cursor.getDouble("preco_final");
-                        cursor.getDouble("imposto");
-                ));
-                }
+            veiculo.setInt(1, id);
+            veiculo.executeUpdate();
+            System.out.println("Item excluido com sucesso!");
         }catch(SQLException erro){
-            System.out.println("Erro ao buscar todos os itens!");
+            System.out.println("Erro ao deleter item!");
         }
-        return saida;
     }
-    public void atualizarPrecoBase(int id, double novoPrecoBase){
-
-    }
-    public void deletarItem(int id){}
-
 
 }

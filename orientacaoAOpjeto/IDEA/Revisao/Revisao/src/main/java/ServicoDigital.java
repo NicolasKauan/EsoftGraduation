@@ -16,7 +16,7 @@ public class ServicoDigital extends ItemVendavel {
     }
 
     @Override
-    public double precoFinal(){
+    public double calcularPrecoFinal(){
         return getPrecoBase()*duracaoMeses;
     }
 

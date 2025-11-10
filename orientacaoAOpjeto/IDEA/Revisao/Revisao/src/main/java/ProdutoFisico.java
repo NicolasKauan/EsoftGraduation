@@ -15,7 +15,7 @@ public class ProdutoFisico extends ItemVendavel implements Tributavel {
     }
 
     @Override
-    public double precoFinal() {
+    public double calcularPrecoFinal() {
         return getPrecoBase()+(pesoEmKg*3.50) + calcularImposto();
     }
 

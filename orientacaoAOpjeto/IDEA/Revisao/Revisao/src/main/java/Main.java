@@ -28,12 +28,24 @@ public class Main {
                     banco.salvarItem(novoItem);
                     break;
                 case 2:
-                    list<ItemVendavel> = banco.buscarTodosItens();
-
+                    List<ItemVendavel> itemSalvo = banco.buscarTodosItens();
+                    for (ItemVendavel iS: itemSalvo){
+                        System.out.printf("%d | %s | %s | base=%.2f | final=%.2f | imp=%.2f\n",
+                                iS.getId(), iS.getNome(), iS.getTipo(),iS.getPrecoBase(), iS.calcularPrecoFinal(),
+                                iS.calcularImposto());
+                    }
                     break;
                 case 3:
+                    System.out.println("ID do item: ");
+                    int id = leitor.nextInt();
+                    System.out.println("Preco base a ser trocado: ");
+                    Double preco_base = leitor.nextDouble();
+                    banco.atualizarPrecoBase(preco_base, id);
                     break;
                 case 4:
+                    System.out.println("ID do item: ");
+                    int idDelete = leitor.nextInt();
+                    banco.deletarItem(idDelete);
                     break;
             }
         }while (opcao != 5);

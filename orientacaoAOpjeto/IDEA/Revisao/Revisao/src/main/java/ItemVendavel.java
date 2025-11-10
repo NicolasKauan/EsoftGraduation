@@ -1,4 +1,5 @@
 public abstract class ItemVendavel {
+    private int id;
     private String nome;
     private double  precoBase;
     public ItemVendavel(String nome, double precoBase){
@@ -10,19 +11,20 @@ public abstract class ItemVendavel {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public double getPrecoBase() {
         return precoBase;
     }
-    public void setPrecoBase(double precoBase) {
-        this.precoBase = precoBase;
-    }
-    public abstract double precoFinal();
-    public abstract String getTipo();
 
+    public abstract double calcularPrecoFinal();
+    public abstract String getTipo();
 
     public double calcularImposto(){
         return 0.0;
