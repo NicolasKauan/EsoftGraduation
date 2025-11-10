@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4eafa869-86a3-4244-80f3-5456e0f0788d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../IDEA/aula30102025/untitled/src/ValorMenorQueZeroExeption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ExerciciosJava.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex1-ContasNextGenBank/Conta.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex1-ContasNextGenBank/ContaCorrente.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex1-ContasNextGenBank/ContaPoupanca.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex1-ContasNextGenBank/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex2-GeradorRelatorioTemplateMethod/GeradorDeRelatorio.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex2-GeradorRelatorioTemplateMethod/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex2-GeradorRelatorioTemplateMethod/RelatorioHTML.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex3-FormasGeometricas/Circulo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex3-FormasGeometricas/Forma.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex3-FormasGeometricas/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex3-FormasGeometricas/Retangulo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex4-FuncionariosRH/Funcionario.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex4-FuncionariosRH/Gerente.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex4-FuncionariosRH/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex4-FuncionariosRH/Vendedor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex5-MeiosDeTransporte/Bicicleta.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex5-MeiosDeTransporte/Carro.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex5-MeiosDeTransporte/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Abstracao/Ex5-MeiosDeTransporte/MeioTransporte.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex1-TributavelReceitaFederal/ContaCorrente.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex1-TributavelReceitaFederal/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex1-TributavelReceitaFederal/SeguroDeVida.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex1-TributavelReceitaFederal/Tributavel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex2-DispositivoEletronico/ArCondicionado.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex2-DispositivoEletronico/DispositivoEletronico.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex2-DispositivoEletronico/Lampada.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex2-DispositivoEletronico/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex3-PortaDeSeguranca/Autenticavel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex3-PortaDeSeguranca/DispositivoEletronico.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex3-PortaDeSeguranca/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex3-PortaDeSeguranca/PortaDeSeguranca.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex4-PagavelFinanceiro/Boleto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex4-PagavelFinanceiro/Fatura.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex4-PagavelFinanceiro/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex4-PagavelFinanceiro/Pagavel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex4-PagavelFinanceiro/ProcessadorPagamentos.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex5-Conversores/CelsiusParaFahrenheit.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex5-Conversores/Conversor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex5-Conversores/FahrenheitParaCelsius.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaces/Ex5-Conversores/Main.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="34fVniLyBbNoEStwFX6Z6MZ4AVE" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/NicolasKauan/Documents/GitHub/EsoftGraduation/orientacaoAOpjeto/ExerciciosJava&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4eafa869-86a3-4244-80f3-5456e0f0788d" name="Changes" comment="" />
+      <created>1761604781361</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1761604781361</updated>
+    </task>
+    <servers />
+  </component>
+</project>
