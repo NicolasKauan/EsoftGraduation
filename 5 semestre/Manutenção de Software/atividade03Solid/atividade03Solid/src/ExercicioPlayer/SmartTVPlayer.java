@@ -4,15 +4,15 @@ public class SmartTVPlayer implements StreamingPlayer{
 
     @Override
     public void reproduzirTitulo() {
-        System.out.println("Reproduzindo titulo...");
+        System.out.println("SmartTV Reproduzindo titulo...");
     }
     @Override
     public void parar() {
-        System.out.println("Parando titulo... ");
+        System.out.println("SmartTV Parando titulo... ");
     }
     @Override
     public void pausar() {
-        System.out.println("Titulo pausado ");
+        System.out.println("SmartTV Titulo pausado ");
     }
 
 }

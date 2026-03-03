@@ -1,22 +1,21 @@
 package ExercicioPlayer;
 
-public class MobilePlayer implements StreamingPlayer{
+public class MobilePlayer implements StreamingPlayer, IBaixavel{
 
     @Override
     public void reproduzirTitulo() {
-        System.out.println("Reproduzindo titulo...");
+        System.out.println(" Mobile Reproduzindo titulo...");
     }
     @Override
     public void parar() {
-        System.out.println("Parando titulo... ");
+        System.out.println(" Mobile Parando titulo... ");
     }
     @Override
     public void pausar() {
-        System.out.println("Titulo pausado ");
+        System.out.println(" Mobile Titulo pausado ");
     }
 
     public void baixarTitulos(){
         System.out.println("Titulo baixado com sucesso! ");
     }
-
 }

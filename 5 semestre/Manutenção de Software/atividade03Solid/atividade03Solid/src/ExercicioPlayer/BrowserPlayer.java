@@ -1,30 +1,22 @@
 package ExercicioPlayer;
 
-public class BrowserPlayer implements StreamingPlayer{
-    private boolean cookiesHabilitados;
-
-    public BrowserPlayer(boolean cookiesHabilitados){
-        this.cookiesHabilitados = cookiesHabilitados;
-    }
+public class BrowserPlayer implements StreamingPlayer,ICookies{
 
     @Override
     public void reproduzirTitulo() {
-        System.out.println("Reproduzindo titulo...");
+        System.out.println("Browser Reproduzindo titulo...");
     }
     @Override
     public void parar() {
-        System.out.println("Parando titulo... ");
+        System.out.println("Browser Parando titulo... ");
     }
     @Override
     public void pausar() {
-        System.out.println("Titulo pausado ");
+        System.out.println("Browser Titulo pausado ");
     }
 
-    public boolean isCookiesHabilitados() {
-        return cookiesHabilitados;
-    }
-
-    public void setCookiesHabilitados(boolean cookiesHabilitados) {
-        this.cookiesHabilitados = cookiesHabilitados;
+    @Override
+    public boolean cookiesHabilitados() {
+        return false;
     }
 }
