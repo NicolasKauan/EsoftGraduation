@@ -1,0 +1,190 @@
+{
+  "main": {
+    "id": "4bd52176eb7d8276",
+    "type": "split",
+    "children": [
+      {
+        "id": "e59b0ecf3d0aae57",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "99bd8413ad0f330e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "EngenhariaDeSoftware/5 semestre/Manutenção de Software.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Manutenção de Software"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "6b9ff2b678f3ffa7",
+    "type": "split",
+    "children": [
+      {
+        "id": "2723d2983da51bf3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "edf3b9075248536d",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de arquivos"
+            }
+          },
+          {
+            "id": "d6a95baa4810b117",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Procurar"
+            }
+          },
+          {
+            "id": "845e0c2e798deb65",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "b792251f54ed6f55",
+    "type": "split",
+    "children": [
+      {
+        "id": "dac44b8f2a8a9fd5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "be94ed65cc75c9d7",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "EngenhariaDeSoftware/4 semestre/Banco de dados.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Links inversos para Banco de dados"
+            }
+          },
+          {
+            "id": "7f834a72fa1c1376",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "EngenhariaDeSoftware/4 semestre/Banco de dados.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Links de saída para Banco de dados"
+            }
+          },
+          {
+            "id": "f3cf587e74add1df",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "026177f12f139e87",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "EngenhariaDeSoftware/4 semestre/Banco de dados.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Sumário de Banco de dados"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir a troca rápida": false,
+      "graph:Abrir visualização em gráfico": false,
+      "canvas:Criar novo canvas": false,
+      "daily-notes:Abrir a nota de hoje": false,
+      "templates:Inserir modelo": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Criar nova base": false
+    }
+  },
+  "active": "edf3b9075248536d",
+  "lastOpenFiles": [
+    "EngenhariaDeSoftware/5 semestre/Interface Humano-Computador.md",
+    "EngenhariaDeSoftware/5 semestre/Manutenção de Software.md",
+    "EngenhariaDeSoftware/5 semestre/Programação Avançada.md",
+    "EngenhariaDeSoftware/4 semestre/Engenharia de requisitos.md",
+    "EngenhariaDeSoftware/4 semestre/Canvas_EngenhariaDeRequisitos.canvas",
+    "EngenhariaDeSoftware/4 semestre/30-07-2025 - Ifood.canvas",
+    "EngenhariaDeSoftware/4 semestre/Canvas_OrientaçãoAOjbeto.canvas",
+    "EngenhariaDeSoftware/4 semestre/Canvas_BancoDeDadaos.canvas",
+    "EngenhariaDeSoftware/4 semestre/Orientação a objeto.md",
+    "Sem título.md",
+    "EngenhariaDeSoftware/4 semestre/Banco de dados.md",
+    "EngenhariaDeSoftware/4 semestre",
+    "2025-07-29.md",
+    "Graduação 4 semestre.md",
+    "EngenhariaDeSoftware"
+  ]
+}
