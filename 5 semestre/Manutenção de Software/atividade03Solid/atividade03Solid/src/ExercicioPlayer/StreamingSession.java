@@ -1,3 +1,5 @@
+package ExercicioPlayer;
+
 public class StreamingSession {
 
     private StreamingPlayer player;

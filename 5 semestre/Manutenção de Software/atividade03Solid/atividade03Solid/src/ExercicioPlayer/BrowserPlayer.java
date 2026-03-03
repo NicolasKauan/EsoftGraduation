@@ -1,3 +1,5 @@
+package ExercicioPlayer;
+
 public class BrowserPlayer implements StreamingPlayer{
     private boolean cookiesHabilitados;
 

@@ -1,4 +1,6 @@
-public class SmartTVPlayer implements StreamingPlayer{
+package ExercicioPlayer;
+
+public class MobilePlayer implements StreamingPlayer{
 
     @Override
     public void reproduzirTitulo() {
@@ -11,6 +13,10 @@ public class SmartTVPlayer implements StreamingPlayer{
     @Override
     public void pausar() {
         System.out.println("Titulo pausado ");
+    }
+
+    public void baixarTitulos(){
+        System.out.println("Titulo baixado com sucesso! ");
     }
 
 }
