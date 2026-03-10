@@ -1,0 +1,2 @@
+Relatório
+Basta criar uma nova classe que herde de Exame e implemente as interfaces necessárias. Isso pode ser visto nas classes ExameSangue, RaioX, Ultrassom e RessonanciaMagnetica, que estendem a classe Exame. Foram criadas interfaces específicas (IValidavel, IPreparavel e IReservavel) para evitar que classes implementem métodos que não utilizam. Cada tipo de exame implementa apenas as interfaces necessárias ao seu comportamento.

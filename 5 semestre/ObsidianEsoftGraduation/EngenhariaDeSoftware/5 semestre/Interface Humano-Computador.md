@@ -80,4 +80,21 @@ Combinado do professor com a sala: Todos tem o direito a abonar 1 falta no semes
 				Satisfação do usuário: Seria o grau de atendimento das necessidades do usuário quando um produto ou sistema é usado em um contexto específico. Temos como exemplo a questão de uma feedback positivo ao usuário.
 				Não teremos softwares utópicos, onde atenderemos em 100% todos os fatores da usabilidade. Não teremos uma utopia, devemos focar nas funcionalidades. 
 			Experiencia do usuário
-			
+
+# AULA 07 - 04/03/2026
+	UX
+		Definição: As percepções e respostas de uma pessoa que resultam do uso ou da expectativa de uso de um produto, sistema ou serviço. (ISO 9251-210, 2019)
+	Experiência do Usuário(UX)
+		Refere-se em entender quais são as emoções e sentimentos dos usuários ao utilizar um produto ou sistema;
+		Para os pontos negativos e positivos vamos ao slide 20
+		Experiencia do usuário e subjetiva e pessoal.
+	Acessibilidade: Flexibilidade proporcionada para o acesso a informação e a interação, de maneira que o usuário com diferentes deficiencias possam acessar e usar esses sistemas(Melo e Baranauskas, 2005).
+
+
+# AULA 08 - 09/03/2026
+	Comunicabilidade
+		Neste caso seria a capacidade de se comunicar com o usuário. Precisa informar, mesmo que pareça obvio até de mais, isso em algum momento pode ajudar.
+		Podemos ter aqui um exemplo de que se os usuários não compreendem a lógica de design, a interação frequentemente se torna um processo de tentativa e erro, tedioso, ineficiente ou até mesmo ariscado;
+	Lei de Hick-Hyman: Quanto mais coisa tivermos na tela, mais tempo ou mais possiveis escolhas o usuário terá. Se não houver como, precisa ter mais opções. Temos como opção ter um menu de acesso rapido, onde lá teremos mais opções. Teremos segregações na tela
+	Lei de Fitts: refere-se a distancia entre algo e o alvo. Fala do tempo necessário para mover-se rapidamente de uma posição inicial até uma posição final é proporcional ao tamanho do objeto de destino e a distância.
+	
