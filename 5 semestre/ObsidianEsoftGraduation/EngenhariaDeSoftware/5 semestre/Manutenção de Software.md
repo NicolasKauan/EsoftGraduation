@@ -76,4 +76,74 @@ Contato: joao.biazotto@unicesumar.com.br
 		Inversão de dependencias é vc depender de abstrações e não de implementações concretas. Neste caso o que temos seria que uma classe concreta dependa de uma clase abstrata(interface) em vez de outra concreta
 
 # Aula 04 - 02/03/2026
+
+# AULA ?? - 24/03/2026
+	 Engenharia reversa
+		O que fazer com essas informações?
+			 Manutenção
+			 mesmo paradigma e mudança de linguagem
+			 Mudança de paradigma(só modelo lógico)
+			 Mudança de paradigma e de linguagem
+			 Reengenharia
+			Engenharia reversa x Manutenção
+		Atividade avaliativa
+		Precisa esquematizar, colocar em desenho o fluxo partindo do indexfile do lucene, no github
+
+# Aula ?? - 30/03/2026
+atividade hoje, pesquisa de 3 ferramentas para fazer reengenharia
+	Pode ser fatoração ou reconstruir o sistema, ou parte dele, com o intuito de melhorar a qualidade do código, desempenho, segurança, manutenibilidade.
+	Beneficios 
+		Reduzir a complexidade de sistemas legados
+			Ex: 
+				Portar para nova plataforma
+				Melhorar performance
+				Extrair modelos
+				Explorar novas tecnologias
+				Reduzir dependencia humana 
+	Quando aplicar a reengenharia
+		Documentação obsoleta ou não documentação
+		Desenvolvedores deixaram empresa
+		Conhecimento limitado do sistema
+		Muito tempo gasto para realizar pquenas mudanças
+	Diferença entre engenharia reversa e reengenharia
+		Reversa: Recuperar a documentação e entender melhor o código
+		Reengenharia: melhorar aquele código
+		Obs. Posso utilizar a engenharia reversa para fazer a reengenharia para escrever um código novo e melhor
 	
+	Analise de inventário
+		Toda organização tem um inventario de aplicações
+		Organizado numa planilha(tamanho, idade, importancia)
+		Priorizar sistemas candidatos
+		Alocar recursos
+	Reestruturação da documentação
+		Documentação fraca e escassa e a marca de sistemas legados
+		Não fazer nada
+		Documentar o necessario
+		Documentar o minimo
+	Engenharia reversa
+		Processo de extrair informações a partir do código
+	Reestruturação de código e dados
+		Modifica código ou dados
+		não altera arquitetura
+		Código mesma funcionalidade, mais qualidade
+		Dados: projeto de dados mais efetivo
+	Ultima etapa - 6 - Engenharia avante
+		Recupera o projeto de software
+		Melhora a qualidade do softwarre
+		Adiciona novas funcionalidades
+		Modifica arquiterura
+		Resultado: Melhora no código/projeto
+	Ferramentas
+		Analisadores de código
+			Analise estática
+				eXTRAI INFORMAÇÕES DO CÓDIGO
+				Diagramas: classe, pacote, dependencias, etc
+				Vantagem: rapida, barata e não demanda execução
+				Desvantagens
+					Ordem dos eventos é perdida(por onde começo a ler um diagrama)
+					Relacionamentos dinamicos não são capturados(ex: polimorfismo, reflexão, etc).
+			Analise dinamica
+				Analisa o comportamento do software enquanto ele está rodando
+				Extrai a informação da execução
+				É utilizada para entender o comportamento do código
+			

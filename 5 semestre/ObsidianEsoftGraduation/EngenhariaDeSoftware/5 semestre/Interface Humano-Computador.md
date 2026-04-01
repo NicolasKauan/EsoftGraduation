@@ -97,4 +97,93 @@ Combinado do professor com a sala: Todos tem o direito a abonar 1 falta no semes
 		Podemos ter aqui um exemplo de que se os usuários não compreendem a lógica de design, a interação frequentemente se torna um processo de tentativa e erro, tedioso, ineficiente ou até mesmo ariscado;
 	Lei de Hick-Hyman: Quanto mais coisa tivermos na tela, mais tempo ou mais possiveis escolhas o usuário terá. Se não houver como, precisa ter mais opções. Temos como opção ter um menu de acesso rapido, onde lá teremos mais opções. Teremos segregações na tela
 	Lei de Fitts: refere-se a distancia entre algo e o alvo. Fala do tempo necessário para mover-se rapidamente de uma posição inicial até uma posição final é proporcional ao tamanho do objeto de destino e a distância.
-	
+
+# AULA 09 - 16/03/2026
+	Abordagens Teóricas em IHC
+		Principios de Gestalt
+			Gestalt é um conceito/palavra, significa forma ou formato em alemão. Muito da nossa inteligencia pode ser caracterizada pela nossa capacidade de identificar padrões visuais. Essa aula esta muito ligado a principios de psicologia. Alinhamento(toque/paranoia). Temos leis baseadas em:
+				Proximidade: Elementos proximos fazem com que o nosso cerebro associem que aquilo é a mesma coisa, se não tivermos proximidade, nosso cerebro pode perceber, em primeiro momento, que temos dois grupos distintos, mesmo sendo a mesma coisa."As entidades visuais que estão proximas umas das outras são percebidas como um grupo ou unidade"
+				Continuidade: Quando vc coloca um caminho para que o usuáriio realize uma certa ação. Induzindo o usuário para o local que desejar. "Traços continuos são percebidos mais prontamente do que contornos que mudem de direção rapidamente;"
+				simetria: "Elementos simétricos tendem a ser percebidos como pertencentes m ao outro, independentemente que como estão alinhados".
+				similaridade: "Elementos que compartilham as mesmas caracteristicas visuais são mais relacionados do que aqueles que não compartilham"
+				destino comum: Delimitação de espaço, slide 16, podemos ter por exemplo delimitação de espaço por cor, por seção, temos um destino comum, mesmo que os elementos dentro desse espaço forem distintos entre si."Elementos posivionados dentro da mesma região fechada são percebidos como parte do mesmo grupo."
+				fecho: "A mente tende a fechar contornos para completar figuras regulares, 'COMPLETANDO AS FALHAS' e aumentando a regularidade. Você utiliza sua memória para converter objetos complexo em formas simples.", mesmo que eu não tenha as linhas eu posso ver que elas estão lá, por conta do fecho
+				fato comum:"Elementos que se movem na mesma direção são mais relacionados do que aqueles que se movem em direção diferente, ou não se movem."
+		Percepção de cores
+			"As cores utilizadas no projeto de uma interface devem ser bem escolhidas e contrastadas"
+			Slide 27*
+			Slide 28* tem a questão do adobe, uma ferramenta que pode ajudar na escolha de cores
+
+# AULA 11 - 23/03/2026
+	Identificação de Necessidades dos Usuários e requisitos de IHC
+		Objetivo da analise é identificar as necessidades dos usuários e as metas de design de IHC. 
+		Sharp et al. destacam quatro pontos principais envolvidos na coleta de dados
+			Definição de objetivos
+				Envolve identificar as razões para a coleta de datos;
+				Determinar quais dados devem ser coletados e quais técnicas podem ser unitilizadas;
+			Relacionamento com participantes
+				Os participantes que fornecerão os dados que devem ser informados sobre esses objetivos e consentir com a sua coleta, com as condições de privacidade e anonimato previstas, com a forma com os dados serão utilizados, por quem e para quê.
+				A autorização dos participantes é obtida através da assinatura de um formulário de consentimento - Trmo de Consentimento Livre e Esclarecido(TCLE).
+			Triangulação
+				Utilizar mais do que uma técnica de coleta ou analise de dados para obter diferentes perspectivas e confirmar as descobertas, permitindo obter resultados mais rigorosos e válidos.
+				Ex: 
+					Observação para entender o contexto
+					entrevista para endereçar os grupos de usuários
+					Questionário para alcançar uma população mais ampla
+					Obs. Não é comum utilizar essa parte!
+			Estudos-piloto(prototipagem)
+						Pequena previa do estudo principal, com o objetivo de assegurar que o estudo e viavel e permitirá coletar os dados desejados e realizar as análises planejadas.
+						Avalia o material e artefatos elaborado
+							Se as perguntas da entrevista ou questionário estão claras ou confusas
+				Pessoas de perfil semelhante ou até mesmo colegas participam do estudo-piloto
+				Quem participa do estudo-piloto.
+		Quais dados coletar?
+			Tenha em mente que não devemos nos concentrar apenas nos usuários melhores ou mais experientes
+			Alem disso, mesmo uma pessoa que é considerada especialista num sistema pode não ser especialista em todas as partes desse sistema.
+			São coletados dados sobre
+				O proprio usuario
+				Relação do usuário com tecnologia
+				Conhecimento do usuário do domínio do produto
+				Conhecimento do usuário das tarefas que deverá realizar
+				Motivações e valores do usuário
+			Relação com tecnologia: Slide 12
+		Pessoas que vão manipular o software seria os perfis 
+	A partir dos levantamento de informações conseguimos fazer alguns artefatos
+		Perfis de usuários
+		Personas
+		Cenários e
+		Modelos de tarefa
+
+# AULA 13 -30/03/2026
+	Relembrando: Ultimas aulas
+		Quais dados coletar? Essa parte faz diferença para evitar retrabalho e aumentar a chance de exito de seu projeto
+		De quem coletar dados?
+		Como coletar dados?
+	Organização do Espaço Problema
+		Perfil do usuario;
+		Personas e seus objetivos;
+		User flow;
+		
+		O designer adquire um entendimento de quem é o usuári, do que ele recisa fazer, de quais maneiras, e porquê;
+			"Como organizar e registrar esse aprendizado do designer?"
+				Perfil de usuário
+				Personas e seus objetivos
+				Fluxo de usuários
+		Perfil do usuário
+			É uma descrição detalhada das caracteristicas dos usuários cujos objetivos devem ser apoiados pelo sistema sendo projetado
+				Obs. Cuidado com o nivel de abstração, por conta que um software para todos pode se tornar uma resposta errada. Temos por exemplo um software para a prefeitura, que o perfil de pessoas seriam os servidores publicos e os contribuintes.
+			Podemos agrupar usuários que possuem caracteristicas semelhantes, por exemplo:
+				Idade(Criança, jovem, adulto, terceira idade etc)
+				Experiencia(leigo/novato, especialista)
+				Atitudes(Gosta de tecnologia, não gosta de tecnologia)
+				Tarefas principais(Compra, venda)
+			Os perfis de usuários facilitam a criação de personas!
+		Personas
+			Uma persona é um personagem ficticio, modelo hipotético de um grupo de usuaários reais, criado para descrever um usuário tipico
+				Ex: Marta Batista é professora de uma universidade
+				Identidade
+				Status
+				Objetivos
+				habilidades
+				tarefas
+				relacionamentos
