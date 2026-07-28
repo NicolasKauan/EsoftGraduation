@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "64b84975be162b07",
+        "id": "65286a4db10dddc1",
         "type": "tabs",
         "children": [
           {
-            "id": "6a61ece2457d41e7",
+            "id": "0d55dc1c0c8990ce",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "EngenhariaDeSoftware/6 Semestre/PROJETO, IMPLEMENTAÇÃO E TESTE DE SOFTWARE.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Nova aba"
+              "title": "PROJETO, IMPLEMENTAÇÃO E TESTE DE SOFTWARE"
             }
           }
         ]
@@ -30,6 +34,19 @@
         "id": "2723d2983da51bf3",
         "type": "tabs",
         "children": [
+          {
+            "id": "edf3b9075248536d",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de arquivos"
+            }
+          },
           {
             "id": "d6a95baa4810b117",
             "type": "leaf",
@@ -55,19 +72,6 @@
               "state": {},
               "icon": "lucide-bookmark",
               "title": "Marcadores"
-            }
-          },
-          {
-            "id": "fe595cac95fe4a44",
-            "type": "leaf",
-            "state": {
-              "type": "file-explorer",
-              "state": {
-                "sortOrder": "alphabetical",
-                "autoReveal": false
-              },
-              "icon": "lucide-folder-closed",
-              "title": "Explorador de arquivos"
             }
           }
         ]
@@ -165,9 +169,11 @@
       "bases:Criar nova base": false
     }
   },
-  "active": "d6a95baa4810b117",
+  "active": "edf3b9075248536d",
   "lastOpenFiles": [
-    "Sem título.base",
+    "EngenhariaDeSoftware/6 Semestre/PROCESSOS DE SOFTWARE.md",
+    "EngenhariaDeSoftware/6 Semestre/PROJETO, IMPLEMENTAÇÃO E TESTE DE SOFTWARE.md",
+    "EngenhariaDeSoftware/6 Semestre/BANCO DE DADOS NOSQL.md",
     "EngenhariaDeSoftware/6 Semestre/PARADIGMAS DE LINGUAGEM DE PROGRAMAÇÃO.md",
     "EngenhariaDeSoftware/6 Semestre/Cópia de PARADIGMAS DE LINGUAGENS DE PROGRAMAÇÃO_ESOFT.pdf",
     "EngenhariaDeSoftware/6 Semestre/~$Aula000-Introdução.pptx",
