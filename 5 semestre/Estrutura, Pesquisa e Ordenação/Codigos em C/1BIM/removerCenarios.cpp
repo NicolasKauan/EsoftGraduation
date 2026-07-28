@@ -36,8 +36,7 @@ void add(Nodo *n, int valor)
 			n->esq = create(valor);
 		else
 			add(n->esq,valor);
-	}
-	else
+	}else
 	{
 		if(n->dir == NULL)
 			n->dir = create(valor);
@@ -75,7 +74,7 @@ void rem(Nodo *n, int valor)
 			if(pai->dir == filho) pai->dir = filho->dir;
 		}
 		
-		/*if(filho->esq != NULL && filho->dir != NULL) // nodo com 2 filhos
+		if(filho->esq != NULL && filho->dir != NULL) // nodo com 2 filhos
 		{
 			printf("%d tem dois filhos\n",valor);
 			if(filho->esq->dir==NULL){
@@ -91,7 +90,7 @@ void rem(Nodo *n, int valor)
 				aux->dir = NULL;
 				filho->valor = p->valor;
 			}
-		}*/
+		}
 		
 		
 		if(filho->esq != NULL && filho->dir != NULL){ // Nodo com 2 filhos

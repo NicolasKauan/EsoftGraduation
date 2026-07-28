@@ -146,4 +146,33 @@ atividade hoje, pesquisa de 3 ferramentas para fazer reengenharia
 				Analisa o comportamento do software enquanto ele está rodando
 				Extrai a informação da execução
 				É utilizada para entender o comportamento do código
-			
+# REVISÃO
+	 manutenção corretiva:
+	 manutenção preventiva:
+	 manutenção adaptativa:
+	 manutenção perfectiva ou evolutiva:
+	 Leis de legman
+		 Algumas definições baseado em como o software se comporta
+		 mudança continua:
+		 Complexidade crescente
+		 Crescimento continuo
+		 Declinio de qualidade
+		Principios SOLID
+			Boas prativas que utilizamos para melhorar a manutenabilidade do sistema
+			S - Single responsability principle: Chamar um método externo não viola o single, o problema seria termos o código de um método que não faz sentido estar dentro da classe, isso, sim, viola o principio.
+			O - Open close: A clase tem que estar aberta para atualização mas fechama para alteração. Ou seja, não posso alterar código estável, mas posso colocar algo mais na classe, se precisar.
+			L - Liskov substitution principle: A super classe, tem que conseguir ser substituido por qualquer classe menor, de maineira satisfatória.
+			I - Principio da segregação de interfaces: uma classe não deve ser obrigada a impementar métodos em branco. Vamos supor que temos uma classe, venda, e ai, essa classe venda, precisa relizar um pagamento esse pagamento vai poder ser por exemplo, por cartao de credito, boleto ou pix. Resolvemos criar uma interface pagamento, só que ai dentro dessa interface de pagamento, temos gerarqrcode, validar cartão de crédito e pagar
+			D - 
+		fan-in: quantos outros métodos chamam esse método
+		Fan-out: quantos outros métodos são chamado por esse metódo;
+
+# Aula ??? 01/06/2026
+	Design Pattern(Soluções):
+		Adadpter: Estrutural, diz como é que compoem as classes. Objetivo é compor as classes.
+		Singleton: Criacional, preocupado com a forma que vamos instanciar os objetos
+		Strategy: Comportamental, ideia de se preocupar com os métodos que vamos implementar nas classes. 
+		Adapter: Adaptar dados ou interfaces. Nosso problema de design é que temos duas classes, ou essas classes trabalham com dados incompativeis ou interfaces incompativeis.
+		Ex:Temos um erp que trabalha com json mas o sistema do goverso só aceita XML, é nesse momento que um adapter entra, onde ele poderia ler/conhecer ambas as interfaces que tem dados incompativeis e adapta-las. 
+		Obs. Refacter.guru
+			(Muito importante esse site para termos exemplos e explicações dos termos).

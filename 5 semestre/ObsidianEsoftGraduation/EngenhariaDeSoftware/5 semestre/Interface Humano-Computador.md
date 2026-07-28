@@ -187,3 +187,42 @@ Combinado do professor com a sala: Todos tem o direito a abonar 1 falta no semes
 				habilidades
 				tarefas
 				relacionamentos
+
+# AULA 15 - 06/04/2026
+	Perfil
+		1: 
+		2:
+		3:
+		Personas
+		1.1:
+		1.2:
+		1.3:
+		2.1:
+		2.2:
+		2.3:
+		3.1:
+		3.2:
+		3.3:
+
+
+# AULA 24 - 04/05/2026
+	Prototipação/ Design de Interface
+			Interface abstrata: Define agrupamento e caracteristicas dos elementos de interface. O que mostrar para o usuário
+			Interface concreta: Define posicionamento e elementos de interface interativos. Define o posicionamento, o tamanho, as cores e os elementos
+		Representações da interface com usuário
+			Esboço
+			Wireframe
+			Protótipo funcional
+		Esboço - Baixa fidelidade - RabiscoFrame
+		Wireframe - Sair de algo do papel, para algo na tela e ter alinhamento, passo a ter mais elementos
+		Protótipação funcional: As telas em si, o que iremos expor para as partes interessadas 
+
+# AULA 25 - 06/05/2026
+	Prototiação/ Design de Interface
+		 Interface abstrata: Define agrupamento logicos e caracteristicas dos elementos de interface
+		 Interface Concreta: Define o posicionamento, o tamanho, as cores e os elementos interativos.
+		Tipos de interfaces do usuário(Niveis de fidelidade)
+			Esboço(baixa fidelidade): Rascunho rápido em papel ou quadro branco. Não segue regras visuais. Rabiscoframe(Usado para explorar ideias iniciais sem custo).
+			Wireframe(Média fidelidade): Representação esquemática em escala cinza. Foca em layout e estrutura de informação. Sem cores ou imagens reais.
+			Protótipo funcional(Alta fidelidade): Simulação interativa da interface visual. Pode ter dados, navegação e micro-interações. Usado para testes com usuários reais.
+			
