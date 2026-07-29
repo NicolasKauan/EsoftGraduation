@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aula 000 - Quiz | Paradigmas de Programação</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #ffffff;
+      --muted-panel: #f8fafc;
+      --text: #0f172a;
+      --muted: #64748b;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --ok: #16a34a;
+      --bad: #dc2626;
+      --warn: #f59e0b;
+      --border: #e2e8f0;
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.22);
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(37, 99, 235, 0.32), transparent 28%),
+        radial-gradient(circle at 90% 0%, rgba(22, 163, 74, 0.22), transparent 30%),
+        linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 32px 16px;
+    }
+
+    .app {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    header {
+      color: white;
+      margin-bottom: 24px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .badge {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,0.24);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(8px);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin: 0;
+      max-width: 800px;
+      color: #cbd5e1;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .intro {
+      padding: 24px;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .metric {
+      background: var(--muted-panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 2px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 0 24px 24px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      min-width: 220px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 13px 14px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 13px 18px;
+      font-weight: 750;
+      font-size: 15px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button.primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    button.primary:hover {
+      background: var(--primary-dark);
+    }
+
+    button.secondary {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    button.ghost {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--border);
+    }
+
+    .progress-wrap {
+      padding: 0 24px 24px;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .progress {
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress > div {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), #22c55e);
+      transition: width 0.2s ease;
+    }
+
+    form {
+      display: grid;
+      gap: 18px;
+    }
+
+    .question {
+      padding: 22px 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .q-head {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .q-num {
+      min-width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #dbeafe;
+      color: #1d4ed8;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    .q-title {
+      font-size: 19px;
+      line-height: 1.35;
+      font-weight: 760;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+      margin-left: 46px;
+    }
+
+    label.option {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 13px 14px;
+      background: var(--muted-panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      cursor: pointer;
+      line-height: 1.35;
+    }
+
+    label.option:hover {
+      border-color: #bfdbfe;
+      background: #eff6ff;
+    }
+
+    input[type="radio"] {
+      margin-top: 2px;
+      transform: scale(1.16);
+      accent-color: var(--primary);
+    }
+
+    .feedback {
+      display: none;
+      margin: 14px 0 0 46px;
+      padding: 13px 14px;
+      border-radius: 14px;
+      line-height: 1.45;
+      font-size: 15px;
+    }
+
+    .feedback.ok {
+      display: block;
+      background: #dcfce7;
+      border: 1px solid #86efac;
+      color: #14532d;
+    }
+
+    .feedback.bad {
+      display: block;
+      background: #fee2e2;
+      border: 1px solid #fca5a5;
+      color: #7f1d1d;
+    }
+
+    .option.correct {
+      border-color: #22c55e;
+      background: #dcfce7;
+    }
+
+    .option.incorrect {
+      border-color: #ef4444;
+      background: #fee2e2;
+    }
+
+    .result {
+      display: none;
+      padding: 24px;
+      border-top: 1px solid var(--border);
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+    }
+
+    .result.show {
+      display: block;
+    }
+
+    .score {
+      font-size: clamp(34px, 6vw, 64px);
+      font-weight: 850;
+      letter-spacing: -0.04em;
+      margin: 0 0 6px;
+    }
+
+    .result-text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.5;
+    }
+
+    .final-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .footer-note {
+      color: #cbd5e1;
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 18px 4px 0;
+    }
+
+    @media (max-width: 760px) {
+      body {
+        padding: 20px 10px;
+      }
+
+      .intro-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .options,
+      .feedback {
+        margin-left: 0;
+      }
+
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      input[type="text"],
+      button {
+        width: 100%;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+
+      header {
+        color: #0f172a;
+      }
+
+      .subtitle,
+      .footer-note {
+        color: #334155;
+      }
+
+      .panel {
+        box-shadow: none;
+        border: 1px solid #cbd5e1;
+      }
+
+      .controls,
+      .progress-wrap,
+      .final-actions {
+        display: none;
+      }
+
+      .feedback {
+        display: block;
+        border: 1px solid #cbd5e1;
+        background: white;
+        color: #0f172a;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div class="badge">🧠 Aula 000 • Paradigmas de Programação</div>
+      <h1>Quiz interativo: Introdução aos Paradigmas</h1>
+      <p class="subtitle">
+        Responda às questões e confira o resultado no próprio navegador. O quiz reforça os conceitos centrais da aula:
+        por que estudar linguagens, sintaxe, semântica, tipos, escopo, paradigmas e escolha de ferramentas.
+      </p>
+    </header>
+
+    <section class="panel intro">
+      <strong>Como usar</strong>
+      <p>
+        Escolha uma alternativa por questão e clique em <strong>Corrigir quiz</strong>. O feedback aparece imediatamente,
+        sem internet e sem enviar dados para nenhum servidor.
+      </p>
+      <div class="intro-grid">
+        <div class="metric"><strong>15</strong><span>questões</span></div>
+        <div class="metric"><strong>local</strong><span>correção no navegador</span></div>
+        <div class="metric"><strong>100%</strong><span>offline</span></div>
+        <div class="metric"><strong>10 min</strong><span>tempo sugerido</span></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="controls">
+        <input id="studentName" type="text" placeholder="Nome do aluno ou grupo (opcional)" aria-label="Nome do aluno" />
+        <button class="primary" type="button" onclick="gradeQuiz()">Corrigir quiz</button>
+        <button class="secondary" type="button" onclick="resetQuiz()">Refazer</button>
+        <button class="ghost" type="button" onclick="window.print()">Imprimir</button>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-info">
+          <span id="answeredText">0 de 15 respondidas</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress" aria-label="Progresso de respostas">
+          <div id="progressBar"></div>
+        </div>
+      </div>
+
+      <form id="quizForm" autocomplete="off"></form>
+
+      <div id="result" class="result" aria-live="polite">
+        <p id="score" class="score"></p>
+        <p id="resultText" class="result-text"></p>
+        <div class="final-actions">
+          <button class="primary" type="button" onclick="copyResult()">Copiar resultado</button>
+          <button class="secondary" type="button" onclick="resetQuiz()">Tentar novamente</button>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer-note">
+      Material didático da Aula 000. Conteúdo autoral e parafraseado a partir da aula e de referências de apoio,
+      sem reprodução de trechos extensos de livros.
+    </p>
+  </main>
+
+  <script>
+    const questions = [
+      {
+        text: "Qual é a melhor descrição de um paradigma de programação?",
+        options: [
+          "Uma regra fixa que determina a melhor linguagem para qualquer problema.",
+          "Uma forma de pensar, organizar e expressar soluções computacionais.",
+          "Um tipo de compilador usado por linguagens modernas.",
+          "Um conjunto de atalhos de sintaxe para escrever menos código."
+        ],
+        answer: 1,
+        explanation: "Paradigmas são modos de estruturar a solução: por comandos, objetos, funções, regras, processos concorrentes etc."
+      },
+      {
+        text: "Por que estudar conceitos de linguagens de programação ajuda a aprender novas linguagens?",
+        options: [
+          "Porque elimina completamente a necessidade de estudar sintaxe.",
+          "Porque todas as linguagens usam exatamente os mesmos comandos.",
+          "Porque muitos conceitos se repetem, mesmo quando a sintaxe muda.",
+          "Porque torna desnecessário testar programas."
+        ],
+        answer: 2,
+        explanation: "Quando o aluno entende tipos, escopo, funções, controle de fluxo e paradigmas, a sintaxe passa a ser apenas uma camada superficial."
+      },
+      {
+        text: "Segundo a ideia central da aula, por que existem tantas linguagens de programação?",
+        options: [
+          "Porque comunidades diferentes criaram ferramentas para problemas, domínios e objetivos diferentes.",
+          "Porque linguagens antigas sempre deixam de funcionar.",
+          "Porque toda empresa precisa criar uma linguagem própria.",
+          "Porque compiladores só aceitam uma linguagem por vez."
+        ],
+        answer: 0,
+        explanation: "Computação científica, negócios, sistemas, IA, Web, jogos e embarcados têm necessidades distintas; isso influencia o projeto das linguagens."
+      },
+      {
+        text: "Qual alternativa representa corretamente a diferença entre sintaxe e semântica?",
+        options: [
+          "Sintaxe é desempenho; semântica é aparência visual.",
+          "Sintaxe é como escrever; semântica é o significado ou comportamento do que foi escrito.",
+          "Sintaxe é usada só em linguagens funcionais; semântica só em linguagens imperativas.",
+          "Sintaxe e semântica são nomes diferentes para compilação."
+        ],
+        answer: 1,
+        explanation: "Um programa pode estar sintaticamente correto e ainda fazer algo errado. A sintaxe trata da forma; a semântica trata do significado."
+      },
+      {
+        text: "O que ocorre na análise léxica de um programa?",
+        options: [
+          "O código é dividido em unidades como nomes, números, operadores e palavras reservadas.",
+          "O programa é executado linha por linha no processador.",
+          "O programador escolhe a linguagem mais adequada.",
+          "A memória é liberada automaticamente."
+        ],
+        answer: 0,
+        explanation: "A análise léxica transforma o texto do programa em tokens, que depois serão analisados sintaticamente."
+      },
+      {
+        text: "O que é escopo?",
+        options: [
+          "O tempo total que o programa demora para executar.",
+          "A região do programa em que um nome pode ser acessado.",
+          "O conjunto de todos os erros possíveis em uma linguagem.",
+          "A conversão de código-fonte em código de máquina."
+        ],
+        answer: 1,
+        explanation: "Escopo define onde um identificador, como uma variável ou função, é visível e pode ser usado."
+      },
+      {
+        text: "Qual é a ideia principal do paradigma imperativo?",
+        options: [
+          "Declarar fatos e regras para o sistema deduzir respostas.",
+          "Modelar entidades como objetos que combinam dados e comportamentos.",
+          "Descrever uma sequência de comandos que altera o estado do programa.",
+          "Evitar completamente qualquer forma de sequência."
+        ],
+        answer: 2,
+        explanation: "No imperativo, o programa costuma ser pensado como uma sequência de instruções: faça isto, depois aquilo."
+      },
+      {
+        text: "Qual alternativa descreve melhor a programação orientada a objetos?",
+        options: [
+          "Organiza o programa em objetos que combinam dados e comportamentos.",
+          "Usa apenas funções matemáticas sem nenhum dado.",
+          "Trabalha somente com fatos e regras lógicas.",
+          "Impede o uso de variáveis e parâmetros."
+        ],
+        answer: 0,
+        explanation: "A orientação a objetos modela responsabilidades, entidades e colaboração entre objetos."
+      },
+      {
+        text: "Na programação funcional, qual ideia aparece com frequência?",
+        options: [
+          "Uso de funções, expressões, imutabilidade e redução de efeitos colaterais.",
+          "Uso exclusivo de comandos goto.",
+          "Proibição de qualquer tipo de abstração.",
+          "Execução obrigatória em linguagem de máquina."
+        ],
+        answer: 0,
+        explanation: "O paradigma funcional enfatiza transformação de valores por funções e tende a reduzir dependência de estado mutável."
+      },
+      {
+        text: "No paradigma lógico, o programador normalmente expressa:",
+        options: [
+          "Fatos, regras e consultas.",
+          "Apenas estruturas de repetição.",
+          "Somente interfaces gráficas.",
+          "Instruções de baixo nível para a CPU."
+        ],
+        answer: 0,
+        explanation: "Em linguagens lógicas, como Prolog, a solução é descrita por relações, fatos, regras e perguntas ao sistema."
+      },
+      {
+        text: "O que é avaliação em curto-circuito em expressões booleanas?",
+        options: [
+          "Executar sempre todas as partes de uma expressão.",
+          "Ignorar a primeira parte da condição.",
+          "Evitar avaliar uma parte da expressão quando o resultado já está determinado.",
+          "Transformar toda expressão booleana em texto."
+        ],
+        answer: 2,
+        explanation: "Em x != 0 && 10 / x > 2, se x for zero, a segunda parte não precisa ser avaliada, evitando divisão por zero."
+      },
+      {
+        text: "Qual critério deve entrar na escolha de uma linguagem para um projeto?",
+        options: [
+          "A linguagem que parece mais difícil, porque dificuldade sempre indica qualidade.",
+          "A linguagem preferida por uma única pessoa, independentemente do problema.",
+          "Tipo de problema, desempenho, equipe, ecossistema, manutenção e curva de aprendizagem.",
+          "Somente a quantidade de símbolos diferentes na sintaxe."
+        ],
+        answer: 2,
+        explanation: "Escolher linguagem envolve trade-offs técnicos, humanos e de manutenção, não apenas gosto pessoal."
+      },
+      {
+        text: "Qual afirmação sobre linguagens multiparadigma está correta?",
+        options: [
+          "Elas obrigam o programador a usar apenas programação lógica.",
+          "Elas podem combinar estilos como imperativo, orientado a objetos e funcional.",
+          "Elas são sempre mais lentas do que linguagens de um único paradigma.",
+          "Elas não podem ser usadas em projetos reais."
+        ],
+        answer: 1,
+        explanation: "Linguagens modernas como Python e JavaScript permitem misturar estilos, dependendo da parte do problema."
+      },
+      {
+        text: "Por que ferramentas de IA não eliminam a necessidade de estudar paradigmas?",
+        options: [
+          "Porque IA só funciona com linguagens antigas.",
+          "Porque o desenvolvedor ainda precisa especificar, revisar, testar e avaliar a solução gerada.",
+          "Porque IA não consegue gerar nenhum código.",
+          "Porque paradigmas servem apenas para decorar nomes históricos."
+        ],
+        answer: 1,
+        explanation: "A IA pode ajudar na produção de código, mas a responsabilidade técnica continua sendo do desenvolvedor."
+      },
+      {
+        text: "Qual é a síntese mais adequada da Aula 000?",
+        options: [
+          "Existe uma linguagem perfeita; basta encontrá-la.",
+          "Paradigmas são irrelevantes quando se usa uma IDE moderna.",
+          "Conhecer paradigmas amplia a forma de pensar, ajuda a escolher ferramentas e melhora a leitura de programas.",
+          "Programar bem é apenas memorizar a sintaxe de uma linguagem."
+        ],
+        answer: 2,
+        explanation: "A aula defende que compreender conceitos e paradigmas torna o aluno mais flexível, crítico e preparado para aprender novas linguagens."
+      }
+    ];
+
+    const form = document.getElementById("quizForm");
+    const result = document.getElementById("result");
+    const scoreEl = document.getElementById("score");
+    const resultText = document.getElementById("resultText");
+    const progressBar = document.getElementById("progressBar");
+    const progressPercent = document.getElementById("progressPercent");
+    const answeredText = document.getElementById("answeredText");
+
+    function renderQuiz() {
+      form.innerHTML = "";
+      questions.forEach((q, index) => {
+        const article = document.createElement("article");
+        article.className = "question";
+        article.id = `q-${index}`;
+        const options = q.options.map((option, optIndex) => `
+          <label class="option" data-question="${index}" data-option="${optIndex}">
+            <input type="radio" name="q${index}" value="${optIndex}" />
+            <span>${option}</span>
+          </label>
+        `).join("");
+
+        article.innerHTML = `
+          <div class="q-head">
+            <div class="q-num">${index + 1}</div>
+            <div class="q-title">${q.text}</div>
+          </div>
+          <div class="options">${options}</div>
+          <div class="feedback" id="f-${index}"></div>
+        `;
+        form.appendChild(article);
+      });
+
+      form.addEventListener("change", updateProgress);
+      updateProgress();
+    }
+
+    function getSelected(index) {
+      const selected = form.querySelector(`input[name="q${index}"]:checked`);
+      return selected ? Number(selected.value) : null;
+    }
+
+    function updateProgress() {
+      const answered = questions.filter((_, i) => getSelected(i) !== null).length;
+      const percent = Math.round((answered / questions.length) * 100);
+      progressBar.style.width = `${percent}%`;
+      progressPercent.textContent = `${percent}%`;
+      answeredText.textContent = `${answered} de ${questions.length} respondidas`;
+    }
+
+    function gradeQuiz() {
+      let correct = 0;
+      let firstUnanswered = null;
+
+      questions.forEach((q, index) => {
+        const selected = getSelected(index);
+        const feedback = document.getElementById(`f-${index}`);
+        const labels = form.querySelectorAll(`label[data-question="${index}"]`);
+
+        labels.forEach(label => {
+          label.classList.remove("correct", "incorrect");
+          const option = Number(label.dataset.option);
+          if (option === q.answer) label.classList.add("correct");
+        });
+
+        if (selected === null) {
+          if (firstUnanswered === null) firstUnanswered = index;
+          feedback.className = "feedback bad";
+          feedback.innerHTML = `<strong>Não respondida.</strong> Escolha uma alternativa para concluir a questão.`;
+          return;
+        }
+
+        if (selected === q.answer) {
+          correct++;
+          feedback.className = "feedback ok";
+          feedback.innerHTML = `<strong>Correto.</strong> ${q.explanation}`;
+        } else {
+          const selectedLabel = form.querySelector(`label[data-question="${index}"][data-option="${selected}"]`);
+          if (selectedLabel) selectedLabel.classList.add("incorrect");
+          feedback.className = "feedback bad";
+          feedback.innerHTML = `<strong>Incorreto.</strong> Resposta correta: <em>${q.options[q.answer]}</em><br>${q.explanation}`;
+        }
+      });
+
+      const total = questions.length;
+      const percent = Math.round((correct / total) * 100);
+      scoreEl.textContent = `${correct}/${total} (${percent}%)`;
+
+      const name = document.getElementById("studentName").value.trim();
+      const prefix = name ? `${name}, ` : "";
+
+      let message = "";
+      if (percent >= 90) {
+        message = "excelente domínio dos conceitos centrais. Você já consegue explicar a ideia da aula com segurança.";
+      } else if (percent >= 70) {
+        message = "bom resultado. Revise as questões erradas para consolidar os conceitos.";
+      } else if (percent >= 50) {
+        message = "resultado intermediário. Releia o resumo e refaça o quiz com atenção aos feedbacks.";
+      } else {
+        message = "é melhor revisar a aula antes de avançar. Foque em sintaxe, semântica, paradigmas e critérios de escolha.";
+      }
+
+      resultText.textContent = `${prefix}${message}`;
+      result.classList.add("show");
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      if (firstUnanswered !== null) {
+        document.getElementById(`q-${firstUnanswered}`).scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+
+    function resetQuiz() {
+      form.reset();
+      document.querySelectorAll(".feedback").forEach(el => {
+        el.className = "feedback";
+        el.innerHTML = "";
+      });
+      document.querySelectorAll(".option").forEach(el => {
+        el.classList.remove("correct", "incorrect");
+      });
+      result.classList.remove("show");
+      scoreEl.textContent = "";
+      resultText.textContent = "";
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    async function copyResult() {
+      const name = document.getElementById("studentName").value.trim() || "Aluno";
+      const text = `${name} - Aula 000 - Quiz de Paradigmas: ${scoreEl.textContent}`;
+      try {
+        await navigator.clipboard.writeText(text);
+        alert("Resultado copiado.");
+      } catch (e) {
+        prompt("Copie o resultado:", text);
+      }
+    }
+
+    renderQuiz();
+  </script>
+</body>
+</html>
