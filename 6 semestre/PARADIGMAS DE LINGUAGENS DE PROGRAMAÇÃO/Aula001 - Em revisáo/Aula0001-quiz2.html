@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz — Preliminares — Quiz 2 de 2</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; }
+    body { margin: 0; background: #eef3f8; color: #172536; }
+    main { max-width: 800px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    h1 { color: #17365d; }
+    .question { background: white; border-radius: .75rem; margin: 1rem 0;
+      padding: 1.25rem; box-shadow: 0 2px 10px #17365d18; }
+    label { display: block; margin: .6rem 0; padding: .7rem;
+      border: 1px solid #c8d5e3; border-radius: .4rem; cursor: pointer; }
+    label.answer-correct { background: #e6f4ea; border-color: #188038;
+      color: #0d652d; }
+    label.answer-incorrect { background: #fce8e6; border-color: #c5221f;
+      color: #a50e0e; }
+    button { background: #245b8a; border: 0; border-radius: .4rem;
+      color: white; cursor: pointer; font-weight: 700; padding: .8rem 1.2rem; }
+    .feedback { border-left: 4px solid #245b8a; margin-top: .8rem;
+      padding-left: .8rem; }
+    .objective { color: #52677d; font-size: .85rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Preliminares — Quiz 2 de 2</h1>
+    <p>Responda às questões e confira o feedback imediatamente.</p>
+    <form id="quiz"></form>
+    <button id="check" type="button">Verificar respostas</button>
+    <p id="score" aria-live="polite"></p>
+  </main>
+  <script id="quiz-data" type="application/json">{"questions":[{"correctIndex":3,"feedback":"Influências no Projeto de Linguagens: O projeto de linguagens é influenciado principalmente pela arquitetura de computadores e pelas metodologias de projeto de software. A primeira favoreceu estruturas próximas ao funcionamento da máquina; as novas metodologias estimularam novos paradigmas e recursos de linguagem. Objetivos cobertos: obj04.","id":"question-influencias_projeto","objectiveIds":["obj04"],"options":["O estudo de conceitos de linguagens de programação amplia a capacidade de expressar ideias, fundamenta a escolha de linguagens adequadas, facilita a aprendizagem de novas linguagens, melhora a compreensão da implementação e favorece o uso das linguagens já conhecidas.","São campos de aplicação com necessidades computacionais distintas. O material apresenta aplicações científicas, comerciais, de inteligência artificial, de programação de sistemas e Web, associando cada domínio a tipos de dados, estruturas, requisitos ou linguagens características.","São referências para examinar e comparar linguagens. Os critérios centrais apresentados são legibilidade, capacidade de escrita, confiabilidade e custo; portabilidade e generalidade aparecem como critérios adicionais.","O projeto de linguagens é influenciado principalmente pela arquitetura de computadores e pelas metodologias de projeto de software. A primeira favoreceu estruturas próximas ao funcionamento da máquina; as novas metodologias estimularam novos paradigmas e recursos de linguagem."],"prompt":"Qual opção descreve melhor “Influências no Projeto de Linguagens”?"},{"correctIndex":0,"feedback":"Arquitetura de von Neumann: É uma arquitetura na qual dados e programas ficam armazenados na memória, separada do processador, e instruções e dados são transmitidos para a CPU. Essa organização fundamenta linguagens imperativas, nas quais variáveis modelam células de memória, atribuições representam transferências de dados e iterações são eficientes. Objetivos cobertos: obj04.","id":"question-arquitetura_von_neumann","objectiveIds":["obj04"],"options":["Usar Arquitetura de von Neumann como critério e considerar que é uma arquitetura na qual dados e programas ficam armazenados na memória, separada do processador, e instruções e dados são transmitidos para a CPU. Essa organização fundamenta linguagens imperativas, nas quais variáveis modelam células de memória, atribuições representam transferências de dados e iterações são eficientes.","Escolher pela popularidade, sem relacionar a decisão ao problema.","Comparar apenas a aparência da sintaxe e ignorar o contexto de uso.","Tratar todas as linguagens como equivalentes para qualquer domínio."],"prompt":"Uma equipe está comparando linguagens para um novo projeto. Como “Arquitetura de von Neumann” ajuda nessa análise?"},{"correctIndex":1,"feedback":"A afirmação errada reduz Ciclo de busca-decodifica-executa a memorização. Na aula, é o ciclo de processamento no qual o contador de programa indica uma instrução, a instrução é buscada, o contador é incrementado, a instrução é decodificada e então executada, repetindo-se o processo.","id":"question-ciclo_busca_decodifica_executa","objectiveIds":["obj04"],"options":["É o ciclo de processamento no qual o contador de programa indica uma instrução, a instrução é buscada, o contador é incrementado, a instrução é decodificada e então executada, repetindo-se o processo.","Basta memorizar o nome do conceito; contexto, objetivos e consequências não alteram sua análise.","O conceito pode apoiar uma comparação fundamentada entre alternativas.","Sua aplicação deve considerar o domínio e os objetivos do software."],"prompt":"Sobre “Ciclo de busca-decodifica-executa”, é errado afirmar que:"},{"correctIndex":2,"feedback":"Metodologias de Projeto de Software: A evolução das metodologias deslocou o foco da eficiência das máquinas para a eficiência dos programadores, favoreceu programação estruturada, projeto top-down e refinamento passo a passo, avançou para abstração de dados e chegou à programação OO com abstração de dados, herança e polimorfismo. Objetivos cobertos: obj04.","id":"question-metodologias_projeto_software","objectiveIds":["obj04"],"options":["Repetir a escolha do projeto anterior sem verificar os requisitos atuais.","Adotar a alternativa mais recente apenas por ser tendência.","Explicitar os requisitos do projeto e avaliar Metodologias de Projeto de Software: A evolução das metodologias deslocou o foco da eficiência das máquinas para a eficiência dos programadores, favoreceu programação estruturada, projeto top-down e refinamento passo a passo, avançou para abstração de dados e chegou à programação OO com abstração de dados, herança e polimorfismo.","Decidir por preferência pessoal e justificar somente depois."],"prompt":"Em uma decisão profissional sobre tecnologia, qual atitude aplica melhor “Metodologias de Projeto de Software”?"},{"correctIndex":3,"feedback":"No cenário apresentado, o conceito central é Categorias de Linguagens. As linguagens são apresentadas nas categorias imperativas, funcionais, lógicas e de marcação/programação híbrida. Imperativas destacam variáveis, atribuições e iterações; funcionais aplicam funções a parâmetros; lógicas são baseadas em regras; e as híbridas estendem linguagens de marcação com suporte à programação.","id":"question-categorias_linguagens","objectiveIds":["obj05"],"options":["Razões para estudar conceitos de LP","Domínios de Programação","Critérios de Avaliação de Linguagem","Categorias de Linguagens"],"prompt":"Um projeto público será usado por muitos anos e a equipe precisa considerar manutenção, portabilidade e formação de profissionais. Qual conceito orienta melhor a discussão sobre “Categorias de Linguagens”?"},{"correctIndex":0,"feedback":"Trade-off no projeto de linguagem: É uma situação em que melhorar um critério pode prejudicar outro. O material destaca conflitos entre confiabilidade e custo de execução, legibilidade e capacidade de escrita, e flexibilidade de escrita e confiabilidade. Objetivos cobertos: obj06.","id":"question-trade_off_projeto","objectiveIds":["obj06"],"options":["É uma situação em que melhorar um critério pode prejudicar outro. O material destaca conflitos entre confiabilidade e custo de execução, legibilidade e capacidade de escrita, e flexibilidade de escrita e confiabilidade.","O estudo de conceitos de linguagens de programação amplia a capacidade de expressar ideias, fundamenta a escolha de linguagens adequadas, facilita a aprendizagem de novas linguagens, melhora a compreensão da implementação e favorece o uso das linguagens já conhecidas.","São campos de aplicação com necessidades computacionais distintas. O material apresenta aplicações científicas, comerciais, de inteligência artificial, de programação de sistemas e Web, associando cada domínio a tipos de dados, estruturas, requisitos ou linguagens características.","São referências para examinar e comparar linguagens. Os critérios centrais apresentados são legibilidade, capacidade de escrita, confiabilidade e custo; portabilidade e generalidade aparecem como critérios adicionais."],"prompt":"Qual opção descreve melhor “Trade-off no projeto de linguagem”?"},{"correctIndex":1,"feedback":"Métodos de Implementação: São abordagens usadas para executar programas escritos em uma linguagem. O material apresenta compilação, interpretação pura e sistemas de implementação híbridos, além de detalhar sistemas Just in Time. Objetivos cobertos: obj07.","id":"question-metodos_implementacao","objectiveIds":["obj07"],"options":["Escolher pela popularidade, sem relacionar a decisão ao problema.","Usar Métodos de Implementação como critério e considerar que são abordagens usadas para executar programas escritos em uma linguagem. O material apresenta compilação, interpretação pura e sistemas de implementação híbridos, além de detalhar sistemas Just in Time.","Comparar apenas a aparência da sintaxe e ignorar o contexto de uso.","Tratar todas as linguagens como equivalentes para qualquer domínio."],"prompt":"Uma equipe está comparando linguagens para um novo projeto. Como “Métodos de Implementação” ajuda nessa análise?"},{"correctIndex":2,"feedback":"A afirmação errada reduz Compilação a memorização. Na aula, é a tradução de um programa de alto nível em código de máquina. O processo apresentado inclui análise léxica, análise sintática, análise semântica e geração de código, com tradução comparativamente lenta e execução rápida.","id":"question-compilacao","objectiveIds":["obj07"],"options":["É a tradução de um programa de alto nível em código de máquina. O processo apresentado inclui análise léxica, análise sintática, análise semântica e geração de código, com tradução comparativamente lenta e execução rápida.","O conceito pode apoiar uma comparação fundamentada entre alternativas.","Basta memorizar o nome do conceito; contexto, objetivos e consequências não alteram sua análise.","Sua aplicação deve considerar o domínio e os objetivos do software."],"prompt":"Sobre “Compilação”, é errado afirmar que:"},{"correctIndex":3,"feedback":"Interpretação pura: É a execução do programa por um interpretador sem uma etapa prévia de tradução. Facilita a apresentação imediata de erros em tempo de execução, mas possui execução mais lenta e geralmente requer mais espaço. Objetivos cobertos: obj07.","id":"question-interpretacao_pura","objectiveIds":["obj07"],"options":["Repetir a escolha do projeto anterior sem verificar os requisitos atuais.","Adotar a alternativa mais recente apenas por ser tendência.","Decidir por preferência pessoal e justificar somente depois.","Explicitar os requisitos do projeto e avaliar Interpretação pura: É a execução do programa por um interpretador sem uma etapa prévia de tradução. Facilita a apresentação imediata de erros em tempo de execução, mas possui execução mais lenta e geralmente requer mais espaço."],"prompt":"Em uma decisão profissional sobre tecnologia, qual atitude aplica melhor “Interpretação pura”?"},{"correctIndex":0,"feedback":"No cenário apresentado, o conceito central é Sistemas de Implementação Híbridos. Combinam tradução e interpretação: o código de alto nível é traduzido para uma linguagem intermediária, que é então interpretada. A decodificação prévia torna essa abordagem mais rápida do que a interpretação pura.","id":"question-implementacao_hibrida","objectiveIds":["obj07"],"options":["Sistemas de Implementação Híbridos","Razões para estudar conceitos de LP","Domínios de Programação","Critérios de Avaliação de Linguagem"],"prompt":"Uma startup precisa justificar tecnicamente uma escolha de linguagem para pessoas de produto e desenvolvimento. Qual conceito orienta melhor a discussão sobre “Sistemas de Implementação Híbridos”?"},{"correctIndex":1,"feedback":"Sistemas de Implementação Just in Time: Traduzem inicialmente o programa para uma linguagem intermediária e, durante a execução, compilam métodos desse formato para linguagem de máquina. O código de máquina produzido é preservado para chamadas posteriores; por isso, o material caracteriza JIT como compilação atrasada. Objetivos cobertos: obj07.","id":"question-sistemas_jit","objectiveIds":["obj07"],"options":["O estudo de conceitos de linguagens de programação amplia a capacidade de expressar ideias, fundamenta a escolha de linguagens adequadas, facilita a aprendizagem de novas linguagens, melhora a compreensão da implementação e favorece o uso das linguagens já conhecidas.","Traduzem inicialmente o programa para uma linguagem intermediária e, durante a execução, compilam métodos desse formato para linguagem de máquina. O código de máquina produzido é preservado para chamadas posteriores; por isso, o material caracteriza JIT como compilação atrasada.","São campos de aplicação com necessidades computacionais distintas. O material apresenta aplicações científicas, comerciais, de inteligência artificial, de programação de sistemas e Web, associando cada domínio a tipos de dados, estruturas, requisitos ou linguagens características.","São referências para examinar e comparar linguagens. Os critérios centrais apresentados são legibilidade, capacidade de escrita, confiabilidade e custo; portabilidade e generalidade aparecem como critérios adicionais."],"prompt":"Qual opção descreve melhor “Sistemas de Implementação Just in Time”?"},{"correctIndex":2,"feedback":"Pré-processadores: São programas que processam outro programa imediatamente antes da compilação. Suas instruções ficam embutidas no código; o material exemplifica essa função com as diretivas include e define de C. Objetivos cobertos: obj07.","id":"question-pre_processadores","objectiveIds":["obj07"],"options":["Escolher pela popularidade, sem relacionar a decisão ao problema.","Comparar apenas a aparência da sintaxe e ignorar o contexto de uso.","Usar Pré-processadores como critério e considerar que são programas que processam outro programa imediatamente antes da compilação. Suas instruções ficam embutidas no código; o material exemplifica essa função com as diretivas include e define de C.","Tratar todas as linguagens como equivalentes para qualquer domínio."],"prompt":"Uma equipe está comparando linguagens para um novo projeto. Como “Pré-processadores” ajuda nessa análise?"},{"correctIndex":3,"feedback":"A afirmação errada reduz Ambientes de Programação a memorização. Na aula, são coleções de ferramentas utilizadas no desenvolvimento de software. O material cita UNIX com interfaces gráficas, Microsoft Visual Studio.NET e NetBeans, indicando diferenças de porte, linguagens suportadas e tipos de aplicação.","id":"question-ambientes_programacao","objectiveIds":["obj08"],"options":["São coleções de ferramentas utilizadas no desenvolvimento de software. O material cita UNIX com interfaces gráficas, Microsoft Visual Studio.NET e NetBeans, indicando diferenças de porte, linguagens suportadas e tipos de aplicação.","O conceito pode apoiar uma comparação fundamentada entre alternativas.","Sua aplicação deve considerar o domínio e os objetivos do software.","Basta memorizar o nome do conceito; contexto, objetivos e consequências não alteram sua análise."],"prompt":"Sobre “Ambientes de Programação”, é errado afirmar que:"}],"title":"Preliminares — Quiz 2 de 2"}</script>
+  <script>
+    const data = JSON.parse(document.getElementById("quiz-data").textContent);
+    const form = document.getElementById("quiz");
+    data.questions.forEach((question, questionIndex) => {
+      const section = document.createElement("section");
+      section.className = "question";
+      const title = document.createElement("h2");
+      title.textContent = `${questionIndex + 1}. ${question.prompt}`;
+      section.appendChild(title);
+      const objective = document.createElement("p");
+      objective.className = "objective";
+      objective.textContent = `Objetivos: ${question.objectiveIds.join(", ")}`;
+      section.appendChild(objective);
+      question.options.forEach((option, optionIndex) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = question.id;
+        input.value = optionIndex;
+        label.append(input, ` ${option}`);
+        section.appendChild(label);
+      });
+      const feedback = document.createElement("p");
+      feedback.className = "feedback";
+      feedback.hidden = true;
+      feedback.dataset.for = question.id;
+      section.appendChild(feedback);
+      form.appendChild(section);
+    });
+    document.getElementById("check").addEventListener("click", () => {
+      let score = 0;
+      data.questions.forEach((question) => {
+        const selected = form.querySelector(`input[name="${question.id}"]:checked`);
+        const correct = selected && Number(selected.value) === question.correctIndex;
+        if (correct) score += 1;
+        form.querySelectorAll(`input[name="${question.id}"]`).forEach(
+          (input, optionIndex) => {
+            const label = input.closest("label");
+            label.classList.toggle(
+              "answer-correct",
+              optionIndex === question.correctIndex
+            );
+            label.classList.toggle(
+              "answer-incorrect",
+              input.checked && optionIndex !== question.correctIndex
+            );
+          }
+        );
+        const feedback = form.querySelector(`[data-for="${question.id}"]`);
+        feedback.hidden = false;
+        feedback.textContent = `${correct ? "Correto." : "Revise."} ${question.feedback}`;
+      });
+      document.getElementById("score").textContent =
+        `Resultado: ${score} de ${data.questions.length}.`;
+    });
+  </script>
+</body>
+</html>

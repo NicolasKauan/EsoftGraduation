@@ -15,3 +15,8 @@ https://www.gebaralabs.dev/pt/
 
 # Aula 1 - 27/07/2026
 Tem que criar o github - https://github.com/NicolasKauan/Paradigmas-De-Linguagem-De-Programa-o.git
+
+# Aula 2 - 29/07/2026
+
+# Aula 3 - 03/08/2026
+	

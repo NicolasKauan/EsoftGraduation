@@ -1,0 +1,55 @@
+Duda: Oi, gente! Hoje o papo é sobre Preliminares. Sem desfile de definições: a ideia é entender onde esses conceitos aparecem quando alguém precisa tomar uma decisão de verdade.
+
+Vicente: Ótimo, porque eu já tenho uma pergunta: por que estudar tudo isso se eu consigo abrir a documentação quando precisar?
+
+Junior: Finalmente alguém sensato. Se o código rodou, a linguagem já fez a parte dela. O resto é conversa de quem gosta de complicar.
+
+Duda: Junior chegou com cem por cento de confiança e vinte por cento de contexto. A documentação ajuda, claro, mas escolher e avaliar uma linguagem exige enxergar os efeitos da decisão no projeto.
+
+Vicente: Tá, mas me ajuda a ligar os pontos. Como Razões para estudar conceitos de LP, Domínios de Programação, Critérios de Avaliação de Linguagem, Legibilidade mudam uma escolha técnica?
+
+Junior: Eu ainda acho o seguinte: Acreditar que conhecer a sintaxe de uma ou duas linguagens elimina a necessidade de estudar conceitos gerais de LP.
+
+Duda: Boa tentativa, Junior, mas o atalho cortou justamente a parte importante. O estudo de conceitos de linguagens de programação amplia a capacidade de expressar ideias, fundamenta a escolha de linguagens adequadas, facilita a aprendizagem de novas linguagens, melhora a compreensão da implementação e favorece o uso das linguagens já conhecidas. São campos de aplicação com necessidades computacionais distintas. O material apresenta aplicações científicas, comerciais, de inteligência artificial, de programação de sistemas e Web, associando cada domínio a tipos de dados, estruturas, requisitos ou linguagens características. O ponto não é decorar a lista; é usar esses critérios para explicar os trade-offs da escolha.
+
+Vicente: Deixa eu testar se entendi. Como Ortogonalidade, Capacidade de escrita, Suporte para abstração, Expressividade mudam uma escolha técnica?
+
+Junior: Não me convenceu. Minha tese é: Supor que existe uma linguagem universalmente melhor, sem considerar o domínio de programação e os critérios relevantes.
+
+Duda: A confiança está impecável; a conclusão, nem tanto. É a possibilidade de combinar os componentes básicos de uma linguagem de programação sem restrições indevidas. Restrições especiais e tratamentos diferentes para construções semelhantes reduzem a ortogonalidade e podem prejudicar a legibilidade e a capacidade de escrita. É a facilidade com que uma linguagem pode ser usada para criar programas destinados a um domínio de problema específico. Simplicidade, ortogonalidade, suporte para abstração e expressividade contribuem para esse critério. O ponto não é decorar a lista; é usar esses critérios para explicar os trade-offs da escolha.
+
+Vicente: E quando isso chega a um projeto real? Como Confiabilidade, Verificação de tipos, Manipulação de exceções, Aliasing (apelidos) mudam uma escolha técnica?
+
+Junior: Vou insistir nesta ideia: Tratar expressividade e legibilidade como sinônimos; uma notação compacta pode aumentar a capacidade de escrita e, ao mesmo tempo, dificultar a leitura.
+
+Duda: Quase. Se fosse uma prova de chute, você estava competitivo. É a propriedade de um programa comportar-se de acordo com suas especificações em todas as condições consideradas. Verificação de tipos, manipulação de exceções, controle de aliasing, legibilidade e facilidade de escrita influenciam esse critério. Consiste em testar a existência de erros de tipos por meio do compilador ou durante a execução. A detecção em tempo de compilação é indicada no material porque antecipa o erro e tende a reduzir o custo de correção. O ponto não é decorar a lista; é usar esses critérios para explicar os trade-offs da escolha.
+
+Vicente: Tenho uma dúvida que parece simples. Como Custo, Portabilidade e generalidade, Influências no Projeto de Linguagens, Arquitetura de von Neumann mudam uma escolha técnica?
+
+Junior: Sinceramente, continuo defendendo isto: Considerar que mais características sempre tornam uma linguagem melhor; multiplicidade de recursos pode reduzir simplicidade e legibilidade.
+
+Duda: Respira, Junior. O mundo real acabou de pedir mais contexto. É o custo final associado à linguagem, abrangendo treinamento, aprendizado, escrita, compilação, sistema de implementação, execução, falhas decorrentes de baixa confiabilidade e manutenção. A legibilidade influencia especialmente o custo de manutenção. Portabilidade é a facilidade de mover programas de uma implementação para outra. Generalidade é a aplicabilidade de uma linguagem a uma ampla faixa de aplicações. O ponto não é decorar a lista; é usar esses critérios para explicar os trade-offs da escolha.
+
+Vicente: Tá, mas me ajuda a ligar os pontos. Como Ciclo de busca-decodifica-executa, Metodologias de Projeto de Software, Categorias de Linguagens, Trade-off no projeto de linguagem mudam uma escolha técnica?
+
+Junior: Eu ainda acho o seguinte: Entender confiabilidade apenas como ausência de falhas de hardware, ignorando verificação de tipos, exceções, aliasing e clareza do programa.
+
+Duda: Boa tentativa, Junior, mas o atalho cortou justamente a parte importante. É o ciclo de processamento no qual o contador de programa indica uma instrução, a instrução é buscada, o contador é incrementado, a instrução é decodificada e então executada, repetindo-se o processo. A evolução das metodologias deslocou o foco da eficiência das máquinas para a eficiência dos programadores, favoreceu programação estruturada, projeto top-down e refinamento passo a passo, avançou para abstração de dados e chegou à programação OO com abstração de dados, herança e polimorfismo. O ponto não é decorar a lista; é usar esses critérios para explicar os trade-offs da escolha.
+
+Vicente: Deixa eu testar se entendi. Como Métodos de Implementação, Compilação, Interpretação pura, Sistemas de Implementação Híbridos mudam uma escolha técnica?
+
+Junior: Não me convenceu. Minha tese é: Confundir sistemas híbridos com compilação direta para código de máquina.
+
+Duda: A confiança está impecável; a conclusão, nem tanto. São abordagens usadas para executar programas escritos em uma linguagem. O material apresenta compilação, interpretação pura e sistemas de implementação híbridos, além de detalhar sistemas Just in Time. É a tradução de um programa de alto nível em código de máquina. O processo apresentado inclui análise léxica, análise sintática, análise semântica e geração de código, com tradução comparativamente lenta e execução rápida. O ponto não é decorar a lista; é usar esses critérios para explicar os trade-offs da escolha.
+
+Vicente: E quando isso chega a um projeto real? Como Sistemas de Implementação Just in Time, Pré-processadores, Ambientes de Programação mudam uma escolha técnica?
+
+Junior: Vou insistir nesta ideia: Considerar JIT como interpretação pura; JIT realiza compilação para linguagem de máquina durante a execução.
+
+Duda: Quase. Se fosse uma prova de chute, você estava competitivo. Traduzem inicialmente o programa para uma linguagem intermediária e, durante a execução, compilam métodos desse formato para linguagem de máquina. O código de máquina produzido é preservado para chamadas posteriores; por isso, o material caracteriza JIT como compilação atrasada. São programas que processam outro programa imediatamente antes da compilação. Suas instruções ficam embutidas no código; o material exemplifica essa função com as diretivas include e define de C. O ponto não é decorar a lista; é usar esses critérios para explicar os trade-offs da escolha.
+
+Vicente: Então uma resposta boa não é só dizer qual linguagem eu prefiro. Eu preciso mostrar o problema, os critérios e o que ganho ou perco com a escolha, certo?
+
+Junior: Certo, mas deixo registrado que a minha preferência pessoal continua sendo um critério de altíssima relevância.
+
+Duda: Registrado e carinhosamente ignorado. É isso, Vicente: compare alternativas, justifique decisões e consulte a bibliografia quando quiser aprofundar. Até a próxima!
