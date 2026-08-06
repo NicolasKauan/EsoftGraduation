@@ -19,4 +19,5 @@ Tem que criar o github - https://github.com/NicolasKauan/Paradigmas-De-Linguagem
 # Aula 2 - 29/07/2026
 
 # Aula 3 - 03/08/2026
-	
+
+# Aula 04 - 06/08/2026

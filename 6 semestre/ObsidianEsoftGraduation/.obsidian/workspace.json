@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "EngenhariaDeSoftware/6 Semestre/PARADIGMAS DE LINGUAGEM DE PROGRAMAÇÃO.md",
+                "file": "EngenhariaDeSoftware/6 Semestre/PROCESSOS DE SOFTWARE.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "PARADIGMAS DE LINGUAGEM DE PROGRAMAÇÃO"
+              "title": "PROCESSOS DE SOFTWARE"
             }
           },
           {
@@ -34,9 +34,19 @@
               "icon": "lucide-file",
               "title": "BANCO DE DADOS NOSQL"
             }
+          },
+          {
+            "id": "422854a450c0a611",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "Nova aba"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -186,13 +196,13 @@
       "bases:Criar nova base": false
     }
   },
-  "active": "ed9b582da2f6048e",
+  "active": "422854a450c0a611",
   "lastOpenFiles": [
     "EngenhariaDeSoftware/6 Semestre/PROCESSOS DE SOFTWARE.md",
     "EngenhariaDeSoftware/6 Semestre/BANCO DE DADOS NOSQL.md",
-    "EngenhariaDeSoftware/6 Semestre/PROJETO, IMPLEMENTAÇÃO E TESTE DE SOFTWARE.md",
-    "EngenhariaDeSoftware/6 Semestre/PARADIGMAS DE LINGUAGEM DE PROGRAMAÇÃO.md",
     "EngenhariaDeSoftware/6 Semestre/Cópia de PARADIGMAS DE LINGUAGENS DE PROGRAMAÇÃO_ESOFT.pdf",
+    "EngenhariaDeSoftware/6 Semestre/PARADIGMAS DE LINGUAGEM DE PROGRAMAÇÃO.md",
+    "EngenhariaDeSoftware/6 Semestre/PROJETO, IMPLEMENTAÇÃO E TESTE DE SOFTWARE.md",
     "Pasted image 20260804195451.png",
     "EngenhariaDeSoftware/6 Semestre/~$Aula000-Introdução.pptx",
     "EngenhariaDeSoftware/6 Semestre/Aula000-Introdução.pptx",
