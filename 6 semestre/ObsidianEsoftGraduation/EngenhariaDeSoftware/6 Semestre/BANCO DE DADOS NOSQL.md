@@ -59,3 +59,7 @@ NoSql: Volume, variedade e velocidade. Coisas rapidas.
 			status:{
 				enum:["ativo","inativo","trancado"]
 			}
+
+# Aula 05 - 11/08/2026
+
+# Aula 06 - 12/08/2026
