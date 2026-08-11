@@ -23,5 +23,6 @@ Tem que criar o github - https://github.com/NicolasKauan/Paradigmas-De-Linguagem
 # Aula 04 - 06/08/2026
 
 # Aula 05 - 10/08/2026
+	Ortogonalidade: 
 
 # Aula 06 - 12/08/2026

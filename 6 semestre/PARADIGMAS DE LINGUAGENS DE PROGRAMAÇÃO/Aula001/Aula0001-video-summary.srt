@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:01:30,861
+Neste quadro: Razões para estudar conceitos de LP, Domínios de Programação, Critérios de Avaliação de Linguagem
+
+2
+00:01:30,861 --> 00:03:01,723
+Neste quadro: Ortogonalidade, Capacidade de escrita, Suporte para abstração
+
+3
+00:03:01,723 --> 00:04:32,584
+Neste quadro: Confiabilidade, Verificação de tipos, Manipulação de exceções
+
+4
+00:04:32,584 --> 00:06:03,445
+Neste quadro: Custo, Portabilidade e generalidade, Influências no Projeto de Linguagens
+
+5
+00:06:03,445 --> 00:07:34,306
+Neste quadro: Ciclo de busca-decodifica-executa, Metodologias de Projeto de Software, Categorias de Linguagens
+
+6
+00:07:34,306 --> 00:09:05,168
+Neste quadro: Métodos de Implementação, Compilação, Interpretação pura
+
+7
+00:09:05,168 --> 00:10:36,029
+Neste quadro: Sistemas de Implementação Just in Time, Pré-processadores, Ambientes de Programação
