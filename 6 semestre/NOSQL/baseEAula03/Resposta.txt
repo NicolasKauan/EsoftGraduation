@@ -1,0 +1,52 @@
+SQL RELACIONAL:
+/*-- Resolva primeiro no PostgreSQL. Depois reproduza com find() no MongoDB.
+-- Q1. Liste os pedidos com status PAGO.
+-- Q2. Liste id, data e status dos três pedidos mais recentes.
+-- Q3. Liste os pedidos entregues no estado de SP.
+-- Q4. Liste os pedidos realizados por Ana Souza.
+-- Q5. Liste os pedidos que contêm algum produto da categoria Livros.
+-- Q6. Liste os pedidos que contêm o SKU INF-002 com quantidade maior ou igual a 2.
+-- Q7. Calcule o total de cada pedido: itens + frete.
+*/ 
+
+-- Q1
+select * from pedidos where status='PAGO';
+
+--Q2	
+select id_pedido, data_pedido, status from pedidos
+	order by data_pedido DESC limit 3;
+
+--Q3
+select p.* from pedidos p
+	inner join enderecos e ON p.id_endereco_entrega = e.id_endereco
+where e.uf = 'SP' and p.status = 'ENTREGUES';
+
+--Q4
+select 
+	p.id_pedido
+from pedidos p
+inner join clientes c on c.id_cliente = p.id_cliente
+where c.nome='Ana Souza';
+
+-- Q5
+select
+	ped.id_pedido
+from pedidos ped
+inner join
+	itens_pedido ip on ip.id_pedido = ped.id_pedido
+inner join 
+	produtos p on p.id_produto = ip.id_produto
+inner join 
+	categorias c on c.id_categoria = p.id_categoria
+where
+	c.nome = 'Livros';
+    
+---------------------------------------------------------------------------------------------
+Banco não relacional:
+db.createCollection.("pedidos",{
+  validator:{
+    $jsonSchema{
+      bsonType: "";
+    }
+  }
+})

@@ -67,4 +67,9 @@ NoSql: Volume, variedade e velocidade. Coisas rapidas.
 		Variedade
 		Velocidade: onde ele busca isso aqui. Ele tira os joins, ele tem um charkey para trabalhar de como ele faz. 
 		Para o Post tem o OneCompiler
+	q2 
+		db.pedidos.find().sort({data_pedido:-1}).limit(3);
+	Respostas aula de banco relacional:
+		Dentro do TXT RESPOSTAS
+		
 # Aula 06 - 12/08/2026
