@@ -61,5 +61,10 @@ NoSql: Volume, variedade e velocidade. Coisas rapidas.
 			}
 
 # Aula 05 - 11/08/2026
-
+	No studeo temos a parte 
+	3 V(NOSQL):
+		Volume
+		Variedade
+		Velocidade: onde ele busca isso aqui. Ele tira os joins, ele tem um charkey para trabalhar de como ele faz. 
+		Para o Post tem o OneCompiler
 # Aula 06 - 12/08/2026

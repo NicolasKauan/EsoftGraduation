@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "EngenhariaDeSoftware/6 Semestre/PROCESSOS DE SOFTWARE.md",
+                "file": "EngenhariaDeSoftware/6 Semestre/BANCO DE DADOS NOSQL.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "PROCESSOS DE SOFTWARE"
+              "title": "BANCO DE DADOS NOSQL"
             }
           },
           {
@@ -48,9 +48,20 @@
               "icon": "lucide-file",
               "title": "PARADIGMAS DE LINGUAGEM DE PROGRAMAÇÃO"
             }
+          },
+          {
+            "id": "d5ae873912d3ecdc",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.13.6"
+              },
+              "icon": "lucide-book-up",
+              "title": "Notas de Lançamento 1.13.6"
+            }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -109,8 +120,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "b792251f54ed6f55",
@@ -201,13 +211,13 @@
       "bases:Criar nova base": false
     }
   },
-  "active": "422854a450c0a611",
+  "active": "0d55dc1c0c8990ce",
   "lastOpenFiles": [
+    "EngenhariaDeSoftware/6 Semestre/PARADIGMAS DE LINGUAGEM DE PROGRAMAÇÃO.md",
     "EngenhariaDeSoftware/6 Semestre/PROCESSOS DE SOFTWARE.md",
     "EngenhariaDeSoftware/6 Semestre/PROJETO, IMPLEMENTAÇÃO E TESTE DE SOFTWARE.md",
-    "EngenhariaDeSoftware/6 Semestre/PARADIGMAS DE LINGUAGEM DE PROGRAMAÇÃO.md",
-    "EngenhariaDeSoftware/6 Semestre/Cópia de PARADIGMAS DE LINGUAGENS DE PROGRAMAÇÃO_ESOFT.pdf",
     "EngenhariaDeSoftware/6 Semestre/BANCO DE DADOS NOSQL.md",
+    "EngenhariaDeSoftware/6 Semestre/Cópia de PARADIGMAS DE LINGUAGENS DE PROGRAMAÇÃO_ESOFT.pdf",
     "Pasted image 20260804195451.png",
     "EngenhariaDeSoftware/6 Semestre/~$Aula000-Introdução.pptx",
     "EngenhariaDeSoftware/6 Semestre/Aula000-Introdução.pptx",

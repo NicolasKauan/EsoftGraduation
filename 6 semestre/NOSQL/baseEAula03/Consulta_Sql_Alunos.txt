@@ -1,0 +1,9 @@
+-- Resolva primeiro no PostgreSQL. Depois reproduza com find() no MongoDB.
+
+-- Q1. Liste os pedidos com status PAGO.
+-- Q2. Liste id, data e status dos três pedidos mais recentes.
+-- Q3. Liste os pedidos entregues no estado de SP.
+-- Q4. Liste os pedidos realizados por Ana Souza.
+-- Q5. Liste os pedidos que contêm algum produto da categoria Livros.
+-- Q6. Liste os pedidos que contêm o SKU INF-002 com quantidade maior ou igual a 2.
+-- Q7. Calcule o total de cada pedido: itens + frete.
