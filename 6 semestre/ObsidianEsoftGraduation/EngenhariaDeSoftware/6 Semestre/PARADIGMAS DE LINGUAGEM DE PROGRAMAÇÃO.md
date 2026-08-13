@@ -24,5 +24,7 @@ Tem que criar o github - https://github.com/NicolasKauan/Paradigmas-De-Linguagem
 
 # Aula 05 - 10/08/2026
 	Ortogonalidade: 
-
+	*Aula dentro da pasta de aulas gravadas*
 # Aula 06 - 12/08/2026
+	Metódo transpilado: Converte de uma versão de uma linguagem para outra. Ou converte de uma linguagem para a outra. 
+	
