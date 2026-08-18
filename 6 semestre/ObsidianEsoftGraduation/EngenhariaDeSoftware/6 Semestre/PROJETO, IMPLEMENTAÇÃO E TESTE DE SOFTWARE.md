@@ -61,3 +61,7 @@ JOAO MESSIAS PEREIRA LENCO ([joao.pereira@unicesumar.edu.br](mailto:joao.pereir
 		
 
 # Aula 06 - 13/08/2026
+
+# Aula 07 - 18/08/2026
+
+# Aula 08 - 20/08/2026

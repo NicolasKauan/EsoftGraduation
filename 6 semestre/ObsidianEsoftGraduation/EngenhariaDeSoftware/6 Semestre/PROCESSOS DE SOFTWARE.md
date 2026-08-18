@@ -113,3 +113,135 @@ Professora Ana
 				Natura:
 					Implementou Desugn Thinking para desenvolver novos produtos e serviçoes, focando nas necessidades dos clientes e buscando soluções inovadoras.
 # Aula 06 - 13/08/2026
+	 Slides Aula 05:
+		 Modelos evolutivos do processo de software
+			 Programaão Ad hoc
+				Programação sem processo formal
+				Programação feita para cada computaodr em especifico.
+				Normalmente feito por mulheres nessa época
+				Normalmente formadas por matemáticos, engenheiros ou operadores do próprio computador. 
+				Código direto - Sem ambiente para teste/homologação
+				Curto prazo e urgencia - Foco em só fazer funcionar o mais rapido possivel
+				Vantagem: rapidez inicial, flexibilidade total, baixo custo inicial
+				Desvantagens: Dependencia forte do programador.
+			 Modelo de código e conserto
+					(Code-and-fiz)
+					Codifica-remenda: O desenvolvimento é feito partindo de apenas uma especificação (ou nem isso) e os desenvolvedores começam imediatamente a codificar, remendando á medida que o erros são descobertos.
+					Nenhum processo definido é seguido
+					Representa alto risco, impossivel de gerir e não permite assumir grandes projetos. Sem segurança
+					 Escrever código: Código, testar, corrigir e repetir.
+					 Vantagens: Velocidade inicial, baixa burocracia e facilidade para pequenos projetos.
+					 Desvantagens: Alta manutenção, custo crescente, pouca escalabilidade, ausencia de previsibilidade. 
+			 Modelo em cascara
+				 Ele é sequencial e linear, seguindo etapas fixas onde a saida de uma fase serve de entrada para a proxima - como uma "cascata" de agua descendo.
+				 Etapas:
+					 Levantamento de requisitos: /
+					 Analise de sistema: 
+					 Projeto:
+					 Implementação:
+					 Testes:
+					 Implementação e Manutenção:
+			 Modelo em V
+				 
+			 Modelo de desenvolvimento ecolutivo inicial
+				 
+			 Modelo incremental
+				 
+			 Programação estruturada
+				 
+			 Desenvolvimento rápido de aplicações
+				 
+			 Modelo de ciclo de vida classico
+				 
+			 Modelo de prototipagem rapida
+				 
+			 Modelo espiral
+				 
+			 Modelo de desenvolvimento baseado em componentes
+				 
+			 Moelo RUP
+
+# Aula 07 - 17/08/2026
+	Continuação das aulas:
+		Modelos evolutivos do processo de software
+			Modelo de desenvolvimento baseado em componentes: 
+				O desenvolvimento baseado em componentes é uima abordagem onde o software é construido a partir da integração de componentes pré=existentes, que são unidade de software independentes, reutilizáveis e com funcionalidades especificas bem definidas.
+				Em vez de criar do zero, o conceito desse projeto é basicamente pegar algo já pronto e pegar aquilo que desejo e fazer isso funcionar bem.
+				Vantagens: Tras economia, reutilização de código, maior produtividade, qualidade e confiabilidade, manutenção facilitada.
+			Programação estruturada
+				 Não é em si um processo, mas como é um meio de programar, pode se utilizar como um processo. Nesse caso seria ter um fluxo de controle bem definido. Devisão em modolos, fluxo de controle bem definido e evita o uso de comandos "goto" e hierarquia e top-down. 
+				 Vantagens: Código mais organizado e facil de entender, facilita a identificcação e correçõa de erros, melhora a manutenção e atualização do programa e facilita o trabalho em equipe, pois o código é modularizado. 
+				 Analise do problema.
+				 Divisão do problema.
+				 Desenvolvimento dos modulos.
+				 Testes.
+				 Integrações.
+			Modelo RUP(Rational Unified Process):
+				É um modelo iterativo e incremental criado pela IBM. 
+				Ciclos de processo de software: 
+					Iniciação: Defini-se o escopo do projeto, requisitos iniciais e viabilidade, sem programação pesada ainda. 
+					Programação iterativa e incremental: Simplesmente entregar algo do software em partes bem definidas.
+					Elaboração:Desenvolve-se a arquitetura do sistema, cria-se protótipos e começam a programar os componentes criticos para validar a arquitetura
+					Construção: Aqui que realizamos a programação iterativa e incremental
+					Transição: Entregar o produto e corrigir os erros
+			Desenvolvimento Rápido de aplicações
+				Simplesmente fazer a coisa rapida. Sem requisitos bem estruturados. Protótipo mostra para o cliente valida e parte para a frente, tem que ser rapido.
+				Vantagens da programação no RAD
+					Entrega rápida de sistemas funcionais
+					Maior alinhamento com as necessidades do usuário
+					Flexibilidade para mudanças durante o desenvolvimento
+					Redução de riscos com feedback constante. 
+				Etapas: Requisitos preliminares, Desenvolvimento do protótipo, revisão pelo usuário, ajuste e melhorias e construção incremental. 
+	Termino da aula de semana passada.
+	Aula de hoje: Aula 06 - Metodologias ágeis
+		Scrum
+			O que é: Framework iterativo e incemental para gerenciamento e desenvolvimento de projetos complexos.
+			Principais pilares:
+				Times pequenos, auto -organizados
+				Sprints(ciclos curtis de trabalho, geralmente 2-4 semanas)
+				Reuniões diárias(Daily Scrum)
+				Papéis claros: PO, Scrum Master, time de desenvolvimento
+				Backlog do produto e backlog da sprint
+					Importancia: base para muitas prátivas ágeis modernas, foco na inspeção e adaptação constante. 
+		XP
+			O que é: Metodologia focada em prátivas técnicas de desenvolvimento de software para melhorar qualidade e capacidade de resposta a mudanças
+			Principais práticas:
+				Programação em pares
+				Desenvolvimento orientado a testes
+				Integração continua
+				Releases frequentes
+				Código simples e refatoração constante
+					Diferencial: Enfase nas prátivas de engenharia de software alinhadas aos valores ágeis. 
+		Crystal Methodologies
+			O que é: Familia de metodologias ágeis adaptadas ao tamanho da equipe e criticidade do projeto. 
+			Principios:
+				Pessoas acima de processos e ferramentas
+				Entrega frequente de software funcional
+				Reflexão e melhoria continua
+				Comunicação dace a dace como padrão
+				LUGAR LEGAL
+			Vantagens: 
+				Altamente adaptaveis ao contexto
+				Leve em termos de documentação e burocracia
+				Favorece comunicação direta e aprendizado rápido
+				Pode ser escalada para projetos maiores ajustando prátivas e formalidades.
+			Desvantagens
+				Precisa de um time legal para funcionar
+				Não tem guia passo a passo
+				Muita flexibilidade que pode gerar falta de clareza no processo. 
+		FDD(Feateru-driven development)
+			 Metodologia orientada a funcionalidade com foco em planejamento detalhado e desenvolvimento incremental de pequenas funcionalidades. É uma metodologia agil, mas com foco mais forte em planejamento e modelagem do que métodos como Scrum ou XP.
+			 Motivação: Encontrar uma forma estuturada e previsicel de desenvolver software, mas sem perder a agilidade e a entrega incremental
+			 Principais etapas
+				 Desen de um modelo geral
+				 Construção da lista de funfa
+				 ...
+			Principios fundamentais:
+				Entregar a funfa concreta e de valor para os clientes
+				Planejar com base nas funfas, não apenas em tarefas técnicas
+				Modelar antes de construir - modelagem inicial e ajustes continuos 
+				Manter acompanhamento visual do progresso - 
+				Design por funcionalidade - cada pequena entrega tem design e implementação completos.
+		abababa
+
+# Aula 08 - 20/08/2026

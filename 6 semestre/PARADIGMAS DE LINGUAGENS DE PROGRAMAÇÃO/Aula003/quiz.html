@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz — Descrição da Sintaxe e da Semântica</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; }
+    body { margin: 0; background: #eef3f8; color: #172536; }
+    main { max-width: 800px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    h1 { color: #17365d; }
+    .question { background: white; border-radius: .75rem; margin: 1rem 0;
+      padding: 1.25rem; box-shadow: 0 2px 10px #17365d18; }
+    label { display: block; margin: .6rem 0; padding: .7rem;
+      border: 1px solid #c8d5e3; border-radius: .4rem; cursor: pointer; }
+    label.answer-correct { background: #e6f4ea; border-color: #188038;
+      color: #0d652d; }
+    label.answer-incorrect { background: #fce8e6; border-color: #c5221f;
+      color: #a50e0e; }
+    button { background: #245b8a; border: 0; border-radius: .4rem;
+      color: white; cursor: pointer; font-weight: 700; padding: .8rem 1.2rem; }
+    .feedback { border-left: 4px solid #245b8a; margin-top: .8rem;
+      padding-left: .8rem; }
+    .objective { color: #52677d; font-size: .85rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Descrição da Sintaxe e da Semântica</h1>
+    <p>Responda às questões e confira o feedback imediatamente.</p>
+    <form id="quiz"></form>
+    <button id="check" type="button">Verificar respostas</button>
+    <p id="score" aria-live="polite"></p>
+  </main>
+  <script id="quiz-data" type="application/json">{"questions":[{"correctIndex":0,"feedback":"Sintaxe e semântica: Sintaxe descreve a forma das construções de uma linguagem; semântica descreve seu significado. Juntas, elas caracterizam uma linguagem de programação. Objetivos cobertos: obj01.","id":"question-sintaxe_semantica","objectiveIds":["obj01"],"options":["Sintaxe descreve a forma das construções de uma linguagem; semântica descreve seu significado. Juntas, elas caracterizam uma linguagem de programação.","Uma sentença é uma cadeia sobre um alfabeto; lexemas são unidades sintáticas elementares, enquanto tokens classificam lexemas em categorias usadas pela análise da linguagem.","Um reconhecedor decide se uma cadeia pertence a uma linguagem; um gerador define ou produz as sentenças que pertencem a ela.","A Forma de Backus-Naur é uma metalinguagem equivalente às gramáticas livres de contexto, formada por regras que relacionam símbolos não terminais a sequências de terminais e não terminais."],"prompt":"Qual opção descreve melhor “Sintaxe e semântica”?"},{"correctIndex":1,"feedback":"Sentenças, lexemas e tokens: Uma sentença é uma cadeia sobre um alfabeto; lexemas são unidades sintáticas elementares, enquanto tokens classificam lexemas em categorias usadas pela análise da linguagem. Objetivos cobertos: obj01.","id":"question-lexemas_tokens","objectiveIds":["obj01"],"options":["Escolher pela popularidade, sem relacionar a decisão ao problema.","Usar Sentenças, lexemas e tokens como critério e considerar que uma sentença é uma cadeia sobre um alfabeto; lexemas são unidades sintáticas elementares, enquanto tokens classificam lexemas em categorias usadas pela análise da linguagem.","Comparar apenas a aparência da sintaxe e ignorar o contexto de uso.","Tratar todas as linguagens como equivalentes para qualquer domínio."],"prompt":"Uma equipe está comparando linguagens para um novo projeto. Como “Sentenças, lexemas e tokens” ajuda nessa análise?"},{"correctIndex":2,"feedback":"A afirmação errada reduz Reconhecedores e geradores a memorização. Na aula, um reconhecedor decide se uma cadeia pertence a uma linguagem; um gerador define ou produz as sentenças que pertencem a ela.","id":"question-reconhecedores_geradores","objectiveIds":["obj01","obj02"],"options":["Um reconhecedor decide se uma cadeia pertence a uma linguagem; um gerador define ou produz as sentenças que pertencem a ela.","O conceito pode apoiar uma comparação fundamentada entre alternativas.","Basta memorizar o nome do conceito; contexto, objetivos e consequências não alteram sua análise.","Sua aplicação deve considerar o domínio e os objetivos do software."],"prompt":"Sobre “Reconhecedores e geradores”, é errado afirmar que:"},{"correctIndex":3,"feedback":"BNF e gramáticas livres de contexto: A Forma de Backus-Naur é uma metalinguagem equivalente às gramáticas livres de contexto, formada por regras que relacionam símbolos não terminais a sequências de terminais e não terminais. Objetivos cobertos: obj02.","id":"question-bnf_gramatica","objectiveIds":["obj02"],"options":["Repetir a escolha do projeto anterior sem verificar os requisitos atuais.","Adotar a alternativa mais recente apenas por ser tendência.","Decidir por preferência pessoal e justificar somente depois.","Explicitar os requisitos do projeto e avaliar BNF e gramáticas livres de contexto: A Forma de Backus-Naur é uma metalinguagem equivalente às gramáticas livres de contexto, formada por regras que relacionam símbolos não terminais a sequências de terminais e não terminais."],"prompt":"Em uma decisão profissional sobre tecnologia, qual atitude aplica melhor “BNF e gramáticas livres de contexto”?"},{"correctIndex":0,"feedback":"No cenário apresentado, o conceito central é Derivação e árvore sintática. Uma derivação aplica regras desde o símbolo inicial até obter somente terminais; a árvore sintática representa hierarquicamente esse processo.","id":"question-derivacao_arvore","objectiveIds":["obj02","obj03"],"options":["Derivação e árvore sintática","Sintaxe e semântica","Sentenças, lexemas e tokens","Reconhecedores e geradores"],"prompt":"Uma startup precisa justificar tecnicamente uma escolha de linguagem para pessoas de produto e desenvolvimento. Qual conceito orienta melhor a discussão sobre “Derivação e árvore sintática”?"},{"correctIndex":1,"feedback":"Ambiguidade gramatical: Uma gramática é ambígua quando uma mesma sentença admite duas árvores sintáticas distintas; precedência e associatividade podem ser expressas pela estrutura das regras para eliminar ambiguidades. Objetivos cobertos: obj03.","id":"question-ambiguidade","objectiveIds":["obj03"],"options":["Sintaxe descreve a forma das construções de uma linguagem; semântica descreve seu significado. Juntas, elas caracterizam uma linguagem de programação.","Uma gramática é ambígua quando uma mesma sentença admite duas árvores sintáticas distintas; precedência e associatividade podem ser expressas pela estrutura das regras para eliminar ambiguidades.","Uma sentença é uma cadeia sobre um alfabeto; lexemas são unidades sintáticas elementares, enquanto tokens classificam lexemas em categorias usadas pela análise da linguagem.","Um reconhecedor decide se uma cadeia pertence a uma linguagem; um gerador define ou produz as sentenças que pertencem a ela."],"prompt":"Qual opção descreve melhor “Ambiguidade gramatical”?"},{"correctIndex":2,"feedback":"BNF estendida: A EBNF acrescenta notações compactas para opcionalidade, alternativas e repetição, preservando a capacidade descritiva da BNF. Objetivos cobertos: obj02.","id":"question-ebnf","objectiveIds":["obj02"],"options":["Escolher pela popularidade, sem relacionar a decisão ao problema.","Comparar apenas a aparência da sintaxe e ignorar o contexto de uso.","Usar BNF estendida como critério e considerar que a EBNF acrescenta notações compactas para opcionalidade, alternativas e repetição, preservando a capacidade descritiva da BNF.","Tratar todas as linguagens como equivalentes para qualquer domínio."],"prompt":"Uma equipe está comparando linguagens para um novo projeto. Como “BNF estendida” ajuda nessa análise?"},{"correctIndex":3,"feedback":"A afirmação errada reduz Gramáticas de atributos a memorização. Na aula, uma gramática de atributos associa atributos, funções semânticas e predicados aos nós de uma gramática livre de contexto para especificar e verificar semântica estática.","id":"question-gramatica_atributos","objectiveIds":["obj04"],"options":["Uma gramática de atributos associa atributos, funções semânticas e predicados aos nós de uma gramática livre de contexto para especificar e verificar semântica estática.","O conceito pode apoiar uma comparação fundamentada entre alternativas.","Sua aplicação deve considerar o domínio e os objetivos do software.","Basta memorizar o nome do conceito; contexto, objetivos e consequências não alteram sua análise."],"prompt":"Sobre “Gramáticas de atributos”, é errado afirmar que:"},{"correctIndex":0,"feedback":"Atributos sintetizados e herdados: Atributos sintetizados propagam informação dos filhos para o nó pai; atributos herdados recebem informação do contexto, exigindo frequentemente combinação de percursos ascendentes e descendentes. Objetivos cobertos: obj04.","id":"question-atributos_fluxo","objectiveIds":["obj04"],"options":["Explicitar os requisitos do projeto e avaliar Atributos sintetizados e herdados: Atributos sintetizados propagam informação dos filhos para o nó pai; atributos herdados recebem informação do contexto, exigindo frequentemente combinação de percursos ascendentes e descendentes.","Repetir a escolha do projeto anterior sem verificar os requisitos atuais.","Adotar a alternativa mais recente apenas por ser tendência.","Decidir por preferência pessoal e justificar somente depois."],"prompt":"Em uma decisão profissional sobre tecnologia, qual atitude aplica melhor “Atributos sintetizados e herdados”?"},{"correctIndex":1,"feedback":"No cenário apresentado, o conceito central é Métodos de semântica dinâmica. A semântica operacional descreve efeitos de execução e mudanças de estado; a denotacional mapeia construções para objetos matemáticos; a axiomática usa asserções e regras lógicas para demonstrar propriedades.","id":"question-semantica_dinamica","objectiveIds":["obj05"],"options":["Sintaxe e semântica","Métodos de semântica dinâmica","Sentenças, lexemas e tokens","Reconhecedores e geradores"],"prompt":"Uma equipe assumiu um sistema difícil de manter e precisa decidir se conserva ou substitui a tecnologia principal. Qual conceito orienta melhor a discussão sobre “Métodos de semântica dinâmica”?"}],"title":"Descrição da Sintaxe e da Semântica"}</script>
+  <script>
+    const data = JSON.parse(document.getElementById("quiz-data").textContent);
+    const form = document.getElementById("quiz");
+    data.questions.forEach((question, questionIndex) => {
+      const section = document.createElement("section");
+      section.className = "question";
+      const title = document.createElement("h2");
+      title.textContent = `${questionIndex + 1}. ${question.prompt}`;
+      section.appendChild(title);
+      const objective = document.createElement("p");
+      objective.className = "objective";
+      objective.textContent = `Objetivos: ${question.objectiveIds.join(", ")}`;
+      section.appendChild(objective);
+      question.options.forEach((option, optionIndex) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = question.id;
+        input.value = optionIndex;
+        label.append(input, ` ${option}`);
+        section.appendChild(label);
+      });
+      const feedback = document.createElement("p");
+      feedback.className = "feedback";
+      feedback.hidden = true;
+      feedback.dataset.for = question.id;
+      section.appendChild(feedback);
+      form.appendChild(section);
+    });
+    document.getElementById("check").addEventListener("click", () => {
+      let score = 0;
+      data.questions.forEach((question) => {
+        const selected = form.querySelector(`input[name="${question.id}"]:checked`);
+        const correct = selected && Number(selected.value) === question.correctIndex;
+        if (correct) score += 1;
+        form.querySelectorAll(`input[name="${question.id}"]`).forEach(
+          (input, optionIndex) => {
+            const label = input.closest("label");
+            label.classList.toggle(
+              "answer-correct",
+              optionIndex === question.correctIndex
+            );
+            label.classList.toggle(
+              "answer-incorrect",
+              input.checked && optionIndex !== question.correctIndex
+            );
+          }
+        );
+        const feedback = form.querySelector(`[data-for="${question.id}"]`);
+        feedback.hidden = false;
+        feedback.textContent = `${correct ? "Correto." : "Revise."} ${question.feedback}`;
+      });
+      document.getElementById("score").textContent =
+        `Resultado: ${score} de ${data.questions.length}.`;
+    });
+  </script>
+</body>
+</html>

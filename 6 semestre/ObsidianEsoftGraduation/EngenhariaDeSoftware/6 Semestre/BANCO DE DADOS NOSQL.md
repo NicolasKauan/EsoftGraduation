@@ -291,3 +291,7 @@ db.pedidos.insertMany([
   }
 ]);
 ```
+
+# Aula 07 - 18/08/2025
+
+# Aula 08 - 19/08/2025

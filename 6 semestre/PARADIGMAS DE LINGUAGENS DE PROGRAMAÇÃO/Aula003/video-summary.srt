@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:36,135
+Neste quadro: Sintaxe e semântica
+
+2
+00:00:36,135 --> 00:01:12,270
+Neste quadro: Sentenças, lexemas e tokens
+
+3
+00:01:12,270 --> 00:01:48,406
+Neste quadro: Reconhecedores e geradores
+
+4
+00:01:48,406 --> 00:02:24,541
+Neste quadro: BNF e gramáticas livres de contexto
+
+5
+00:02:24,541 --> 00:03:00,676
+Neste quadro: Derivação e árvore sintática
+
+6
+00:03:00,676 --> 00:03:36,811
+Neste quadro: Ambiguidade gramatical
+
+7
+00:03:36,811 --> 00:04:12,946
+Neste quadro: BNF estendida
+
+8
+00:04:12,946 --> 00:04:49,082
+Neste quadro: Gramáticas de atributos
+
+9
+00:04:49,082 --> 00:05:25,217
+Neste quadro: Atributos sintetizados e herdados
+
+10
+00:05:25,217 --> 00:06:01,352
+Neste quadro: Métodos de semântica dinâmica
