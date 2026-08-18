@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz — Quiz — Evolução das Principais Linguagens de Programação</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; }
+    body { margin: 0; background: #eef3f8; color: #172536; }
+    main { max-width: 800px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    h1 { color: #17365d; }
+    .question { background: white; border-radius: .75rem; margin: 1rem 0;
+      padding: 1.25rem; box-shadow: 0 2px 10px #17365d18; }
+    label { display: block; margin: .6rem 0; padding: .7rem;
+      border: 1px solid #c8d5e3; border-radius: .4rem; cursor: pointer; }
+    label.answer-correct { background: #e6f4ea; border-color: #188038;
+      color: #0d652d; }
+    label.answer-incorrect { background: #fce8e6; border-color: #c5221f;
+      color: #a50e0e; }
+    button { background: #245b8a; border: 0; border-radius: .4rem;
+      color: white; cursor: pointer; font-weight: 700; padding: .8rem 1.2rem; }
+    .feedback { border-left: 4px solid #245b8a; margin-top: .8rem;
+      padding-left: .8rem; }
+    .objective { color: #52677d; font-size: .85rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Quiz — Evolução das Principais Linguagens de Programação</h1>
+    <p>Responda às questões e confira o feedback imediatamente.</p>
+    <form id="quiz"></form>
+    <button id="check" type="button">Verificar respostas</button>
+    <p id="score" aria-live="polite"></p>
+  </main>
+  <script id="quiz-data" type="application/json">{"questions":[{"id":"q01","objectiveIds":["obj01"],"prompt":"Qual interpretação descreve melhor a evolução das linguagens apresentada no capítulo?","options":["Uma rede de respostas a domínios, hardware e comunidades","Uma sequência em que cada linguagem elimina a anterior","Uma disputa determinada apenas por desempenho","Um processo independente de implementação"],"correctIndex":0,"feedback":"A evolução é ramificada e contextual; linguagens antigas podem permanecer adequadas a seus domínios."},{"id":"q02","objectiveIds":["obj02"],"prompt":"Qual recurso estava presente no projeto de Plankalkül?","options":["Registros e vetores estruturados","Máquina virtual Java","Templates XSLT","Delegates de C#"],"correctIndex":0,"feedback":"Plankalkül antecipou estruturas de dados avançadas, embora não tenha sido implementada na época."},{"id":"q03","objectiveIds":["obj01","obj02"],"prompt":"Por que Short Code simplificava a programação, mas tinha execução lenta?","options":["Era interpretada em vez de traduzida integralmente para código de máquina","Executava apenas em navegadores","Usava coleta de lixo","Dependia de orientação a objetos"],"correctIndex":0,"feedback":"A interpretação reduzia o esforço de programação, com custo significativo de execução."},{"id":"q04","objectiveIds":["obj01","obj04"],"prompt":"Qual desafio foi central para a aceitação inicial de Fortran?","options":["Produzir código traduzido com desempenho próximo ao código manual","Oferecer marcação XML","Eliminar completamente variáveis","Executar consultas lógicas"],"correctIndex":0,"feedback":"O compilador precisava demonstrar que produtividade não implicaria perda inaceitável de desempenho."},{"id":"q05","objectiveIds":["obj03"],"prompt":"Qual associação está correta?","options":["Lisp — processamento simbólico e funções","COBOL — programação lógica","Prolog — cálculo vetorial numérico","APL — registros comerciais verbais"],"correctIndex":0,"feedback":"Lisp foi desenvolvida no contexto de IA e processamento simbólico, consolidando ideias funcionais."},{"id":"q06","objectiveIds":["obj02","obj04"],"prompt":"Qual contribuição de ALGOL 60 influenciou fortemente linguagens posteriores?","options":["Estrutura de blocos e descrição sintática formal","Classes e objetos como modelo universal","Execução em servlet container","Vetores associativos de PHP"],"correctIndex":0,"feedback":"Blocos, escopo e BNF tiveram impacto muito além da adoção direta de ALGOL 60."},{"id":"q07","objectiveIds":["obj01"],"prompt":"Basic foi inicialmente importante porque: ","options":["Facilitou o acesso de estudantes à programação interativa","Substituiu COBOL em bancos","Introduziu programação lógica","Criou a orientação a objetos"],"correctIndex":0,"feedback":"Basic foi ligada ao ensino e aos sistemas de tempo compartilhado."},{"id":"q08","objectiveIds":["obj04"],"prompt":"Que trade-off é exemplificado por PL/I?","options":["Grande abrangência de domínios versus complexidade da linguagem","Portabilidade versus ausência de compilador","Objetos versus qualquer estrutura de dados","Marcação versus impossibilidade de controle"],"correctIndex":0,"feedback":"A tentativa de atender usos científicos e comerciais ampliou recursos e complexidade."},{"id":"q09","objectiveIds":["obj02","obj03"],"prompt":"Qual linguagem introduziu conceitos de classes e objetos no contexto de simulação?","options":["SIMULA 67","SNOBOL","Fortran I","JSP"],"correctIndex":0,"feedback":"SIMULA 67 forneceu bases importantes da orientação a objetos."},{"id":"q10","objectiveIds":["obj04"],"prompt":"Ortogonalidade significa principalmente: ","options":["Combinar conceitos de modo regular e com poucas exceções","Ter o menor manual possível","Executar apenas em uma arquitetura","Impedir a criação de novos tipos"],"correctIndex":0,"feedback":"Regularidade ajuda a composição de recursos, mas não garante sozinha simplicidade global."},{"id":"q11","objectiveIds":["obj03"],"prompt":"Em Prolog, um programa é organizado principalmente como: ","options":["Fatos e regras consultados por inferência","Uma sequência fixa de atribuições","Classes que trocam mensagens","Folhas de estilo para XML"],"correctIndex":0,"feedback":"O estilo declarativo especifica relações e deixa ao mecanismo a busca de soluções."},{"id":"q12","objectiveIds":["obj02","obj04"],"prompt":"Qual conjunto está mais associado aos objetivos de Ada?","options":["Tipos fortes, modularidade e concorrência para sistemas confiáveis","Sintaxe mínima para scripts de navegador","Processamento exclusivo de listas","Ausência de padronização"],"correctIndex":0,"feedback":"Ada foi projetada para sistemas grandes e críticos, com ênfase em engenharia e confiabilidade."},{"id":"q13","objectiveIds":["obj03","obj04"],"prompt":"Qual diferença caracteriza C++ e Java?","options":["C++ preserva maior compatibilidade com C; Java prioriza máquina virtual e segurança","Java preserva ponteiros irrestritos de C; C++ os elimina","C++ é lógica; Java é funcional pura","Java surgiu antes de C++"],"correctIndex":0,"feedback":"Os compromissos com legado, controle de baixo nível, portabilidade e segurança diferenciam seus projetos."},{"id":"q14","objectiveIds":["obj01","obj03"],"prompt":"Por que agrupar Perl, JavaScript, PHP, Python, Ruby e Lua apenas como 'interpretadas' é inadequado?","options":["Elas têm domínios, modelos de dados e implementações híbridas diferentes","Todas são compiladas diretamente para o mesmo código","Nenhuma possui estruturas de dados","Todas foram projetadas para o navegador"],"correctIndex":0,"feedback":"O rótulo scripting não elimina diferenças de propósito, semântica ou estratégia de execução."},{"id":"q15","objectiveIds":["obj02"],"prompt":"Qual afirmação distingue corretamente XSLT de JSP?","options":["XSLT transforma documentos por templates; JSP é processada no servidor e convertida em servlet","JSP transforma XML sem servidor; XSLT cria bytecode Java","Ambas são linguagens de máquina","Nenhuma possui mecanismos de controle"],"correctIndex":0,"feedback":"As duas combinam marcação e programação, mas participam de fluxos de processamento diferentes."}],"title":"Quiz — Evolução das Principais Linguagens de Programação"}</script>
+  <script>
+    const data = JSON.parse(document.getElementById("quiz-data").textContent);
+    const form = document.getElementById("quiz");
+    data.questions.forEach((question, questionIndex) => {
+      const section = document.createElement("section");
+      section.className = "question";
+      const title = document.createElement("h2");
+      title.textContent = `${questionIndex + 1}. ${question.prompt}`;
+      section.appendChild(title);
+      const objective = document.createElement("p");
+      objective.className = "objective";
+      objective.textContent = `Objetivos: ${question.objectiveIds.join(", ")}`;
+      section.appendChild(objective);
+      question.options.forEach((option, optionIndex) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = question.id;
+        input.value = optionIndex;
+        label.append(input, ` ${option}`);
+        section.appendChild(label);
+      });
+      const feedback = document.createElement("p");
+      feedback.className = "feedback";
+      feedback.hidden = true;
+      feedback.dataset.for = question.id;
+      section.appendChild(feedback);
+      form.appendChild(section);
+    });
+    document.getElementById("check").addEventListener("click", () => {
+      let score = 0;
+      data.questions.forEach((question) => {
+        const selected = form.querySelector(`input[name="${question.id}"]:checked`);
+        const correct = selected && Number(selected.value) === question.correctIndex;
+        if (correct) score += 1;
+        form.querySelectorAll(`input[name="${question.id}"]`).forEach(
+          (input, optionIndex) => {
+            const label = input.closest("label");
+            label.classList.toggle(
+              "answer-correct",
+              optionIndex === question.correctIndex
+            );
+            label.classList.toggle(
+              "answer-incorrect",
+              input.checked && optionIndex !== question.correctIndex
+            );
+          }
+        );
+        const feedback = form.querySelector(`[data-for="${question.id}"]`);
+        feedback.hidden = false;
+        feedback.textContent = `${correct ? "Correto." : "Revise."} ${question.feedback}`;
+      });
+      document.getElementById("score").textContent =
+        `Resultado: ${score} de ${data.questions.length}.`;
+    });
+  </script>
+</body>
+</html>

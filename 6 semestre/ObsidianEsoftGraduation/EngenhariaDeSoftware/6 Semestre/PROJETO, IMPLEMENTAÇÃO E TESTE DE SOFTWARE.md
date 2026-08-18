@@ -63,5 +63,8 @@ JOAO MESSIAS PEREIRA LENCO ([joao.pereira@unicesumar.edu.br](mailto:joao.pereir
 # Aula 06 - 13/08/2026
 
 # Aula 07 - 18/08/2026
+	Teste funcional ou teste caixa preta
+		Não estou me importando com a forma somente com o resultado
+		Só se preocupa com a entrada e com a saida. Plano, casos, roteiro, evidencias, relatórios e matriz de rastreabilidade tornam o teste planejado, repetível e verificavel. 
 
 # Aula 08 - 20/08/2026
