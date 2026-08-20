@@ -295,3 +295,161 @@ db.pedidos.insertMany([
 # Aula 07 - 18/08/2025
 
 # Aula 08 - 19/08/2025
+Consulta primeiro
+Da o update 
+Consulta de novo
+```json
+use empresa_tech
+
+db.funcionarios.insertMany([
+  {
+    nome: "Ana Silva",
+    idade: 28,
+    cargo: "Desenvolvedora Frontend",
+    departamento: "Tecnologia",
+    salario: 7500.00,
+    data_contratacao: new Date("2021-03-15"),
+    ativo: true,
+    habilidades: ["JavaScript", "React", "CSS", "HTML"],
+    contato: {
+      email: "ana.silva@empresa.com",
+      telefone: "11-98765-4321"
+    }
+  },
+  {
+    nome: "Bruno Costa",
+    idade: 35,
+    cargo: "Desenvolvedor Backend",
+    departamento: "Tecnologia",
+    salario: 9000.00,
+    data_contratacao: new Date("2019-07-20"),
+    ativo: true,
+    habilidades: ["Java", "Spring", "Docker", "PostgreSQL"],
+    contato: {
+      email: "bruno.costa@empresa.com"
+    }
+  },
+  {
+    nome: "Carla Dias",
+    idade: 42,
+    cargo: "Gerente de Projetos",
+    departamento: "Projetos",
+    salario: 12500.00,
+    data_contratacao: new Date("2017-01-10"),
+    ativo: true,
+    habilidades: ["Scrum", "Jira", "Gestão de Riscos"],
+    contato: {
+      email: "carla.dias@empresa.com",
+      telefone: "11-91234-5678"
+    }
+  },
+  {
+    nome: "Daniel Farias",
+    idade: 25,
+    cargo: "Analista de Dados",
+    departamento: "BI",
+    salario: 6000.00,
+    data_contratacao: new Date("2022-11-01"),
+    ativo: true,
+    habilidades: ["SQL", "Python", "PowerBI", "AWS"],
+    contato: {
+      email: "daniel.farias@empresa.com"
+    }
+  },
+  {
+    nome: "Eduarda Lima",
+    idade: 31,
+    cargo: "Analista de RH",
+    departamento: "RH",
+    salario: 5500.00,
+    data_contratacao: new Date("2020-05-30"),
+    ativo: false,
+    habilidades: ["Recrutamento", "Entrevistas", "Legislação"],
+    contato: {
+      email: "eduarda.lima@empresa.com",
+      telefone: "11-98888-7777"
+    }
+  },
+  {
+    nome: "André Marques",
+    idade: 29,
+    cargo: "Desenvolvedor Fullstack",
+    departamento: "Tecnologia",
+    salario: 8500.00,
+    data_contratacao: new Date("2023-02-18"),
+    ativo: true,
+    habilidades: ["Node.js", "React", "MongoDB", "AWS"],
+    contato: {
+      email: "andre.marques@empresa.com"
+    }
+  }
+]);
+```
+
+``` json
+db.funcionarios.updateOne(
+  { nome: "Daniel Farias"},
+  {
+    &set:{
+      cargo: "Cientista de Dados",
+      Salario: 7800.00
+    }
+  }//Ação de atualização
+)
+
+db.funcionarios.updateOne(
+  { nome:"Daniel Farias"},
+  {
+    $unset:{"Morte":""}
+  }
+)
+db.funcionarios.updateOne(
+  { nome: "Daniel Farias"},
+  {
+    $set:{
+      cargo: "Cientista de Dados",
+      Salario: 7800.00,
+      Morte: true
+    }
+  }
+)
+
+db.funcionarios.updateMany(
+  {},//Esse daqui é a parte do where, precisa ter essa parte sempre
+  //Pq o daqui para baixo é a projeção
+  {
+    $rename:{"habilidades":"competencias"}
+  }
+)
+
+db.funcionarios.updateOne(
+  {nome:"Carla Dias"},
+  {
+    $set:{cargo:"Diretora de Projetos"},
+    $currentDate:{ultima_modificacao:true}
+  }
+)
+
+db.funcionarios.updateMany(
+  {departamento:"Tecnologia"},
+  {
+    $inc:{salario:500}
+    //Incrementa o salario, se eu quiser tirar é só eu usar um -(menos) na frente
+  }
+)
+
+db.funcionarios.updateMany(
+  {ativo: true},
+  {
+    $mul:{
+      salario: 1.05
+    }
+  }
+)
+db.funcionarios.updateOne(
+  {nome:"Ana Silva"},
+  {
+    $push:{"competencias":"TypeScript"}
+  }
+)
+```
