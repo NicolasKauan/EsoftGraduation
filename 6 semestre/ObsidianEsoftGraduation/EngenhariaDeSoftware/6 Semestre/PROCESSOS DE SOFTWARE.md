@@ -245,3 +245,70 @@ Professora Ana
 		abababa
 
 # Aula 08 - 20/08/2026
+	 Continuação da aula de metodologias ágeis
+		Dynamic Systems Development Method(DSDM)
+			o que é: Metodologia para inovação, focada para a construção de novos produtos. Unica metodologia que tem a parte de verificar as tendencias de mercado. Uma coisa particular onde ela deixa o tempo, custo e qualidades fixos, mas deixa o escopo flexivel. 
+			8 principios obrigatórios:
+				Focar na necessidade do negócio
+				Entrega no prazo
+				Colaborar
+				Nunca comprometer qualidade
+				Construir de forma incremental a partir de bases sólidas
+				...(Continuação no slide)
+			Métodos é dividido em fases bem definidas
+			Pré-projeto
+			Estudo de viabilidade
+			Estudo de negócio
+			Iteração do modelo funcional
+			Iteração de design e construção
+			Implementação
+			Pós-projeto
+		Lean Software Development
+			O que é: Aplicação dos principios Lean para eliminar desperdicios e otimizar fluxo no desenvolvimento de software
+			Principios
+				Eliminar desperdicio
+				amplificar aprnedizado
+				decidir o mais tarde possivel
+				entregar o mais rapido possivel
+				empoderar a equipe
+				construir integridade
+				ver o todo
+		Adaptive Software Development(ASD)
+			O que é: Metodologia ágil voltada para o desenvolvimento de software em ambientes de alta inverteza e mudança constante, éfoca em ciclos adaptativos e aprendizagem continua. Evolução do RAD visando lidar melhor com projetos complexos, onde requisitos mudanm rapidamente e não podem ser definidos totalmente no inicio
+			Objetivos:
+				Criar mum processo flexivel e adaptável que responda a mudanças de requisitos, tecnologia ou mercado
+				Reduzir o risco de fracasso em projetos com alto grau de incerteza
+				Incentivar a colaboração constante e aprendizado continuo entre equipes e stakeholerns
+				...
+				Slide
+		Agile Unified Process (AUP)
+			O que é: Versão simplificada e agil do rup, combinando prátivas ageis
+			...(slide)
+		Disciplined Agile Delivery(dad)
+			o que é: 
+			...slide
+		Kanban para software
+			o que é: Método visual para gerenciar fluxo de trabalho, baseado no método Kanban do Lean
+			Principios
+				Visualizar o fluxo de trabalho
+				Limitar o trabalho em progresso(WIP)
+				Gerenciar fluxo
+				Tornar políticas explícitas
+				Melhorar continuamente
+				Diferencial: foco em fluxo continuo, sem sprints ou timeboxes
+		Scaled Agile Framework(SAFe)
+			O que é: framework para escalar práticas ágeis e Lean em grandes organizações com multiplas equipes
+			Caracteristicas:
+				Program increments
+				3 NIVEIS(team, program portfolio)
+				Cerimonias e papeis alinhados com Scrum e Lean
+				Diferencial: Amplamente adotado em grandes corporações.
+		Large Scale Scrum (LeSS)
+			...slide
+		Spotify Model
+			O que é: Abordagem para organizar times em squads(equipes pequenas e autonomas) chapters(especialistas), tribes(agrupamento de squads) e guilds(interesses comuns).
+			Caracteristicas
+				Autonomia e alinhamento
+				Cultura forte de colaboração
+				foco em inovação e agilidade organizacional
+				Diferencial: Inspira muita empresas, mas não é um framework prescritivo.
