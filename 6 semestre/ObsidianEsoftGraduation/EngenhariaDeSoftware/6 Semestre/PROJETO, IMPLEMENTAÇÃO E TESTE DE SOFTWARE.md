@@ -69,3 +69,4 @@ JOAO MESSIAS PEREIRA LENCO ([joao.pereira@unicesumar.edu.br](mailto:joao.pereir
 		Simp
 
 # Aula 08 - 20/08/2026
+	Classes de equivalencia: testar qualquer elemento dentro de um conjunto. 

@@ -282,8 +282,6 @@ Professora Ana
 				...
 				Slide
 		Agile Unified Process (AUP)
-			O que é: Versão simplificada e agil do rup, combinando prátivas ageis
-			...(slide)
 		Disciplined Agile Delivery(dad)
 			o que é: 
 			...slide
