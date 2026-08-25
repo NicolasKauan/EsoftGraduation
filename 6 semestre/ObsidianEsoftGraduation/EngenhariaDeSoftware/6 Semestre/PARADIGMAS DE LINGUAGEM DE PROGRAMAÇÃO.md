@@ -32,3 +32,7 @@ Tem que criar o github - https://github.com/NicolasKauan/Paradigmas-De-Linguagem
 	*Trabalho envolvendo a lista de exercicios: Escolher 10 exercicios e realiza-los, atualmente está no github*
 # Aula 08 - 19/08/2026
 	
+
+# Aula 09 - 24/08/26
+
+# Aula 10 - 26/08/26

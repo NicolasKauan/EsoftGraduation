@@ -310,3 +310,41 @@ Professora Ana
 				Cultura forte de colaboração
 				foco em inovação e agilidade organizacional
 				Diferencial: Inspira muita empresas, mas não é um framework prescritivo.
+
+# Aula 09 - 24/08/26
+	Continuação da Aula do dia 24
+		EAF
+			O que é: É um modelo estruturado para implementas principios ageis em larga escala dentro das organizações, estendendo práticas alem dos times de desenvolvimento até a gestão executiva e áreas de suporte. O objetivo do EAF é criar uma organização ágil como um todo, que responda rapidamente ás mudanças do mercado e entregue valor continuo. Ele ajuda as empresas a alinhas estratégias de negócio com execução tática, garantindo que as praticas ágeis estejam integradas em todos os níveis da empresa
+			Principios Fundamentais do EAF
+				...Slide
+			Caracteristicas diferenciais
+			...Slide
+			Componentes... slide
+			Quando implementar?
+				Avaliação de maturidade ágil
+				Alinhamento da Liderança
+				Definição da Visão Agil
+				Trainamento e capacitação
+				Planejamento incremental
+				Monitoramento e ajustes
+				Fomentar a cultura ágil
+		Metodologias Híbridas
+			Water-Scrum-Fall:
+				Análise, requisitos e implantação seguem modelo tradicional(Waterfall).
+			Scrum combinado com Kanban
+				Desenvolvimento usa Scrum com sprints e entregas incrementais
+				Adequado para organizações...slide
+			Agile-Waterfall híbridos em grandes organizações
+		DevOps
+			Filosofia cultural e um conjunto de práticas que visa unir as equipes de desenvolvimento de software e operações de TI para melhorar a colaboração, acelerar a entrega de software e aumentar a qualidade e confiabilidade dos sistemas. DevOps promove uma integração contínua entre desenvolvimento, testes, implantação e operação, quebrando silos tradicionais que existiam entre essas áreas, para entregar valor ao usuário final de forma mais rapida e segura. 
+			Principais(CALMS):
+				Culture: Cultura de colaboração entre Dev e Ops
+				Automation: Automação de processos de build, teste e deploy.
+				Lean: foco em eliminar desperdicios e otimizar fluxo
+				Measurement: monitoramento e metricas para melhoria contínua.
+				Sharing: Comportilhamento de conhecimento e responsabilidade.
+			Não seria só uma questão técnica: é preciso ter uma colaboração entre os times. Precisa envolver uma questão cultural profunda. *O restante está no slide*
+			Beneficios: Velocidade, confiabilidade, escalabilidade, segurança, colaboração, automação e feedback continuo. 
+	Scrum
+		O que é: 
+# Aula 10 - 27/08/26

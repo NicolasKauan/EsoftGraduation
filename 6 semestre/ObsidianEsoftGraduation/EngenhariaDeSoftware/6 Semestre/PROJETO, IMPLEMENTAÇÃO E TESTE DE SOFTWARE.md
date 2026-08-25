@@ -70,3 +70,6 @@ JOAO MESSIAS PEREIRA LENCO ([joao.pereira@unicesumar.edu.br](mailto:joao.pereir
 
 # Aula 08 - 20/08/2026
 	Classes de equivalencia: testar qualquer elemento dentro de um conjunto. 
+# Aula 09 - 25/08/26
+
+# Aula 10 - 27/08/26
