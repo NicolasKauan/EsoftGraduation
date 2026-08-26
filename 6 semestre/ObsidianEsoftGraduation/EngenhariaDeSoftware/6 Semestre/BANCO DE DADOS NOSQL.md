@@ -456,5 +456,10 @@ db.funcionarios.updateOne(
 
 
 # Aula 09 - 25/08/26
+	$end
+	$or
+	$in
+	$nin
+	elementMatch(identico ao do javaScript)
 
 # Aula 10 - 26/08/26

@@ -36,3 +36,6 @@ Tem que criar o github - https://github.com/NicolasKauan/Paradigmas-De-Linguagem
 # Aula 09 - 24/08/26
 
 # Aula 10 - 26/08/26
+Mapa de variáveis
+ou
+Mapa de 
