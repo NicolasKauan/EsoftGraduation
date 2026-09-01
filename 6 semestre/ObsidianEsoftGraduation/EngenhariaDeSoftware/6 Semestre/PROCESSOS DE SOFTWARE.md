@@ -348,3 +348,7 @@ Professora Ana
 	Scrum
 		O que é: 
 # Aula 10 - 27/08/26
+
+# Aula 11 - 31/08/2026
+	
+# Aula 12 - 

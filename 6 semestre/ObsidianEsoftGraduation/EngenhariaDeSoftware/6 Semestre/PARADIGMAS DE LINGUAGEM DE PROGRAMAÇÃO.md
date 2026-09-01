@@ -36,6 +36,10 @@ Tem que criar o github - https://github.com/NicolasKauan/Paradigmas-De-Linguagem
 # Aula 09 - 24/08/26
 
 # Aula 10 - 26/08/26
-Mapa de variáveis
-ou
-Mapa de 
+
+# Aula 11 - 31/08/2026
+	 A diferençã entre lexema e tokens
+		 Lexema: O nome ao qual eu dou para a variável ou o simbolo
+		 Tokens: Qual seria a função daquele simbolo ou variavel, por exemplo o nome valor seria um token do tipo identificador o "-" subtração e assim por diante. 
+
+# Aula 12 - 
