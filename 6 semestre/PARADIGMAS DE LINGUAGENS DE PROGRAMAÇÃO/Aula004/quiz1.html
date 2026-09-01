@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz — Análise Léxica e Sintática — Quiz 1 de 2</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; }
+    body { margin: 0; background: #eef3f8; color: #172536; }
+    main { max-width: 800px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    h1 { color: #17365d; }
+    .question { background: white; border-radius: .75rem; margin: 1rem 0;
+      padding: 1.25rem; box-shadow: 0 2px 10px #17365d18; }
+    label { display: block; margin: .6rem 0; padding: .7rem;
+      border: 1px solid #c8d5e3; border-radius: .4rem; cursor: pointer; }
+    label.answer-correct { background: #e6f4ea; border-color: #188038;
+      color: #0d652d; }
+    label.answer-incorrect { background: #fce8e6; border-color: #c5221f;
+      color: #a50e0e; }
+    button { background: #245b8a; border: 0; border-radius: .4rem;
+      color: white; cursor: pointer; font-weight: 700; padding: .8rem 1.2rem; }
+    .feedback { border-left: 4px solid #245b8a; margin-top: .8rem;
+      padding-left: .8rem; }
+    .objective { color: #52677d; font-size: .85rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Análise Léxica e Sintática — Quiz 1 de 2</h1>
+    <p>Responda às questões e confira o feedback imediatamente.</p>
+    <form id="quiz"></form>
+    <button id="check" type="button">Verificar respostas</button>
+    <p id="score" aria-live="polite"></p>
+  </main>
+  <script id="quiz-data" type="application/json">{"questions":[{"correctIndex":0,"feedback":"Análise do código fonte: Etapa utilizada nas implementações de linguagens de programação por compilação, interpretação pura ou sistemas híbridos. No escopo da aula, ela envolve a análise léxica e a análise sintática. Objetivos cobertos: obj01.","id":"question-analise_codigo_fonte","objectiveIds":["obj01"],"options":["Etapa utilizada nas implementações de linguagens de programação por compilação, interpretação pura ou sistemas híbridos. No escopo da aula, ela envolve a análise léxica e a análise sintática.","A FNB fornece uma descrição clara e concisa da sintaxe e pode servir de base para o analisador sintático, facilitando sua manutenção.","A análise de um processador de linguagens é dividida em analisador léxico, associado a autômato finito e gramática regular, e analisador sintático ou parser, associado a autômato com pilha e GLC ou FNB.","A separação favorece a simplicidade, pois permite técnicas menos complexas no analisador léxico; a eficiência, por possibilitar sua otimização; e a portabilidade, por isolar partes lexicais dependentes da plataforma."],"prompt":"Qual opção descreve melhor “Análise do código fonte”?"},{"correctIndex":1,"feedback":"FNB na descrição da sintaxe: A FNB fornece uma descrição clara e concisa da sintaxe e pode servir de base para o analisador sintático, facilitando sua manutenção. Objetivos cobertos: obj01, obj03.","id":"question-fnb_sintaxe","objectiveIds":["obj01","obj03"],"options":["Ignorar a etapa e conferir apenas se o programa completo executa.","Relacionar FNB na descrição da sintaxe ao comportamento esperado, pois a FNB fornece uma descrição clara e concisa da sintaxe e pode servir de base para o analisador sintático, facilitando sua manutenção.","Tratar caracteres, tokens e estruturas sintáticas como equivalentes.","Usar o nome do conceito como resposta sem descrever o processamento."],"prompt":"Uma equipe está implementando uma etapa de análise de código. Como “FNB na descrição da sintaxe” orienta o trabalho?"},{"correctIndex":2,"feedback":"A afirmação errada reduz Analisador léxico e analisador sintático a memorização. Na aula, a análise de um processador de linguagens é dividida em analisador léxico, associado a autômato finito e gramática regular, e analisador sintático ou parser, associado a autômato com pilha e GLC ou FNB.","id":"question-divisao_analisadores","objectiveIds":["obj01"],"options":["A análise de um processador de linguagens é dividida em analisador léxico, associado a autômato finito e gramática regular, e analisador sintático ou parser, associado a autômato com pilha e GLC ou FNB.","O conceito se relaciona à entrada ou à saída de uma etapa de análise.","Basta memorizar o nome do conceito; contexto, objetivos e consequências não alteram sua análise.","Sua aplicação pode ser verificada com um exemplo e o resultado esperado."],"prompt":"Sobre “Analisador léxico e analisador sintático”, é errado afirmar que:"},{"correctIndex":3,"feedback":"Separação da análise léxica e da análise sintática: A separação favorece a simplicidade, pois permite técnicas menos complexas no analisador léxico; a eficiência, por possibilitar sua otimização; e a portabilidade, por isolar partes lexicais dependentes da plataforma. Objetivos cobertos: obj01.","id":"question-separacao_lexica_sintatica","objectiveIds":["obj01"],"options":["Misturar todas as etapas e observar apenas o resultado final.","Trocar a gramática por exemplos sem verificar quais cadeias ela descreve.","Memorizar a definição e dispensar qualquer rastreamento da entrada.","Identificar a etapa, a entrada e o resultado de Separação da análise léxica e da análise sintática: A separação favorece a simplicidade, pois permite técnicas menos complexas no analisador léxico; a eficiência, por possibilitar sua otimização; e a portabilidade, por isolar partes lexicais dependentes da plataforma."],"prompt":"Durante o projeto de um analisador, qual atitude aplica melhor “Separação da análise léxica e da análise sintática”?"},{"correctIndex":0,"feedback":"No cenário apresentado, o conceito central é Análise Léxica. Casamento de padrões que identifica subcadeias no código fonte, agrupa-as logicamente e fornece ao parser códigos internos correspondentes. O parser chama o analisador léxico quando precisa do próximo token.","id":"question-analise_lexica","objectiveIds":["obj01","obj02"],"options":["Análise Léxica","Análise do código fonte","FNB na descrição da sintaxe","Analisador léxico e analisador sintático"],"prompt":"A equipe precisa localizar onde uma responsabilidade entra no front-end. Qual conceito corresponde a esta descrição: “Casamento de padrões que identifica subcadeias no código fonte, agrupa-as logicamente e fornece ao parser códigos internos correspondentes. O parser chama o analisador léxico quando precisa do próximo token.”?"},{"correctIndex":1,"feedback":"Lexema e token: Lexema é a subcadeia reconhecida no código fonte. Token é o código interno atribuído à categoria do lexema; por exemplo, diferentes nomes de variáveis podem receber IDENT, enquanto o símbolo de soma pode receber OP_SOMA. Objetivos cobertos: obj02.","id":"question-lexema_token","objectiveIds":["obj02"],"options":["Etapa utilizada nas implementações de linguagens de programação por compilação, interpretação pura ou sistemas híbridos. No escopo da aula, ela envolve a análise léxica e a análise sintática.","Lexema é a subcadeia reconhecida no código fonte. Token é o código interno atribuído à categoria do lexema; por exemplo, diferentes nomes de variáveis podem receber IDENT, enquanto o símbolo de soma pode receber OP_SOMA.","A FNB fornece uma descrição clara e concisa da sintaxe e pode servir de base para o analisador sintático, facilitando sua manutenção.","A análise de um processador de linguagens é dividida em analisador léxico, associado a autômato finito e gramática regular, e analisador sintático ou parser, associado a autômato com pilha e GLC ou FNB."],"prompt":"Qual opção descreve melhor “Lexema e token”?"},{"correctIndex":2,"feedback":"Abordagens para construir o analisador léxico: O analisador léxico pode ser obtido por uma ferramenta a partir da descrição formal dos tokens, implementado como programa baseado em um diagrama de estados ou construído por meio de uma tabela elaborada manualmente a partir desse diagrama. Objetivos cobertos: obj02.","id":"question-construcao_analisador_lexico","objectiveIds":["obj02"],"options":["Ignorar a etapa e conferir apenas se o programa completo executa.","Tratar caracteres, tokens e estruturas sintáticas como equivalentes.","Relacionar Abordagens para construir o analisador léxico ao comportamento esperado, pois o analisador léxico pode ser obtido por uma ferramenta a partir da descrição formal dos tokens, implementado como programa baseado em um diagrama de estados ou construído por meio de uma tabela elaborada manualmente a partir desse diagrama.","Usar o nome do conceito como resposta sem descrever o processamento."],"prompt":"Uma equipe está implementando uma etapa de análise de código. Como “Abordagens para construir o analisador léxico” orienta o trabalho?"},{"correctIndex":3,"feedback":"A afirmação errada reduz Classes de caracteres a memorização. Na aula, agrupamentos como letras e dígitos substituem transições individuais para cada caractere, reduzindo a extensão e a complexidade do diagrama de estados usado no reconhecimento de identificadores e inteiros.","id":"question-classes_caracteres","objectiveIds":["obj02"],"options":["Agrupamentos como letras e dígitos substituem transições individuais para cada caractere, reduzindo a extensão e a complexidade do diagrama de estados usado no reconhecimento de identificadores e inteiros.","O conceito se relaciona à entrada ou à saída de uma etapa de análise.","Sua aplicação pode ser verificada com um exemplo e o resultado esperado.","Basta memorizar o nome do conceito; contexto, objetivos e consequências não alteram sua análise."],"prompt":"Sobre “Classes de caracteres”, é errado afirmar que:"},{"correctIndex":0,"feedback":"Reconhecimento de palavras reservadas: Palavras reservadas e identificadores podem ser reconhecidos inicialmente pelo mesmo padrão. Depois, uma tabela determina se o lexema reconhecido como possível identificador corresponde a uma palavra reservada. Objetivos cobertos: obj02.","id":"question-palavras_reservadas","objectiveIds":["obj02"],"options":["Identificar a etapa, a entrada e o resultado de Reconhecimento de palavras reservadas: Palavras reservadas e identificadores podem ser reconhecidos inicialmente pelo mesmo padrão. Depois, uma tabela determina se o lexema reconhecido como possível identificador corresponde a uma palavra reservada.","Misturar todas as etapas e observar apenas o resultado final.","Trocar a gramática por exemplos sem verificar quais cadeias ela descreve.","Memorizar a definição e dispensar qualquer rastreamento da entrada."],"prompt":"Durante o projeto de um analisador, qual atitude aplica melhor “Reconhecimento de palavras reservadas”?"},{"correctIndex":1,"feedback":"No cenário apresentado, o conceito central é Funções getChar, addChar e lookup. getChar obtém o próximo caractere e determina sua classe; addChar incorpora o caractere ao lexema em processamento; lookup consulta a cadeia formada para verificar, entre outras possibilidades, se ela é uma palavra reservada e retornar seu código.","id":"question-funcoes_analisador_lexico","objectiveIds":["obj02"],"options":["Análise do código fonte","Funções getChar, addChar e lookup","FNB na descrição da sintaxe","Analisador léxico e analisador sintático"],"prompt":"Um erro aparece entre a leitura da entrada e a construção da estrutura. Qual conceito corresponde a esta descrição: “getChar obtém o próximo caractere e determina sua classe; addChar incorpora o caractere ao lexema em processamento; lookup consulta a cadeia formada para verificar, entre outras possibilidades, se ela é uma palavra reservada e retornar seu código.”?"},{"correctIndex":2,"feedback":"Objetivos da análise sintática: O parser deve localizar erros sintáticos, apresentar diagnósticos e recuperar-se rapidamente, além de produzir a árvore de análise sintática ou ao menos um caminho correspondente nessa árvore. Objetivos cobertos: obj03.","id":"question-objetivos_parser","objectiveIds":["obj03"],"options":["Etapa utilizada nas implementações de linguagens de programação por compilação, interpretação pura ou sistemas híbridos. No escopo da aula, ela envolve a análise léxica e a análise sintática.","A FNB fornece uma descrição clara e concisa da sintaxe e pode servir de base para o analisador sintático, facilitando sua manutenção.","O parser deve localizar erros sintáticos, apresentar diagnósticos e recuperar-se rapidamente, além de produzir a árvore de análise sintática ou ao menos um caminho correspondente nessa árvore.","A análise de um processador de linguagens é dividida em analisador léxico, associado a autômato finito e gramática regular, e analisador sintático ou parser, associado a autômato com pilha e GLC ou FNB."],"prompt":"Qual opção descreve melhor “Objetivos da análise sintática”?"},{"correctIndex":3,"feedback":"Análise Sintática Descendente: Abordagem top down que constrói a árvore a partir da raiz, emprega derivação mais à esquerda e seleciona a regra do não-terminal corrente com base nos primeiros tokens que ele pode produzir. Objetivos cobertos: obj03, obj04.","id":"question-analise_descendente","objectiveIds":["obj03","obj04"],"options":["Ignorar a etapa e conferir apenas se o programa completo executa.","Tratar caracteres, tokens e estruturas sintáticas como equivalentes.","Usar o nome do conceito como resposta sem descrever o processamento.","Relacionar Análise Sintática Descendente ao comportamento esperado, pois abordagem top down que constrói a árvore a partir da raiz, emprega derivação mais à esquerda e seleciona a regra do não-terminal corrente com base nos primeiros tokens que ele pode produzir."],"prompt":"Uma equipe está implementando uma etapa de análise de código. Como “Análise Sintática Descendente” orienta o trabalho?"}],"title":"Análise Léxica e Sintática — Quiz 1 de 2"}</script>
+  <script>
+    const data = JSON.parse(document.getElementById("quiz-data").textContent);
+    const form = document.getElementById("quiz");
+    data.questions.forEach((question, questionIndex) => {
+      const section = document.createElement("section");
+      section.className = "question";
+      const title = document.createElement("h2");
+      title.textContent = `${questionIndex + 1}. ${question.prompt}`;
+      section.appendChild(title);
+      const objective = document.createElement("p");
+      objective.className = "objective";
+      objective.textContent = `Objetivos: ${question.objectiveIds.join(", ")}`;
+      section.appendChild(objective);
+      question.options.forEach((option, optionIndex) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = question.id;
+        input.value = optionIndex;
+        label.append(input, ` ${option}`);
+        section.appendChild(label);
+      });
+      const feedback = document.createElement("p");
+      feedback.className = "feedback";
+      feedback.hidden = true;
+      feedback.dataset.for = question.id;
+      section.appendChild(feedback);
+      form.appendChild(section);
+    });
+    document.getElementById("check").addEventListener("click", () => {
+      let score = 0;
+      data.questions.forEach((question) => {
+        const selected = form.querySelector(`input[name="${question.id}"]:checked`);
+        const correct = selected && Number(selected.value) === question.correctIndex;
+        if (correct) score += 1;
+        form.querySelectorAll(`input[name="${question.id}"]`).forEach(
+          (input, optionIndex) => {
+            const label = input.closest("label");
+            label.classList.toggle(
+              "answer-correct",
+              optionIndex === question.correctIndex
+            );
+            label.classList.toggle(
+              "answer-incorrect",
+              input.checked && optionIndex !== question.correctIndex
+            );
+          }
+        );
+        const feedback = form.querySelector(`[data-for="${question.id}"]`);
+        feedback.hidden = false;
+        feedback.textContent = `${correct ? "Correto." : "Revise."} ${question.feedback}`;
+      });
+      document.getElementById("score").textContent =
+        `Resultado: ${score} de ${data.questions.length}.`;
+    });
+  </script>
+</body>
+</html>

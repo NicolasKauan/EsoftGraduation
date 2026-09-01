@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz — Análise Léxica e Sintática — Quiz 2 de 2</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; }
+    body { margin: 0; background: #eef3f8; color: #172536; }
+    main { max-width: 800px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    h1 { color: #17365d; }
+    .question { background: white; border-radius: .75rem; margin: 1rem 0;
+      padding: 1.25rem; box-shadow: 0 2px 10px #17365d18; }
+    label { display: block; margin: .6rem 0; padding: .7rem;
+      border: 1px solid #c8d5e3; border-radius: .4rem; cursor: pointer; }
+    label.answer-correct { background: #e6f4ea; border-color: #188038;
+      color: #0d652d; }
+    label.answer-incorrect { background: #fce8e6; border-color: #c5221f;
+      color: #a50e0e; }
+    button { background: #245b8a; border: 0; border-radius: .4rem;
+      color: white; cursor: pointer; font-weight: 700; padding: .8rem 1.2rem; }
+    .feedback { border-left: 4px solid #245b8a; margin-top: .8rem;
+      padding-left: .8rem; }
+    .objective { color: #52677d; font-size: .85rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Análise Léxica e Sintática — Quiz 2 de 2</h1>
+    <p>Responda às questões e confira o feedback imediatamente.</p>
+    <form id="quiz"></form>
+    <button id="check" type="button">Verificar respostas</button>
+    <p id="score" aria-live="polite"></p>
+  </main>
+  <script id="quiz-data" type="application/json">{"questions":[{"correctIndex":3,"feedback":"Análise Sintática Ascendente: Abordagem bottom up que começa pelas folhas e busca reduzir uma subcadeia correspondente ao lado direito de uma regra, reconstruindo no sentido inverso uma derivação mais à direita. A família LR é apresentada como a principal família de algoritmos ascendentes. Objetivos cobertos: obj03.","id":"question-analise_ascendente","objectiveIds":["obj03"],"options":["Etapa utilizada nas implementações de linguagens de programação por compilação, interpretação pura ou sistemas híbridos. No escopo da aula, ela envolve a análise léxica e a análise sintática.","A FNB fornece uma descrição clara e concisa da sintaxe e pode servir de base para o analisador sintático, facilitando sua manutenção.","A análise de um processador de linguagens é dividida em analisador léxico, associado a autômato finito e gramática regular, e analisador sintático ou parser, associado a autômato com pilha e GLC ou FNB.","Abordagem bottom up que começa pelas folhas e busca reduzir uma subcadeia correspondente ao lado direito de uma regra, reconstruindo no sentido inverso uma derivação mais à direita. A família LR é apresentada como a principal família de algoritmos ascendentes."],"prompt":"Qual opção descreve melhor “Análise Sintática Ascendente”?"},{"correctIndex":0,"feedback":"Deslocamento e redução: Na análise sintática ascendente, deslocar move o próximo símbolo da entrada para a pilha; reduzir substitui uma subcadeia reconhecida pelo lado esquerdo da regra correspondente. Essas são as ações centrais dos analisadores shift-reduce da família LR. Objetivos cobertos: obj03.","id":"question-deslocamento_reducao","objectiveIds":["obj03"],"options":["Relacionar Deslocamento e redução ao comportamento esperado, pois na análise sintática ascendente, deslocar move o próximo símbolo da entrada para a pilha; reduzir substitui uma subcadeia reconhecida pelo lado esquerdo da regra correspondente. Essas são as ações centrais dos analisadores shift-reduce da família LR.","Ignorar a etapa e conferir apenas se o programa completo executa.","Tratar caracteres, tokens e estruturas sintáticas como equivalentes.","Usar o nome do conceito como resposta sem descrever o processamento."],"prompt":"Uma equipe está implementando uma etapa de análise de código. Como “Deslocamento e redução” orienta o trabalho?"},{"correctIndex":1,"feedback":"A afirmação errada reduz Complexidade da análise sintática a memorização. Na aula, algoritmos aplicáveis a todas as gramáticas não ambíguas podem apresentar complexidade O(n³). Compiladores restringem-se a subconjuntos dessas gramáticas para realizar a análise em tempo linear O(n), em que n é o tamanho da entrada.","id":"question-complexidade_parser","objectiveIds":["obj03"],"options":["Algoritmos aplicáveis a todas as gramáticas não ambíguas podem apresentar complexidade O(n³). Compiladores restringem-se a subconjuntos dessas gramáticas para realizar a análise em tempo linear O(n), em que n é o tamanho da entrada.","Basta memorizar o nome do conceito; contexto, objetivos e consequências não alteram sua análise.","O conceito se relaciona à entrada ou à saída de uma etapa de análise.","Sua aplicação pode ser verificada com um exemplo e o resultado esperado."],"prompt":"Sobre “Complexidade da análise sintática”, é errado afirmar que:"},{"correctIndex":2,"feedback":"Análise Sintática Descendente Recursiva: Implementação formada por uma coleção de subprogramas, geralmente com um subprograma para cada não-terminal. Os subprogramas percorrem as regras e produzem a análise em ordem descendente. Objetivos cobertos: obj04.","id":"question-descendente_recursiva","objectiveIds":["obj04"],"options":["Misturar todas as etapas e observar apenas o resultado final.","Trocar a gramática por exemplos sem verificar quais cadeias ela descreve.","Identificar a etapa, a entrada e o resultado de Análise Sintática Descendente Recursiva: Implementação formada por uma coleção de subprogramas, geralmente com um subprograma para cada não-terminal. Os subprogramas percorrem as regras e produzem a análise em ordem descendente.","Memorizar a definição e dispensar qualquer rastreamento da entrada."],"prompt":"Durante o projeto de um analisador, qual atitude aplica melhor “Análise Sintática Descendente Recursiva”?"},{"correctIndex":3,"feedback":"No cenário apresentado, o conceito central é FNBE para expressões simples. A FNBE apresentada organiza expressões em expr, term e factor. expr trata soma e subtração entre termos; term trata multiplicação e divisão entre fatores; factor reconhece identificador, constante inteira ou expressão entre parênteses.","id":"question-fnbe_expressoes","objectiveIds":["obj04"],"options":["Análise do código fonte","FNB na descrição da sintaxe","Analisador léxico e analisador sintático","FNBE para expressões simples"],"prompt":"A equipe precisa justificar o comportamento e o custo de uma estratégia. Qual conceito corresponde a esta descrição: “A FNBE apresentada organiza expressões em expr, term e factor. expr trata soma e subtração entre termos; term trata multiplicação e divisão entre fatores; factor reconhece identificador, constante inteira ou expressão entre parênteses.”?"},{"correctIndex":0,"feedback":"Processamento do lado direito de uma regra: Para cada terminal no lado direito, o parser compara o símbolo com nextToken e sinaliza erro se não houver casamento. Para cada não-terminal, chama o subprograma correspondente. Quando um terminal casa, o analisador léxico fornece o próximo token. Objetivos cobertos: obj04.","id":"question-processamento_rhs","objectiveIds":["obj04"],"options":["Para cada terminal no lado direito, o parser compara o símbolo com nextToken e sinaliza erro se não houver casamento. Para cada não-terminal, chama o subprograma correspondente. Quando um terminal casa, o analisador léxico fornece o próximo token.","Etapa utilizada nas implementações de linguagens de programação por compilação, interpretação pura ou sistemas híbridos. No escopo da aula, ela envolve a análise léxica e a análise sintática.","A FNB fornece uma descrição clara e concisa da sintaxe e pode servir de base para o analisador sintático, facilitando sua manutenção.","A análise de um processador de linguagens é dividida em analisador léxico, associado a autômato finito e gramática regular, e analisador sintático ou parser, associado a autômato com pilha e GLC ou FNB."],"prompt":"Qual opção descreve melhor “Processamento do lado direito de uma regra”?"},{"correctIndex":1,"feedback":"Convenção de nextToken: Cada rotina do analisador sintático deixa em nextToken o próximo token ainda não processado. Assim, a rotina seguinte pode examinar esse token para continuar a análise ou escolher uma regra. Objetivos cobertos: obj04.","id":"question-nexttoken","objectiveIds":["obj04"],"options":["Ignorar a etapa e conferir apenas se o programa completo executa.","Relacionar Convenção de nextToken ao comportamento esperado, pois cada rotina do analisador sintático deixa em nextToken o próximo token ainda não processado. Assim, a rotina seguinte pode examinar esse token para continuar a análise ou escolher uma regra.","Tratar caracteres, tokens e estruturas sintáticas como equivalentes.","Usar o nome do conceito como resposta sem descrever o processamento."],"prompt":"Uma equipe está implementando uma etapa de análise de código. Como “Convenção de nextToken” orienta o trabalho?"},{"correctIndex":2,"feedback":"A afirmação errada reduz Lookahead a memorização. Na aula, quando um não-terminal possui mais de uma regra, o próximo token da entrada é comparado com os primeiros tokens que cada alternativa pode gerar. Uma alternativa compatível é escolhida; a ausência de casamento caracteriza erro sintático.","id":"question-lookahead","objectiveIds":["obj04","obj05"],"options":["Quando um não-terminal possui mais de uma regra, o próximo token da entrada é comparado com os primeiros tokens que cada alternativa pode gerar. Uma alternativa compatível é escolhida; a ausência de casamento caracteriza erro sintático.","O conceito se relaciona à entrada ou à saída de uma etapa de análise.","Basta memorizar o nome do conceito; contexto, objetivos e consequências não alteram sua análise.","Sua aplicação pode ser verificada com um exemplo e o resultado esperado."],"prompt":"Sobre “Lookahead”, é errado afirmar que:"},{"correctIndex":3,"feedback":"Recursão à esquerda: Uma gramática com recursão à esquerda direta ou indireta não pode ser usada diretamente por um analisador sintático descendente. A transformação apresentada separa alternativas recursivas Aα das alternativas não recursivas β e introduz um novo não-terminal A'. Objetivos cobertos: obj05.","id":"question-recursao_esquerda","objectiveIds":["obj05"],"options":["Misturar todas as etapas e observar apenas o resultado final.","Trocar a gramática por exemplos sem verificar quais cadeias ela descreve.","Memorizar a definição e dispensar qualquer rastreamento da entrada.","Identificar a etapa, a entrada e o resultado de Recursão à esquerda: Uma gramática com recursão à esquerda direta ou indireta não pode ser usada diretamente por um analisador sintático descendente. A transformação apresentada separa alternativas recursivas Aα das alternativas não recursivas β e introduz um novo não-terminal A'."],"prompt":"Durante o projeto de um analisador, qual atitude aplica melhor “Recursão à esquerda”?"},{"correctIndex":0,"feedback":"No cenário apresentado, o conceito central é FIRST. FIRST(α) é o conjunto de símbolos terminais que podem aparecer no início de uma cadeia derivada de α. Se α puder derivar a cadeia vazia, ε também pertence a FIRST(α).","id":"question-first","objectiveIds":["obj05"],"options":["FIRST","Análise do código fonte","FNB na descrição da sintaxe","Analisador léxico e analisador sintático"],"prompt":"A equipe precisa localizar onde uma responsabilidade entra no front-end. Qual conceito corresponde a esta descrição: “FIRST(α) é o conjunto de símbolos terminais que podem aparecer no início de uma cadeia derivada de α. Se α puder derivar a cadeia vazia, ε também pertence a FIRST(α).”?"},{"correctIndex":1,"feedback":"Teste de Disjunção par a par: Para cada par de alternativas A → αi e A → αj, os conjuntos FIRST(αi) e FIRST(αj) devem ter intersecção vazia. Se houver intersecção, o lookahead pode não determinar de forma única qual alternativa deve ser usada. Objetivos cobertos: obj05.","id":"question-disjuncao_par_a_par","objectiveIds":["obj05"],"options":["Etapa utilizada nas implementações de linguagens de programação por compilação, interpretação pura ou sistemas híbridos. No escopo da aula, ela envolve a análise léxica e a análise sintática.","Para cada par de alternativas A → αi e A → αj, os conjuntos FIRST(αi) e FIRST(αj) devem ter intersecção vazia. Se houver intersecção, o lookahead pode não determinar de forma única qual alternativa deve ser usada.","A FNB fornece uma descrição clara e concisa da sintaxe e pode servir de base para o analisador sintático, facilitando sua manutenção.","A análise de um processador de linguagens é dividida em analisador léxico, associado a autômato finito e gramática regular, e analisador sintático ou parser, associado a autômato com pilha e GLC ou FNB."],"prompt":"Qual opção descreve melhor “Teste de Disjunção par a par”?"}],"title":"Análise Léxica e Sintática — Quiz 2 de 2"}</script>
+  <script>
+    const data = JSON.parse(document.getElementById("quiz-data").textContent);
+    const form = document.getElementById("quiz");
+    data.questions.forEach((question, questionIndex) => {
+      const section = document.createElement("section");
+      section.className = "question";
+      const title = document.createElement("h2");
+      title.textContent = `${questionIndex + 1}. ${question.prompt}`;
+      section.appendChild(title);
+      const objective = document.createElement("p");
+      objective.className = "objective";
+      objective.textContent = `Objetivos: ${question.objectiveIds.join(", ")}`;
+      section.appendChild(objective);
+      question.options.forEach((option, optionIndex) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = question.id;
+        input.value = optionIndex;
+        label.append(input, ` ${option}`);
+        section.appendChild(label);
+      });
+      const feedback = document.createElement("p");
+      feedback.className = "feedback";
+      feedback.hidden = true;
+      feedback.dataset.for = question.id;
+      section.appendChild(feedback);
+      form.appendChild(section);
+    });
+    document.getElementById("check").addEventListener("click", () => {
+      let score = 0;
+      data.questions.forEach((question) => {
+        const selected = form.querySelector(`input[name="${question.id}"]:checked`);
+        const correct = selected && Number(selected.value) === question.correctIndex;
+        if (correct) score += 1;
+        form.querySelectorAll(`input[name="${question.id}"]`).forEach(
+          (input, optionIndex) => {
+            const label = input.closest("label");
+            label.classList.toggle(
+              "answer-correct",
+              optionIndex === question.correctIndex
+            );
+            label.classList.toggle(
+              "answer-incorrect",
+              input.checked && optionIndex !== question.correctIndex
+            );
+          }
+        );
+        const feedback = form.querySelector(`[data-for="${question.id}"]`);
+        feedback.hidden = false;
+        feedback.textContent = `${correct ? "Correto." : "Revise."} ${question.feedback}`;
+      });
+      document.getElementById("score").textContent =
+        `Resultado: ${score} de ${data.questions.length}.`;
+    });
+  </script>
+</body>
+</html>

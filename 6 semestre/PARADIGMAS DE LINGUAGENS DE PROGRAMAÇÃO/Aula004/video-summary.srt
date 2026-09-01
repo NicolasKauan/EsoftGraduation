@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:01:24,206
+Neste quadro: Análise do código fonte, FNB na descrição da sintaxe, Analisador léxico e analisador sintático
+
+2
+00:01:24,206 --> 00:02:48,412
+Neste quadro: Separação da análise léxica e da análise sintática, Análise Léxica, Lexema e token
+
+3
+00:02:48,412 --> 00:04:12,617
+Neste quadro: Abordagens para construir o analisador léxico, Classes de caracteres, Reconhecimento de palavras reservadas
+
+4
+00:04:12,617 --> 00:05:36,823
+Neste quadro: Funções getChar, addChar e lookup, Objetivos da análise sintática, Análise Sintática Descendente
+
+5
+00:05:36,823 --> 00:07:01,029
+Neste quadro: Análise Sintática Ascendente, Deslocamento e redução, Complexidade da análise sintática
+
+6
+00:07:01,029 --> 00:08:25,234
+Neste quadro: Análise Sintática Descendente Recursiva, FNBE para expressões simples, Processamento do lado direito de uma regra
+
+7
+00:08:25,234 --> 00:09:49,440
+Neste quadro: Convenção de nextToken, Lookahead, Recursão à esquerda
+
+8
+00:09:49,440 --> 00:11:13,646
+Neste quadro: FIRST, Teste de Disjunção par a par

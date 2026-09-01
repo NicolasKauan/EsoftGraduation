@@ -463,3 +463,29 @@ db.funcionarios.updateOne(
 	elementMatch(identico ao do javaScript)
 
 # Aula 10 - 26/08/26
+	Expressões Rogulares no MongoDB
+		Regex: Voce escreve o formado do que quer
+			"Começa com A, depois qualquer coisa"
+```json
+	//O que tinhamos antes
+	db.funcionarios.find({ nome:"Ana Silva"})
+	//Expressão regular exemplo
+	db.funcionarios.find({ nome: /^Ana/i })//Aqui acha a Ana Silva, Ana paula, Ana...
+	
+	
+	
+```
+		Regex:
+			Tabela aula*
+
+|                     |         Sql          |         Regex          |
+| :-----------------: | :------------------: | :--------------------: |
+|   Começa com Ana    |         %Ana         |         /^Ana/         |
+|  Termina com Silva  |        Silva%        |        /Silva$/        |
+|    Contem Costa     |       %Costa%        |        /Costa/         |
+|    Ana ou André     | Não da em um só Like |     /^An(a\|dré) /     |
+| Formato de telefone |      impossivel      | /^\d{2}-9\d{4}-\d{4}$/ |
+	Quantidade exata: {} é o que valida formato
+		{n}: Exatamente n vezes
+		{n, }: N ou mais vezes
+		{n, m}: Entre n e em vezes
