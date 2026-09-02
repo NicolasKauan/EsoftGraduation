@@ -627,5 +627,17 @@ db.funcionarios.aggregate([
 	$or:[{depto:'RH'},{depto:'BI'}],
 	idade:{$lt:40}
 }}
+//Média, maior, menor por depto
+db.funcionarios.aggregate([
+  {$group:{
+			_id:"$departamento",
+			media:{$avg:'$salario'},
+			maior:{$max:'$salario'},
+			menor:{$min:'$salario'},
+			total:{$sum:1},
+			nomes:{$push:'$nome'}	  
+  	},
+  }
+])
 ```
 # Aula 12 - 02/09/2026
