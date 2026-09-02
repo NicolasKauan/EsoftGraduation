@@ -493,6 +493,8 @@ db.funcionarios.updateOne(
 # Aula 11 -  01/09/2026
 
 Base para a aula: 
+$gt = maior que
+$lt = Menor que
 ``` json
 db.funcionarios.drop();
 
@@ -553,8 +555,7 @@ db.funcionarios.insertMany([
     habilidades: ["Java", "Kubernetes", "MongoDB"],
     contato: { email: "otavio.marques@empresa.com",  telefone: "11-97766-5544" } },
 
-  // dominio com letra maiuscula - so aparece com a flag "i[
-]1
+  // dominio com letra maiuscula - so aparece com a flag "i[]1
   { nome: "Patricia Costa",       cargo: "Analista de Marketing",    departamento: "Marketing",  salario: 5600,  ativo: true,
     habilidades: ["SEO", "Google Analytics"],
     contato: { email: "patricia.costa@Empresa.com",  telefone: "11-96655-4433" } },
@@ -571,5 +572,60 @@ Aggregation Framework
 	Esses são estágios, cada vez que ele passa por um estágio ele vai se transformando, então ele da um resultado.
 	Base: empresa_tech.funcionarios | O findo() filtra, o aggregate() TRANSFORMA
 	Sempre que eu quero criar um estágio 
+	//Estágio 2 - Group by
+		$group:{_id: <>}
+```json
+db.funcionarios.aggregate()
 
+db.funcionarios.aggregate([
+  {$match: {ativo:true}}
+])
+//Estágio 2 - Group by
+	$group: {_id: <expressao>, fiel$d1:}
+//Exemplo
+//Precisa estar ou o apelido sem o $ ou a coluna com o $
+	db.Aula.aggregate([
+		{$group: {_id:"$status"}}
+	])
+//Usado na aula
+db.funcionarios.aggregate([
+  {$group:{_id:"$departamento"}}
+])
+//Combinação de grupos
+db.Aula.aggregate([
+  {$group:{_id:{status:"$status",produto:"%cust_id"}}}
+])
+//Exemplo
+db.Aula.aggregate([
+	{$match: {amount: {$gt:50}}},//primeiro filtra
+	{$group:{_id:{status:"$status",produto:"$cust_id"}}}//depois agrupa
+])
+//Exemplo ele filtra os cara que ganha mais que 8k e depois agrupa por departamento e cargo
+db.funcionarios.aggregate([
+  {$match:{salario:{$gt:8000}}},
+  {$group:{_id:{depto:"$departamento",cargo:"$cargo"}}}
+])
+//Nesse segundo primeiro agrupa por departamento e cargo e depois filtra por salário, so que ele não sabe o que é salario. 
+db.funcionarios.aggregate([  
+  {$group:{_id:{depto:"$departamento",cargo:"$cargo"}}},
+  {$match:{salario:{$gt:8000}}}
+])
+//Sum no caso para contador depois de filtrar, aqui temos um contador
+db.funcionarios.aggregate([
+  {$match:{ativo:true}},
+  {$group:{_id:"$dpto", total:{$sum:1}}}
+])
+//Aqui vamos ter um documento entra->filtra->agrupa->ordena->formata->sai
+db.funcionarios.aggregate([
+  {$match:{ativo:true}},
+  {$group:{_id:"$departamento", total:{$sum:1}}},
+  {$sort: {total:-1}},//-1 decrescente +1 crescente
+  {$project: {_id:0, depto:"$_id", total:1}}
+])
+// para o or
+{$match: {
+	$or:[{depto:'RH'},{depto:'BI'}],
+	idade:{$lt:40}
+}}
+```
 # Aula 12 - 02/09/2026
