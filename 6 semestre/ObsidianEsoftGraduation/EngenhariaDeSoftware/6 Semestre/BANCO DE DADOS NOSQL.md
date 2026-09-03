@@ -641,3 +641,84 @@ db.funcionarios.aggregate([
 ])
 ```
 # Aula 12 - 02/09/2026
+	 Aula continuação de agreggate
+	 ![[baseDeDadosRestaurants.json]]
+```json
+//LISTA DE EXERCICIOS
+//EX1
+db.restaurants.aggregate([
+  {$match:{borough:'Bronx'}}
+])
+//Ex2
+db.restaurants.aggregate([
+  {$match:{borough:'Manhattan'}},
+  {$project:{_id:0, name:1, borough:1, cuisine:1}}
+])
+//Ex3 Os 5 primeiros restaurantes do Brooklyn ordenados por nome A-Z. Mostre só name e borough.
+db.restaurants.aggregate([
+  {$match:{borough:'Brooklyn'}},
+  {$sort:{name:1}},
+  {$limit:5},
+  {$project:{_id:0, name:1, borough:1}}
+])
+//exemplinho se eu quisesse usar o regex
+db.restaurants.aggregate([
+  {$match:{borough:'Brooklyn', name:{$regex:/^[A-Za-z]+$/}}},
+  {$sort:{name:1}},
+  {$limit:5},
+  {$project:{_id:0, name:1, borough:1}}
+])
+//Ex4 - Primeiro filtre cuisine 'Bakery', depois filtre borough 'Bronx'. Use DOIS $match no mesmo pipeline.
+db.restaurants.aggregate([
+  {$match:{cuisine:'Bakery'}},
+  {$match:{borough:'Bronx'}}
+])
+//Ex5 - Os 10 restaurantes com nome em ordem decrescente (Z-A). Mostre apenas name e cuisine.
+db.restaurants.aggregate([
+  {$sort:{name:-1}},
+  {$limit: 10},
+  {$project:{_id:0,name:1,cuisine:1}}
+])
+//Ex6 - Restaurantes de Queens ordenados por zipcode crescente. Mostre name, address.zipcode e borough.
+db.restaurants.aggregate([
+  {$match:{borough:'Queens'}},
+  {$sort:{'address.zipcode':1}},
+  {$project:{_id:0,'address.zipcode':1, borough:1}}
+])
+//Ex7 - Restaurantes cujo borough está em ['Bronx','Brooklyn'] e cuisine é 'American'. Cuidado: na base é 'American ' com espaço.
+db.restaurants.aggregate([
+  {$match:{borough:{$in:['Bronx','Brooklyn']},cuisine:'American '}}
+])
+//Ex8 - Crie um campo 'fullAddress' concatenando building + ' - ' + street, mostre name e fullAddress, filtre quem tem zipcode '10019' e ordene por name.
+db.restaurants.aggregate([
+  {$project:{_id:0, name:1, fullAdress:{ $concat:['$address.building','-','$address.street']},'address.zipcode':1}},
+  {$match:{'address.zipcode':'10019'}},
+  {$sort: {name:1}}
+])
+//Ex9 - 
+```
+	 Precisa continuar a lista
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

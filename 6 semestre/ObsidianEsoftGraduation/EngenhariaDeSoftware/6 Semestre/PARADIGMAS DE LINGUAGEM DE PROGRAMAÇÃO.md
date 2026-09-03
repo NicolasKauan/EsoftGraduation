@@ -42,4 +42,5 @@ Tem que criar o github - https://github.com/NicolasKauan/Paradigmas-De-Linguagem
 		 Lexema: O nome ao qual eu dou para a variável ou o simbolo
 		 Tokens: Qual seria a função daquele simbolo ou variavel, por exemplo o nome valor seria um token do tipo identificador o "-" subtração e assim por diante. 
 
-# Aula 12 - 
+# Aula 12 - 02/09/2026
+	
