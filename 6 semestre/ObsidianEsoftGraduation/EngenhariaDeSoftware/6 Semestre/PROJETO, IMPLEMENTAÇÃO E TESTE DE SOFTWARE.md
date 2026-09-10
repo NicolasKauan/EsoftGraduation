@@ -79,3 +79,28 @@ JOAO MESSIAS PEREIRA LENCO ([joao.pereira@unicesumar.edu.br](mailto:joao.pereir
 	    
 
 # Aula 12 - 03/09/2026
+
+# Aula 13 - 08/09/2026
+	 Teste estrutural 
+		No teste estrutural conhecemos a implementação.
+		Observamos:
+			Instruções
+			Decisões
+			Desvios
+			Repetições
+			Caminhos de execução
+		Por que representar o código como um grafo?
+			O código-fonte mosta o que foi escrito
+			O grafo de fluxo de controle (CFG) mostra como a execução pode percorrer o que foi escrito. Essa abstração é necessaria porque a numeração das linhas não revela, sozinha, os diferentes comportamentos possiveis.
+			Código-Fonte -> identificar blocos e decisções -> grafo de fluxo de controle -> visualizar caminhos possiveis -> definir critérios de cobertura -> derivar casos de teste
+			O grafo transforma a lógica do programa em uma estrutura que podemos observar, contar e testar. 
+		O que o CFG torna explicito?
+			Com o grafo conseguimos visualizar:
+				Quais instruções sempre são executadas;
+				Onde o fluxo pode se dividir;
+				Onde caminhos diferentes voltam a se encontrar
+				Quais estruturas podem repetir a execução
+				Quais trechos podem não ser alterados.
+				
+# Aula 14 -
+

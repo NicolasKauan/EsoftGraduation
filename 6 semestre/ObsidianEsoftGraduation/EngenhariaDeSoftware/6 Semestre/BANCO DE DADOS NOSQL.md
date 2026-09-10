@@ -700,25 +700,157 @@ db.restaurants.aggregate([
 	 Precisa continuar a lista
 
 
+# Aula 13 - 08/09/2026
+	Aula Aggregate + $unwind
+		Obs. Base de dados dos restaurantes
+```json
+db.restaurants.aggregate([
+  {$match: {restaurant_id:'30075445'}},
+  {$unwind: '$grades'}
+])
+
+db.restaurants.aggregate([
+  {$unwind: '$grades'},
+  {$count: 'Quantidade_Documentos'}
+])
+
+db.restaurants.aggregate([
+  {$unwind: '$grades'},
+  {$group: {_id: "$grades.grade", Total_grades:{$sum: 1}}}
+])
+
+db.restaurants.aggregate([
+  {$unwind: '$grades'},
+  {$group: {_id: "$grades.grade", Total_grades:{$sum: 1}}},
+  {$sort: {total:-1}}
+])
+
+//
+db.restaurants.aggregate([
+  {$unwind: '$grades'},
+  {$group: {_id: "$grades.grade", Total_grades:{$sum: 1}, media:{$avg:'$grades.score'},}},
+  {$sort: {total:-1}}
+])
+
+//Media geral
+db.restaurants.aggregate([
+  {$unwind: '$grades'},
+  {$group: {_id: null, Total_grades:{$sum: 1}, media:{$avg:'$grades.score'},}},
+  {$sort: {total:-1}}
+])
+
+//Media geral com project
+db.restaurants.aggregate([
+  {$unwind: '$grades'},
+  {$group: {_id: null, Total_grades:{$sum: 1}, MediaGeral:{$avg:'$grades.score'},}},
+  {$project: {_id:0}}
+])
+
+//Aqui temos a media geral com a formatação, ou arredondamento, onde estamos pegando a media geral, chamando ela com o $ e arredondando ela para 2 casas decimais
+db.restaurants.aggregate([
+  {$unwind: '$grades'},
+  {$group: {_id: null, Total_grades:{$sum: 1}, MediaGeral:{$avg:'$grades.score'},}},
+  {$project: {_id:0, MediaGeral:{$round:['$MediaGeral',2]}}}
+])
+
+//Pegando todos os grade com a, agrupando pelo baixo, contando eles, fazendo a média, depois colocando em ordem decrescente, depois só deixando o nome do baixo o total e a media
+db.restaurants.aggregate([
+  {$unwind: '$grades'},
+  {$match: {'grades.grade':'A'}},
+  {$group: {_id: '$borough', Total_grades:{$sum: 1}, MediaGeral:{$avg:'$grades.score'},}},
+  {$sort:{Total_grades:-1}},
+  {$project: {_id:0,Bairros:'$_id',Total_grades:1,MediaGeral:1}}
+])
 
 
+```
 
+# Aula 14 - 09/09/2026
+	$cond
+	Comparação
+	Obs. Find é uma pesquisa rapida
+	Base trabalhada, restaurant
+	$lt = menor que
+	$eq = igual
+	$gt: maior que
+	$lte = menor ou igual
+	$gte = maior ou igual a
+```json
+//Cond dentro do project
+db.restaurants.aggregate([
+  {$unwind:'$grades'},
+  {$project:{
+    borough:1,
+    score:'$grades.score',
+    status:{
+      $cond:{
+        if:{
+          $lt:['$grades.score',10]
+        },
+        then:'Excelente',
+        else:'Ruim'
+      }
+    }
+  }},
+  {$limit:5}
+])
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//top 5 com mais notas B
+db.restaurants.aggregate([
+  {$unwind:'$grades'},
+  {$group:{
+    _id:'$restaurant_id',
+    nome:{$first:'$name'},
+    total:{$sum:1},
+    totalA:{
+      $sum:{
+        $cond:[{
+          $eq:['$grades.grade','A']
+        },1,0]
+      }
+    },
+    totalB:{
+      $sum:{
+        $cond:[{
+          $eq:['$grades.grade','B']
+        },1,0]
+      }
+    },
+    totalRuim:{
+      $sum:{
+        $cond:[{
+          $gt:['$grades.score','30']
+        },1,0]
+      }
+    }
+  }},
+  {$sort:{totalB:-1}},
+  {$limit: 5}
+  
+//Exercicios 3 com um $cond aninhado
+db.restaurants.aggregate([
+  {$unwind:'$grades'},
+  {$project:{
+    borough:1,
+    score:'$grades.score',
+    status:{
+      $cond:{
+        if:{
+          $lt:['$grades.score',5]
+        },
+        then:'Excelente',
+        else:{
+          $cond:{
+            if:{
+              $lt:['$grades.score',15]
+            },
+            then:'Bom',
+            else:'Ruim'
+          }
+        }
+      }
+    }
+  }},
+  {$limit:5}
+])
+```

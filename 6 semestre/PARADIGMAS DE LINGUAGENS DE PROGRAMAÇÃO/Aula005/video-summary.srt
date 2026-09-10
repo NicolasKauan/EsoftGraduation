@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:01:33,765
+Neste quadro: Linguagens imperativas e arquitetura de von Neumann, Nomes, Case sensitive
+
+2
+00:01:33,765 --> 00:03:07,529
+Neste quadro: Variável, Atributos das variáveis, Apelidos
+
+3
+00:03:07,529 --> 00:04:41,294
+Neste quadro: Tempos de vinculação, Vinculação estática e dinâmica, Declaração Explícita/Implícita
+
+4
+00:04:41,294 --> 00:06:15,059
+Neste quadro: Vinculação de Tipos Dinâmica, Vinculações de armazenamento e tempo de vida, Variáveis estáticas
+
+5
+00:06:15,059 --> 00:07:48,824
+Neste quadro: Variáveis dinâmicas do heap, Variáveis dinâmicas do heap implícito, Escopo
+
+6
+00:07:48,824 --> 00:09:22,588
+Neste quadro: Ocultação de nomes, Blocos e ordem de declaração, Escopo global
+
+7
+00:09:22,588 --> 00:10:56,353
+Neste quadro: Escopo e tempo de vida, Ambiente de referenciamento, Constantes nomeadas
