@@ -1,0 +1,272 @@
+[
+  {
+    "nome": "Ana Silva",
+    "idade": 28,
+    "departamento": "Tecnologia",
+    "cargo": "Desenvolvedora Fullstack",
+    "salario": 8500,
+    "habilidades": [
+      "React",
+      "Node",
+      "MongoDB",
+      "JavaScript"
+    ],
+    "contato": {
+      "email": "ana.silva@empresa.com",
+      "telefone": "11-91234-5678"
+    },
+    "endereco": {
+      "cidade": "São Paulo",
+      "estado": "SP",
+      "bairro": "Vila Mariana"
+    },
+    "ativo": true
+  },
+  {
+    "nome": "Marcos Oliveira",
+    "idade": 32,
+    "departamento": "Tecnologia",
+    "cargo": "Tech Lead",
+    "salario": 12000,
+    "habilidades": [
+      "React",
+      "Node",
+      "AWS",
+      "Docker",
+      "MongoDB"
+    ],
+    "contato": {
+      "email": "marcos.oliveira@empresa.com",
+      "telefone": "11-98765-4321"
+    },
+    "endereco": {
+      "cidade": "São Paulo",
+      "estado": "SP",
+      "bairro": "Pinheiros"
+    },
+    "ativo": true
+  },
+  {
+    "nome": "Juliana Costa",
+    "idade": 24,
+    "departamento": "Tecnologia",
+    "cargo": "Desenvolvedora Frontend",
+    "salario": 6200,
+    "habilidades": [
+      "React",
+      "Vue",
+      "CSS",
+      "HTML"
+    ],
+    "contato": {
+      "email": "juliana.costa@empresa.com"
+    },
+    "endereco": {
+      "cidade": "Campinas",
+      "estado": "SP",
+      "bairro": "Cambuí"
+    },
+    "ativo": true
+  },
+  {
+    "nome": "Roberto Lima",
+    "idade": 35,
+    "departamento": "Tecnologia",
+    "cargo": "DevOps",
+    "salario": 10500,
+    "habilidades": [
+      "Docker",
+      "Kubernetes",
+      "AWS",
+      "Linux"
+    ],
+    "contato": {
+      "email": "roberto.lima@empresa.com",
+      "telefone": "19-99876-1234"
+    },
+    "endereco": {
+      "cidade": "São Paulo",
+      "estado": "SP",
+      "bairro": "Itaim"
+    },
+    "ativo": true
+  },
+  {
+    "nome": "Mariana Santos",
+    "idade": 26,
+    "departamento": "Tecnologia",
+    "cargo": "Desenvolvedora Backend",
+    "salario": 7800,
+    "habilidades": [
+      "Node",
+      "Python",
+      "MongoDB",
+      "PostgreSQL"
+    ],
+    "contato": {
+      "email": "mariana.santos@empresa.com",
+      "telefone": "11-92345-6789"
+    },
+    "endereco": {
+      "cidade": "São Paulo",
+      "estado": "SP",
+      "bairro": "Moema"
+    },
+    "ativo": true
+  },
+  {
+    "nome": "Carlos Pereira",
+    "idade": 40,
+    "departamento": "Tecnologia",
+    "cargo": "Arquiteto de Software",
+    "salario": 15000,
+    "habilidades": [
+      "Java",
+      "AWS",
+      "Microservices",
+      "MongoDB",
+      "React"
+    ],
+    "contato": {
+      "email": "carlos.pereira@empresa.com"
+    },
+    "endereco": {
+      "cidade": "São Paulo",
+      "estado": "SP",
+      "bairro": "Jardins"
+    },
+    "ativo": false
+  },
+  {
+    "nome": "Fernanda Rocha",
+    "idade": 29,
+    "departamento": "Tecnologia",
+    "cargo": "QA Engineer",
+    "salario": 6800,
+    "habilidades": [
+      "Selenium",
+      "Jest",
+      "Cypress",
+      "JavaScript"
+    ],
+    "contato": {
+      "email": "fernanda.rocha@empresa.com",
+      "telefone": "11-93456-7890"
+    },
+    "endereco": {
+      "cidade": "São Paulo",
+      "estado": "SP",
+      "bairro": "Brooklin"
+    },
+    "ativo": true
+  },
+  {
+    "nome": "Paulo Mendes",
+    "idade": 31,
+    "departamento": "Tecnologia",
+    "cargo": "Desenvolvedor Mobile",
+    "salario": 8200,
+    "habilidades": [
+      "React Native",
+      "Flutter",
+      "JavaScript",
+      "Firebase"
+    ],
+    "contato": {
+      "email": "paulo.mendes@empresa.com"
+    },
+    "endereco": {
+      "cidade": "São Paulo",
+      "estado": "SP",
+      "bairro": "Vila Olímpia"
+    },
+    "ativo": true
+  },
+  {
+    "nome": "Michele Almeida",
+    "idade": 27,
+    "departamento": "Tecnologia",
+    "cargo": "Data Engineer",
+    "salario": 9500,
+    "habilidades": [
+      "Python",
+      "SQL",
+      "MongoDB",
+      "Spark",
+      "AWS"
+    ],
+    "contato": {
+      "email": "michele.almeida@empresa.com",
+      "telefone": "11-94567-8901"
+    },
+    "endereco": {
+      "cidade": "Barueri",
+      "estado": "SP",
+      "bairro": "Alphaville"
+    },
+    "ativo": true
+  },
+  {
+    "nome": "Rafael Souza",
+    "idade": 23,
+    "departamento": "Tecnologia",
+    "cargo": "Estagiário",
+    "salario": 2200,
+    "habilidades": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "contato": {
+      "email": "rafael.souza@empresa.com"
+    },
+    "endereco": {
+      "cidade": "Osasco",
+      "estado": "SP",
+      "bairro": "Centro"
+    },
+    "ativo": true
+  },
+  {
+    "nome": "Patricia Lima",
+    "idade": 34,
+    "departamento": "RH",
+    "cargo": "Recrutadora",
+    "salario": 5500,
+    "habilidades": [
+      "Recrutamento",
+      "Entrevista",
+      "Comunicação"
+    ],
+    "contato": {
+      "email": "patricia.lima@empresa.com",
+      "telefone": "11-95678-9012"
+    },
+    "endereco": {
+      "cidade": "São Paulo",
+      "estado": "SP"
+    },
+    "ativo": true
+  },
+  {
+    "nome": "Lucas Andrade",
+    "idade": 30,
+    "departamento": "Projetos",
+    "cargo": "Gerente de Projetos",
+    "salario": 9000,
+    "habilidades": [
+      "Scrum",
+      "Kanban",
+      "PMBOK",
+      "Comunicação"
+    ],
+    "contato": {
+      "email": "lucas.andrade@empresa.com"
+    },
+    "endereco": {
+      "cidade": "São Paulo",
+      "estado": "SP"
+    },
+    "ativo": true
+  }
+]

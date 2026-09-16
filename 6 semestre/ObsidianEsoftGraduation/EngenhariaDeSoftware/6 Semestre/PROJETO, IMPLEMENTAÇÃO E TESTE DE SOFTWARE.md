@@ -102,5 +102,13 @@ JOAO MESSIAS PEREIRA LENCO ([joao.pereira@unicesumar.edu.br](mailto:joao.pereir
 				Quais estruturas podem repetir a execução
 				Quais trechos podem não ser alterados.
 				
-# Aula 14 -
+# Aula 14 - 
 
+# Aula 15 - 15/09/2026
+	Cai na prova: Defeito, erro e falha
+	Defeito: problema no artefato
+		Pode causar o erro
+	Erro: estado interno incorreto
+		Pode provocar
+	Falha: comportamento observável
+		
