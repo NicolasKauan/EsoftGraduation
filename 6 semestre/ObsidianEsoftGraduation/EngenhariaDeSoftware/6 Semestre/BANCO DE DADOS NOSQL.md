@@ -854,3 +854,127 @@ db.restaurants.aggregate([
   {$limit:5}
 ])
 ```
+
+
+# Aula 16 - 30/09/2026
+```json
+db.pedidos.aggregate([
+  {
+    $lookup:{
+      from:'clientes',
+      localField:'clienteId',
+      foreighFild:'_id',
+      as:'cliente'
+    }
+  },
+  {
+    $unwind:'$cliente'
+  },
+  {
+    $addFields
+  }
+  
+])
+```
+	 A 
+
+# Aula 17 - 06/10/2026
+	$buckt - Classificação por faixar
+		Agrupa por faixars que vc defini
+			eX: Classificar alunos por notas: 0-5, 5-7, 7-10;
+		Precisa se atentar, as faixas são sempre crescentes,
+		Voce defiene boundaries
+		Não precisa necessário realizar o bucket primeiro. 
+		Não é necessário colocar o default
+		$bucketAuto - Mongo decide as faixas sozinho
+			O mongo que denife como tu consegue fazer os baldes
+```json
+db.pokemon.aggregate([
+  {
+    $bucket:{
+      groupBy:'$attack',
+      boundaries:[0,50,80,100,200],
+      default:'Lendário > 200'
+    }
+  }
+])
+
+db.pokemon.aggregate([
+  {
+    $bucket:{
+      groupBy:'$attack',
+      boundaries:[0,50,80,100,200],
+      default:'Lendário > 200',
+      output:{
+        total:{ $sum:1 },
+        mediaHP:{ $avg:'$hp' },
+        nomes:{ $push:'$name' },
+      },
+    },
+  }
+])
+
+// para fatiar é no slice
+db.pokemon.aggregate([
+  {
+    $bucket: {
+      groupBy: '$attack',
+      boundaries: [0, 50, 80, 100, 200],
+      default: 'Lendário > 200',
+      output: {
+        total: { $sum: 1 },
+        mediaHP: { $avg: '$hp' },
+        nomes: { $push: '$name' }
+      }
+    }
+  },
+  {
+    $project: {
+      total: 1,
+      mediaHP: 1,
+      nomes: { $slice: ["$nomes", 10] }
+    }
+  }
+])
+
+// bucketsAuto
+
+db.pokemon.aggregate([
+  {
+    $bucketAuto: {
+      groupBy: '$attack',
+      buckets:4,// só diz quantos grupos 
+      output: {
+        total: { $sum: 1 },
+        mediaHP: { $avg: '$hp' },
+        nomes: { $push: '$name' }
+      }
+    }
+  }
+])
+
+//  Colocar um limite
+db.pokemon.aggregate([
+  {
+    $bucketAuto: {
+      groupBy: '$attack',
+      buckets:4,// só diz quantos grupos 
+      output: {
+        total: { $sum: 1 },
+        mediaHP: { $avg: '$hp' },
+        nomes: { $push: '$name' }
+      }
+    }
+  },
+    {
+    $project: {
+      total: 1,
+      mediaHP: 1,
+      nomes: { $slice: ["$nomes", 10] }
+    }
+  }
+])
+
+
+
+```

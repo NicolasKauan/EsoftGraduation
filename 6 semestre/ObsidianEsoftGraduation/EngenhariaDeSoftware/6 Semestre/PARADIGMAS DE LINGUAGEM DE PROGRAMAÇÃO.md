@@ -47,4 +47,8 @@ Tem que criar o github - https://github.com/NicolasKauan/Paradigmas-De-Linguagem
 
 # Aula 13 -
 
-# Aula 14 -
+# Aula 14 - 05/10/2026
+	 Subprogramas 
+		 Métodos
+		Funções
+		
