@@ -978,3 +978,74 @@ db.pokemon.aggregate([
 
 
 ```
+
+# Aula 18 - 07/10/2026
+	 Mesma base da aula anterior
+```json
+//Temos aqui o começo de como realizar um lookup
+db.pokemon.aggregate([
+  {
+    $lookup:{
+      from:"geracoes_pokemon",
+      localField:"generation",
+      foreignField:"_id",
+      as:"generation_info"
+    }
+  },
+  {
+     $unwind:"$generation_info" 
+  }
+])
+
+//Por igualdade
+db.pokemon.aggregate([
+  {
+    $lookup:{
+      from:"geracoes_pokemon",
+      localField:"generation",
+      foreignField:"_id",
+      as:"generation_info"
+    }
+  },
+  {
+     $unwind:"$generation_info" 
+  },
+  {
+    $project: {
+      name:1, region: "$generation_info.region"
+    }
+  }
+])
+// aqui o uso do switch
+db.pokemon.aggregate([
+  {
+    $addFields:{
+      classe:{
+        $switch:{
+          branches:[
+            {
+               case: {
+                 $lt:[
+                   "$attack",
+                   50
+                 ]
+               },
+              then: "FRACO"
+            },
+            {
+              case:{
+                $lt:[
+                	"$attack",
+                  
+                	]
+              	}
+            	}
+          	]
+        	}
+        }
+      }
+    }
+])
+
+//  
+```
