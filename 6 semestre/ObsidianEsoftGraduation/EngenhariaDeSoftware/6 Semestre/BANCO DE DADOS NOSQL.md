@@ -1049,3 +1049,9 @@ db.pokemon.aggregate([
 
 //  
 ```
+# Aula + - Atividade 
+```json
+//Ex1 a
+
+
+```
