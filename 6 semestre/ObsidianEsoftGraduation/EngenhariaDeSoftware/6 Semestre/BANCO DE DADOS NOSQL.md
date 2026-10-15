@@ -1055,3 +1055,10 @@ db.pokemon.aggregate([
 
 
 ```
+
+# Aula 19 - 14/10/2026
+```json
+//Output dentro do buckt é opcional 
+
+```
+
