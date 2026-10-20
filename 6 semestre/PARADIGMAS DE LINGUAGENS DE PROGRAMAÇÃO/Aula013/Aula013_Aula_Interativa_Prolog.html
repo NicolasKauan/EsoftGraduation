@@ -1,0 +1,1715 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aula 13 · Prolog ao vivo</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23142230'/%3E%3Cpath d='M16 44V20h14a8 8 0 010 16H16M40 24l10 20M50 24L40 44' fill='none' stroke='%23ff7c50' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@400;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+:root{
+  --paper:#e6ecf0; --surface:#ffffff; --surface-2:#eef3f6; --ink:#142230; --muted:#566676; --line:#d6dee5;
+  --a:#d9532a; --a-soft:#fce8df; --b:#11817f; --b-soft:#d9f1ef; --ok:#2a8550; --ok-soft:#e0f3e7;
+  --bad:#c0392b; --bad-soft:#fbe4e0; --warn:#a66a00; --warn-soft:#fff1d6; --pur:#7a4cc2; --pur-soft:#ece4f8; --blue:#2467c9; --blue-soft:#e2ecfb;
+  --code-bg:#0f1b26; --code-ink:#dce6ee; --code-dim:#7f93a6; --code-kw:#7fd8d4; --code-str:#ffb48f; --code-num:#f3d77a; --code-var:#9bd0ff;
+  --f-disp:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",Consolas,"Cascadia Mono",monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0a1117; --surface:#141f29; --surface-2:#1a2733; --ink:#e3eaf0; --muted:#98a8b6; --line:#283746;
+  --a:#ff7c50; --a-soft:#3a2219; --b:#3fc3c0; --b-soft:#11302f; --ok:#5ec489; --ok-soft:#14301f; --bad:#ff7b6b; --bad-soft:#3a1b17;
+  --warn:#f0b14a; --warn-soft:#33270f; --pur:#b393ee; --pur-soft:#2a2040; --blue:#7fb0ff; --blue-soft:#14233f; --code-bg:#0a121a; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#0a1117; --surface:#141f29; --surface-2:#1a2733; --ink:#e3eaf0; --muted:#98a8b6; --line:#283746;
+  --a:#ff7c50; --a-soft:#3a2219; --b:#3fc3c0; --b-soft:#11302f; --ok:#5ec489; --ok-soft:#14301f; --bad:#ff7b6b; --bad-soft:#3a1b17;
+  --warn:#f0b14a; --warn-soft:#33270f; --pur:#b393ee; --pur-soft:#2a2040; --blue:#7fb0ff; --blue-soft:#14233f; --code-bg:#0a121a; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);overflow:hidden}
+code,pre,.mono{font-family:var(--f-mono);font-variant-ligatures:none}
+
+/* ---------- palco ---------- */
+#frame{position:fixed;left:0;right:0;top:0;bottom:44px;display:flex;align-items:center;justify-content:center}
+#wrap{position:relative;flex:none}
+#stage{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0;background:var(--surface);
+  box-shadow:0 2px 6px rgba(20,34,48,.12),0 18px 48px rgba(20,34,48,.18);overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .22s ease;font-size:22px;line-height:1.38}
+.slide.on{opacity:1;visibility:visible}
+@media (prefers-reduced-motion:reduce){.slide{transition:none}}
+.notes{display:none}
+
+/* ---------- cabecalho ---------- */
+.sh{display:flex;align-items:center;gap:18px;padding:0 36px;height:74px;flex:none;background:var(--ink);color:#fff}
+:root[data-theme="dark"] .sh{background:#0d151c}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .sh{background:#0d151c}}
+.sn{font:800 34px/1 var(--f-disp);background:var(--a);color:#fff;border-radius:12px;min-width:58px;height:46px;display:grid;place-items:center}
+.sh .tt{flex:1;min-width:0}
+.st{font:800 28px/1.05 var(--f-disp);letter-spacing:-.01em}
+.ss{font-size:16px;opacity:.82;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tags{display:flex;gap:8px;flex:none}
+.tags span{font:600 14px/1 var(--f-body);padding:7px 11px;border-radius:99px;background:rgba(255,255,255,.14);white-space:nowrap}
+.tags .t-sim{background:var(--b)} .tags .t-con{background:var(--a)}
+.obs{flex:none;display:flex;gap:12px;align-items:baseline;padding:8px 36px;background:var(--warn-soft);border-bottom:1px solid var(--line);font-size:18px}
+.obs b{font:800 13px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--warn);flex:none}
+.body{flex:1;min-height:0;padding:20px 36px 16px;display:flex;gap:28px;font-size:24px}
+.col{flex:1;min-width:0;display:flex;flex-direction:column;gap:12px}
+.col.w2{flex:1.4}
+.body p{margin:0}
+h3.h{margin:0;font:800 23px/1.1 var(--f-disp)}
+.pts{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+.pts li{padding-left:1.2em;position:relative}
+.pts li:before{content:"";position:absolute;left:0;top:.56em;width:.48em;height:.48em;border-radius:2px;background:var(--a)}
+.card{background:var(--surface-2);border-radius:14px;padding:14px 18px;border-top:6px solid var(--a)}
+.card.b{border-top-color:var(--b)} .card.p{border-top-color:var(--pur)} .card.g{border-top-color:var(--ok)} .card.w{border-top-color:var(--warn)}
+.card h4{margin:0 0 6px;font:800 21px/1.1 var(--f-disp)}
+.call{background:var(--a-soft);border-left:6px solid var(--a);border-radius:0 12px 12px 0;padding:10px 16px}
+.call.b{background:var(--b-soft);border-left-color:var(--b)} .call.w{background:var(--warn-soft);border-left-color:var(--warn)} .call.p{background:var(--pur-soft);border-left-color:var(--pur)}
+.call b.k{display:block;font:800 12px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px;color:var(--a)}
+.call.b b.k{color:var(--b)} .call.w b.k{color:var(--warn)} .call.p b.k{color:var(--pur)}
+code.i{font-size:.86em;background:var(--surface-2);padding:.05em .3em;border-radius:5px}
+pre.code{margin:0;background:var(--code-bg);color:var(--code-ink);border-radius:12px;padding:12px 16px;font-size:20px;line-height:1.5;overflow:hidden;white-space:pre}
+.tk-c{color:var(--code-dim);font-style:italic} .tk-s{color:var(--code-str)} .tk-n{color:var(--code-num)} .tk-v{color:var(--code-var)} .tk-k{color:var(--code-kw);font-weight:600}
+table.t{border-collapse:collapse;width:100%;font-size:.8em}
+table.t th,table.t td{border:1px solid var(--line);padding:.35em .6em;text-align:left;vertical-align:top}
+table.t th{background:var(--ink);color:#fff}
+:root[data-theme="dark"] table.t th{background:#0d151c}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) table.t th{background:#0d151c}}
+table.t td:first-child{font-weight:700;background:var(--surface-2)}
+.flow{display:flex;align-items:stretch;gap:12px}
+.flow .bx{flex:1;padding:14px 16px;border-radius:14px;background:var(--surface-2);border-top:6px solid var(--a)}
+.flow .bx.b{border-top-color:var(--b)} .flow .bx.p{border-top-color:var(--pur)} .flow .bx.g{border-top-color:var(--ok)}
+.flow .bx h4{margin:0 0 4px;font:800 20px/1.1 var(--f-disp)}
+.flow .ar{align-self:center;font-size:34px;color:var(--muted)}
+.leg{display:flex;gap:10px;flex-wrap:wrap;font-size:17px}
+.leg span{padding:3px 10px;border-radius:99px;border:2px solid currentColor;font-weight:600}
+.an-atom{color:var(--b)} .an-var{color:var(--a)} .an-op{color:var(--pur)} .an-num{color:var(--warn)}
+.cells{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font:700 20px var(--f-mono)}
+.cell{display:inline-flex;border:3px solid var(--ink);border-radius:8px;overflow:hidden}
+.cell b,.cell i{display:grid;place-items:center;min-width:46px;height:44px;font-style:normal}
+.cell b{background:var(--b-soft)} .cell i{background:var(--a-soft);border-left:3px solid var(--ink);color:var(--muted)}
+.cells .ar2{color:var(--muted);font-size:24px}
+
+/* cover */
+.cover{background:linear-gradient(135deg,#0f1b26 0%,#142230 55%,#1d3a44 100%);color:#fff;padding:70px 80px;justify-content:center}
+.cover:before{content:"";position:absolute;right:-120px;top:-120px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(217,83,42,.55),rgba(217,83,42,0) 68%)}
+.cover:after{content:"";position:absolute;left:0;bottom:0;width:100%;height:10px;background:linear-gradient(90deg,var(--a),#11817f)}
+.cover .kk{font:700 20px/1 var(--f-body);letter-spacing:.22em;color:#ffb48f;text-transform:uppercase}
+.cover h1{font:800 82px/1 var(--f-disp);letter-spacing:-.03em;margin:22px 0 18px;position:relative}
+.cover .s2{font-size:27px;opacity:.9;max-width:900px;position:relative}
+.cover .mt{display:flex;gap:14px;margin-top:40px;position:relative}
+.cover .mt span{font:700 22px/1 var(--f-body);padding:13px 20px;border-radius:99px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25)}
+.cover .hint{position:absolute;left:80px;bottom:34px;font-size:16px;opacity:.65}
+
+/* ---------- simulador ---------- */
+.sim{flex:1;min-height:0;display:grid;grid-template-columns:42% 1fr;gap:14px;padding:12px 24px 14px;font-size:13px}
+.sim-left,.sim-right{min-width:0;min-height:0;display:flex;flex-direction:column;gap:8px}
+.sim-h{display:flex;align-items:center;gap:8px;font:700 11.5px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);flex:none}
+.sim-h b{color:var(--ink)} .sim-h .muted{letter-spacing:0;text-transform:none;font-weight:400}
+.sim-err{color:var(--bad);letter-spacing:0;text-transform:none;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sbtn{font:700 12px/1 var(--f-body);color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:7px 10px;cursor:pointer;white-space:nowrap}
+.sbtn:hover{border-color:var(--b)} .sbtn.main{background:var(--b);color:#fff;border-color:var(--b)} .sbtn.on{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+.sbtn kbd{font:600 10.5px var(--f-mono);opacity:.75;margin-left:3px}
+.sim-prog{flex:1;min-height:0;overflow:auto;background:var(--code-bg);color:var(--code-ink);border-radius:10px;padding:8px 0;font:12.5px/1.5 var(--f-mono)}
+.sim-prog .ln{display:flex;padding:0 10px 0 0;white-space:pre}
+.sim-prog .ln i{flex:none;width:34px;text-align:right;padding-right:10px;color:#5c7284;font-style:normal;user-select:none}
+.sim-prog .ln.pred{background:rgba(127,216,212,.10)}
+.sim-prog .ln.ok{background:rgba(94,196,137,.28)} .sim-prog .ln.bad{background:rgba(255,123,107,.24)}
+.sim-ta{flex:1;min-height:0;resize:none;background:var(--code-bg);color:var(--code-ink);border:2px solid var(--warn);border-radius:10px;padding:8px 10px;font:12.5px/1.5 var(--f-mono);white-space:pre;overflow:auto}
+.sim-qrow{display:flex;align-items:center;gap:8px;flex:none;font:700 14px var(--f-mono)}
+.sim-q{flex:1;min-width:0;background:var(--surface-2);color:var(--ink);border:2px solid var(--line);border-radius:8px;padding:8px 10px;font:600 14px var(--f-mono)}
+.sim-q:focus{outline:none;border-color:var(--b)}
+.sim-chips{display:flex;gap:6px;flex-wrap:wrap;flex:none}
+.sim-chips button{font:600 11.5px var(--f-mono);background:var(--surface);border:1px dashed var(--muted);color:var(--ink);border-radius:99px;padding:4px 9px;cursor:pointer}
+.sim-chips button:hover{border-color:var(--a);color:var(--a)}
+.sim-ctl{display:flex;gap:6px;flex-wrap:wrap;align-items:center;flex:none}
+.sim-ctl select{font:600 12px var(--f-body);background:var(--surface-2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px}
+.sim-trace{flex:1.5;min-height:0;display:flex;flex-direction:column;gap:5px}
+.log{flex:1;min-height:0;overflow:auto;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:6px 6px}
+.ev{display:flex;gap:7px;align-items:flex-start;padding:3px 7px;border-radius:6px;font:12.5px/1.4 var(--f-mono);border-left:4px solid transparent;word-break:break-word}
+.ev .ic{flex:none;width:1.3em;text-align:center;font-weight:700}
+.ev.cur{outline:2px solid var(--b);outline-offset:-1px;background:var(--surface)}
+.ev.t-start{color:var(--muted);font-weight:700}
+.ev.t-call{border-left-color:var(--blue);color:var(--blue)} .ev.t-call .ic{color:var(--blue)}
+.ev.t-try.okk{border-left-color:var(--ok)} .ev.t-try.okk .ic{color:var(--ok)}
+.ev.t-try.nok{border-left-color:var(--bad);color:var(--muted)} .ev.t-try.nok .ic{color:var(--bad)}
+.ev.t-redo{border-left-color:var(--warn);color:var(--warn);font-weight:600}
+.ev.t-fail{border-left-color:var(--bad);color:var(--bad);font-weight:600}
+.ev.t-cut{border-left-color:var(--pur);color:var(--pur);font-weight:600}
+.ev.t-ctrl{border-left-color:var(--pur);color:var(--pur)}
+.ev.t-builtin{border-left-color:var(--b);color:var(--ink)} .ev.t-builtin .ic{color:var(--b)}
+.ev.t-answer{background:var(--ok-soft);border-left-color:var(--ok);color:var(--ok);font-weight:800;font-size:13.5px}
+.ev.t-final{background:var(--surface);border-left-color:var(--ink);font-weight:700}
+.ev.t-error{background:var(--bad-soft);border-left-color:var(--bad);color:var(--bad);font-weight:800}
+.ev.t-note{color:var(--muted);font-style:italic}
+.sim-bot{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;height:150px;flex:none}
+.pn{min-width:0;min-height:0;display:flex;flex-direction:column;gap:4px}
+.pn ol,.pn .answers,.pn .out{flex:1;min-height:0;overflow:auto;margin:0;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:5px 8px;font:12px/1.4 var(--f-mono);list-style:none}
+.pn .out{flex:none;max-height:38px;margin-top:2px;background:var(--code-bg);color:var(--code-ink);white-space:pre-wrap;display:none}
+.pn .out.has{display:block}
+.pn ol li{padding:2px 0;border-bottom:1px dashed var(--line);word-break:break-word}
+.pn ol li:last-child{border-bottom:0}
+.pn ol.pend li:first-child{font-weight:700;color:var(--blue)}
+.pn ol.cps li:first-child .nx{display:inline}
+.nx{display:none;font:700 10px var(--f-body);background:var(--warn);color:#fff;border-radius:99px;padding:1px 6px;margin-right:5px}
+.pn .rest{display:block;color:var(--muted);font-size:11px}
+.answers div{padding:2px 0;color:var(--ok);font-weight:700}
+.answers .none{color:var(--muted);font-weight:400}
+
+/* unificador */
+.un{flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;font-size:15px}
+.un-row{display:flex;gap:10px;align-items:center}
+.un-row input{flex:1;min-width:0;background:var(--surface-2);color:var(--ink);border:2px solid var(--line);border-radius:8px;padding:9px 12px;font:600 18px var(--f-mono)}
+.un-row input:focus{outline:none;border-color:var(--b)}
+.un-row .eq{font:800 26px var(--f-mono);color:var(--muted)}
+.un-log{flex:1;min-height:0;overflow:auto;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:8px}
+.un-l{padding:4px 8px;border-radius:6px;font:15px/1.4 var(--f-mono);border-left:4px solid var(--line);margin-bottom:2px}
+.un-l.k-bind{border-left-color:var(--ok);color:var(--ok)} .un-l.k-ok{border-left-color:var(--ok)} .un-l.k-fail{border-left-color:var(--bad);color:var(--bad);font-weight:700}
+.un-l.k-dec{border-left-color:var(--blue)} .un-l.cur{background:var(--surface);outline:2px solid var(--b)}
+.un-res{font:700 20px var(--f-body);padding:10px 14px;border-radius:12px;display:none}
+.un-res.ok{display:block;background:var(--ok-soft);color:var(--ok)} .un-res.bad{display:block;background:var(--bad-soft);color:var(--bad)}
+
+/* ---------- barra, notas, ajuda ---------- */
+#bar{position:fixed;left:0;right:0;bottom:0;height:44px;display:flex;align-items:center;gap:8px;padding:0 12px;background:var(--surface);border-top:1px solid var(--line);font:600 14px/1 var(--f-body);transition:opacity .4s;z-index:7}
+body.idle #bar{opacity:0}
+#bar button{font:inherit;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:8px;height:30px;min-width:32px;padding:0 10px;cursor:pointer}
+#bar button:hover{border-color:var(--b)} #bar button[aria-pressed="true"]{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+#bar .sp{flex:1} #count{min-width:64px;text-align:center;color:var(--muted)} #bar .hintsim{color:var(--muted);font-weight:400;font-size:13px}
+#prog{position:fixed;left:0;bottom:44px;height:3px;background:var(--a);width:0;transition:width .25s;z-index:5}
+#clock{font-variant-numeric:tabular-nums;min-width:92px} #clock.run{border-color:var(--b)} #clock.warn{background:var(--warn-soft);color:var(--warn);border-color:var(--warn)} #clock.bad{background:var(--a-soft);color:var(--bad);border-color:var(--bad)}
+#notes{position:fixed;left:0;right:0;bottom:44px;height:40vh;background:var(--warn-soft);border-top:4px solid var(--warn);display:none;overflow:auto;padding:12px 28px 18px;font-size:17px;line-height:1.45;z-index:6}
+#notes.on{display:block}
+#notes .nh{font:700 13px/1 var(--f-body);letter-spacing:.14em;color:var(--warn);text-transform:uppercase;margin-bottom:8px}
+#notes h4{margin:12px 0 4px;font:800 16px/1.2 var(--f-disp)} #notes p{margin:4px 0} #notes ul{margin:4px 0;padding-left:22px} #notes li{margin:2px 0}
+#notes code{background:rgba(0,0,0,.08);padding:0 4px;border-radius:4px;font-size:.9em}
+#notes kbd{font:600 .85em var(--f-mono);background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:0 5px}
+#help{position:fixed;inset:0;background:rgba(10,17,23,.72);display:none;place-items:center;z-index:10}
+#help.on{display:grid}
+#help div{background:var(--surface);border-radius:16px;padding:22px 30px;max-width:560px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+#help h3{margin:0 0 10px;font:800 24px/1 var(--f-disp)}
+#help dl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:0;font-size:16px}
+#help dt{font:700 14px var(--f-mono);background:var(--surface-2);border-radius:6px;padding:3px 8px;justify-self:start}
+#help dd{margin:0;align-self:center}
+#toast{position:fixed;left:50%;bottom:64px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-size:15px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:12}
+#toast.on{opacity:1}
+</style>
+</head>
+<body>
+<div id="frame"><div id="wrap"><div id="stage">
+<script type="text/plain" id="p_fam">
+% ----- fatos: mae(Mae, Filho) e pai(Pai, Filho)
+mae(lucia, vern).
+mae(lucia, tereza).
+mae(marta, joana).
+mae(marta, paulo).
+mae(tereza, bia).
+mae(joana, jake).
+mae(joana, ana).
+mae(dora, leo).
+
+pai(osvaldo, vern).
+pai(osvaldo, tereza).
+pai(vern, joana).
+pai(vern, paulo).
+pai(carlos, bia).
+pai(jorge, jake).
+pai(jorge, ana).
+pai(paulo, leo).
+
+% ----- fatos: homem(X) e mulher(X)
+homem(osvaldo).
+homem(vern).
+homem(carlos).
+homem(paulo).
+homem(jorge).
+homem(jake).
+homem(leo).
+
+mulher(lucia).
+mulher(marta).
+mulher(tereza).
+mulher(joana).
+mulher(bia).
+mulher(ana).
+mulher(dora).
+</script>
+<script type="text/plain" id="p_regras">
+% familia pequena: tres geracoes
+mae(lucia, vern).
+mae(marta, joana).
+mae(joana, jake).
+pai(osvaldo, vern).
+pai(vern, joana).
+pai(jorge, jake).
+
+progenitor(X, Y) :- mae(X, Y).
+progenitor(X, Y) :- pai(X, Y).
+
+avo(X, Z) :- progenitor(X, Y), progenitor(Y, Z).
+
+ancestral(X, Y) :- progenitor(X, Y).
+ancestral(X, Z) :- progenitor(X, Y), ancestral(Y, Z).
+</script>
+<script type="text/plain" id="p_listas">
+% listas: [] ou [Cabeca|Cauda]
+membro(X, [X|_]).
+membro(X, [_|Cauda]) :- membro(X, Cauda).
+
+tamanho([], 0).
+tamanho([_|Cauda], N) :- tamanho(Cauda, M), N is M + 1.
+
+concatena([], L, L).
+concatena([H|T], L, [H|R]) :- concatena(T, L, R).
+
+inverte(L, R) :- inverte(L, [], R).
+inverte([], Acc, Acc).
+inverte([H|T], Acc, R) :- inverte(T, [H|Acc], R).
+</script>
+<script type="text/plain" id="p_arit">
+fatorial(0, 1).
+fatorial(N, F) :-
+    N > 0,
+    N1 is N - 1,
+    fatorial(N1, F1),
+    F is N * F1.
+
+fib(0, 0).
+fib(1, 1).
+fib(N, F) :-
+    N > 1,
+    A is N - 1,
+    B is N - 2,
+    fib(A, FA),
+    fib(B, FB),
+    F is FA + FB.
+</script>
+<script type="text/plain" id="p_back">
+amigo(ana).
+amigo(bia).
+amigo(caio).
+
+gosta(ana, cafe).
+gosta(bia, cha).
+gosta(caio, cafe).
+
+mesmo_gosto(X, Y) :-
+    amigo(X),
+    amigo(Y),
+    format('tenta ~w e ~w~n', [X, Y]),
+    X \== Y,
+    gosta(X, B),
+    gosta(Y, B).
+</script>
+<script type="text/plain" id="p_neg">
+homem(osvaldo).
+homem(vern).
+homem(paulo).
+homem(jorge).
+
+casado(vern).
+casado(jorge).
+
+% primeiro GERA o X, depois nega
+solteiro1(X) :- homem(X), \+ casado(X).
+
+% nega com X ainda SEM valor
+solteiro2(X) :- \+ casado(X), homem(X).
+</script>
+<script type="text/plain" id="p_corte">
+maximo1(X, Y, X) :- X >= Y.
+maximo1(X, Y, Y) :- X < Y.
+
+% sem teste na 2a clausula
+maximo2(X, Y, X) :- X >= Y.
+maximo2(_, Y, Y).
+
+% com corte
+maximo3(X, Y, X) :- X >= Y, !.
+maximo3(_, Y, Y).
+</script>
+<script type="text/plain" id="p_ordem">
+% familia pequena: tres geracoes
+mae(lucia, vern).
+mae(marta, joana).
+mae(joana, jake).
+pai(osvaldo, vern).
+pai(vern, joana).
+pai(jorge, jake).
+
+progenitor(X, Y) :- mae(X, Y).
+progenitor(X, Y) :- pai(X, Y).
+
+% certo: consome um progenitor ANTES de recursar
+ancestral_bom(X, Y) :- progenitor(X, Y).
+ancestral_bom(X, Y) :- progenitor(X, Z), ancestral_bom(Z, Y).
+
+% errado: chama a si mesma com os mesmos argumentos
+ancestral_ruim(X, Y) :- ancestral_ruim(X, Z), progenitor(Z, Y).
+ancestral_ruim(X, Y) :- progenitor(X, Y).
+</script>
+<script type="text/plain" id="p_mapa">
+% regioes vizinhas precisam ter cores diferentes: RS-SC e SC-PR
+membro(X, [X|_]).
+membro(X, [_|Cauda]) :- membro(X, Cauda).
+
+mapa_sul(Paleta, [RS, SC, PR]) :-
+    membro(RS, Paleta),
+    membro(SC, Paleta),
+    membro(PR, Paleta),
+    RS \== SC,
+    SC \== PR.
+</script>
+<script type="text/plain" id="p_play">
+% ----- fatos: mae(Mae, Filho) e pai(Pai, Filho)
+mae(lucia, vern).
+mae(lucia, tereza).
+mae(marta, joana).
+mae(marta, paulo).
+mae(tereza, bia).
+mae(joana, jake).
+mae(joana, ana).
+mae(dora, leo).
+
+pai(osvaldo, vern).
+pai(osvaldo, tereza).
+pai(vern, joana).
+pai(vern, paulo).
+pai(carlos, bia).
+pai(jorge, jake).
+pai(jorge, ana).
+pai(paulo, leo).
+
+% ----- fatos: homem(X) e mulher(X)
+homem(osvaldo).
+homem(vern).
+homem(carlos).
+homem(paulo).
+homem(jorge).
+homem(jake).
+homem(leo).
+
+mulher(lucia).
+mulher(marta).
+mulher(tereza).
+mulher(joana).
+mulher(bia).
+mulher(ana).
+mulher(dora).
+
+progenitor(X, Y) :- mae(X, Y).
+progenitor(X, Y) :- pai(X, Y).
+
+avo(X, Z) :- progenitor(X, Y), progenitor(Y, Z).
+
+irmao(X, Y) :- mae(M, X), mae(M, Y), pai(P, X), pai(P, Y), X \== Y.
+
+tio(X, Y) :- progenitor(P, Y), irmao(X, P), homem(X).
+
+ancestral(X, Y) :- progenitor(X, Y).
+ancestral(X, Y) :- progenitor(X, Z), ancestral(Z, Y).
+
+membro(X, [X|_]).
+membro(X, [_|Cauda]) :- membro(X, Cauda).
+</script>
+
+<section class="slide cover on" id="capa" data-title="Capa">
+  <div class="kk">Unicesumar · Engenharia de Software · Aula 13</div>
+  <h1>Prolog ao vivo</h1>
+  <div class="s2">Paradigma lógico: fatos, regras e consultas, com a máquina de inferência executando passo a passo diante da turma.</div>
+  <div class="mt"><span>Aula expositiva</span><span>Simulador embutido</span><span>Sebesta, Cap. 16</span></div>
+  <div class="hint">→ avança · Espaço = um passo do simulador · N notas · ? atalhos</div>
+  <aside class="notes">
+    <h4>Como esta aula funciona</h4>
+    <ul>
+      <li>É uma <b>aula expositiva interativa</b>: você explica o conceito e, no mesmo slide, <b>simula a execução</b> em um mini-interpretador de Prolog embutido na página (não precisa de internet nem de OneCompiler).</li>
+      <li>Nos slides de <b>Simulação</b> (etiqueta verde), use: <kbd>Espaço</kbd> = um passo · <kbd>Enter</kbd> = até a próxima resposta (o <code>;</code> do Prolog) · <kbd>T</kbd> = roda tudo · <kbd>R</kbd> = reinicia · <kbd>A</kbd> = modo automático. Os botões fazem o mesmo.</li>
+      <li>Os <b>chips tracejados</b> trocam a consulta. Você também pode <b>digitar</b> outra consulta e <b>editar o programa</b> (botão Editar/Aplicar) ao vivo.</li>
+      <li>As notas (<kbd>N</kbd>) trazem o que dizer, o que clicar e o que vai aparecer. <b>Não use N com o projetor ligado</b>: abra a janela do apresentador com <kbd>P</kbd> e arraste para o seu monitor.</li>
+      <li>Tempo: cerca de 71 min (a soma dos tempos de cada slide). Sem os slides opcionais (7, 14 e 23) são cerca de 64 min; para fechar em 60 min, reduza também o playground (25) ou o slide 24.</li>
+      <li>A turma pode fazer depois o <b>laboratório</b> (<code>Aula013_Laboratorio_Prolog.html</code>) no OneCompiler.</li>
+    </ul>
+    <h4>O simulador é fiel ao Prolog?</h4>
+    <p>É um interpretador de Prolog escrito para esta aula: unificação, busca em profundidade com backtracking, corte, negação como falha, aritmética e <code>findall</code>. Os resultados foram conferidos com os programas da aula executados no OneCompiler. Não tem verificação de ocorrência (occurs check) nem módulos, como o GNU Prolog também não tem por padrão.</p>
+  </aside>
+</section>
+
+<section class="slide" id="roteiro" data-title="Roteiro da aula">
+  <header class="sh"><div class="sn">2</div><div class="tt"><div class="st">Roteiro da aula</div><div class="ss">Do conceito à execução, sempre com uma simulação por ideia</div></div>
+    <div class="tags"><span class="t-con">Conceito</span><span>≈ 1 min</span></div></header>
+  
+  <div class="body"><div class="col w2"><table class="t"><tr><th>Bloco</th><th>Conteúdo</th><th>Slides</th></tr><tr><td>A · 0-10</td><td>Ideia do paradigma e anatomia da linguagem</td><td>3 a 5</td></tr><tr><td>B · 10-27</td><td>Fatos, consultas, mundo fechado, variáveis, unificação, conjunção</td><td>6 a 10</td></tr><tr><td>C · 27-45</td><td>Regras, recursão e listas</td><td>11 a 16</td></tr><tr><td>D · 45-60</td><td>Aritmética, backtracking, negação, corte e ordem das metas</td><td>17 a 21</td></tr><tr><td>E · 60-71</td><td>Busca declarativa (mapa), quadro dos paradigmas, limites, playground</td><td>22 a 26</td></tr></table></div><div class="col"><div class="call b"><b class="k">Como acompanhar</b>Em cada slide verde há um <b>simulador</b>: o programa à esquerda, o <b>rastro</b> da execução à direita e, embaixo, as <b>metas pendentes</b>, os <b>pontos de escolha</b> e as <b>respostas</b>.</div><ul class="pts"><li><b>▶ CHAMA</b>: o Prolog procura cláusulas para a meta.</li><li><b>✔ / ✘ tenta</b>: cabeça da cláusula unifica (ou não).</li><li><b>↩ VOLTA</b>: backtracking ao último ponto de escolha.</li><li><b>★ RESPOSTA</b>: a consulta foi provada.</li></ul></div></div>
+  <aside class="notes"><h4>O que dizer</h4><p>Mostre o mapa da aula e apresente a legenda do rastro: ela será usada em todos os simuladores.</p><h4>Dica</h4><p>Se a turma for experiente, avance direto para o slide 6 e explique a legenda quando o primeiro rastro aparecer.</p></aside>
+</section>
+
+<section class="slide" id="paradigmas" data-title="Três jeitos de resolver o mesmo problema">
+  <header class="sh"><div class="sn">3</div><div class="tt"><div class="st">Três jeitos de resolver o mesmo problema</div><div class="ss">“Quem são os avós de Jake?”</div></div>
+    <div class="tags"><span class="t-con">Conceito</span><span>≈ 3 min</span></div></header>
+  
+  <div class="body"><div class="col"><div class="card "><h4>Imperativo: como fazer</h4><pre class="code">// pseudocodigo
+para cada pessoa p:
+  para cada pessoa q:
+    se q e progenitor de jake e
+       p e progenitor de q:
+        imprime(p)</pre><p style="margin-top:8px">Você descreve os <b>passos</b>.</p></div><div class="card b"><h4>Funcional: o que calcular</h4><pre class="code">(filter
+  (lambda (x) (avo? x 'jake))
+  pessoas)</pre><p style="margin-top:8px">Você compõe <b>funções</b>.</p></div></div><div class="col"><div class="card g"><h4>Lógico: o que é verdade</h4><pre class="code" data-hl>progenitor(X, Y) :- mae(X, Y).
+progenitor(X, Y) :- pai(X, Y).
+
+avo(X, Z) :- progenitor(X, Y),
+             progenitor(Y, Z).
+
+?- avo(X, jake).</pre><p style="margin-top:8px">Você declara <b>fatos e regras</b> e faz uma <b>pergunta</b>. O interpretador procura as respostas.</p></div><div class="call "><b class="k">Ideia central</b>No paradigma lógico você diz <b>o que vale</b>, não <b>como achar</b>. Quem busca é a <b>máquina de inferência</b>: é isso que vamos simular hoje.</div></div></div>
+  <aside class="notes"><h4>O que dizer</h4><p>Compare os três estilos para a mesma pergunta. O objetivo é fixar a mudança de mentalidade: o aluno declara relações e o motor faz a busca.</p><h4>Pergunta para a turma</h4><p>Em qual dos três você não escreve nenhum laço nem nenhuma ordem de execução? (O lógico: a ordem de busca é do interpretador.)</p><h4>Cuidado</h4><p>O trecho imperativo é pseudocódigo e o funcional está simplificado: servem só para contrastar o estilo.</p></aside>
+</section>
+
+<section class="slide" id="ideia" data-title="A ideia: programa = fatos + regras; executar = provar">
+  <header class="sh"><div class="sn">4</div><div class="tt"><div class="st">A ideia: programa = fatos + regras; executar = provar</div><div class="ss">Sebesta, Cap. 16: da lógica de predicados à programação lógica</div></div>
+    <div class="tags"><span class="t-con">Conceito</span><span>≈ 3 min</span></div></header>
+  
+  <div class="body"><div class="col w2"><div class="flow">
+      <div class="bx b"><h4>Base de conhecimento</h4>Fatos e regras que você escreve.<br><code class="i">mae(joana, jake).</code><br><code class="i">mae(joana, ana).</code></div>
+      <div class="ar">+</div>
+      <div class="bx"><h4>Consulta</h4>A pergunta.<br><code class="i">?- mae(joana, F).</code></div>
+      <div class="ar">→</div>
+      <div class="bx p"><h4>Máquina de inferência</h4>Unificação<br>+ backtracking</div>
+      <div class="ar">→</div>
+      <div class="bx g"><h4>Respostas</h4><code class="i">F = jake</code><br><code class="i">F = ana</code></div>
+    </div><ul class="pts"><li>Um programa é um conjunto de <b>declarações em lógica</b> (cláusulas): <code class="i">cabeça :- corpo.</code></li><li><b>Executar</b> é tentar <b>provar</b> a consulta com as cláusulas: é a <b>resolução</b>.</li><li>A prova usa <b>unificação</b> (casar termos) e <b>busca em profundidade com backtracking</b>.</li><li><b>Prolog</b> (PROgramming in LOGic): Colmerauer e Roussel, Marselha, 1972, com as ideias de Kowalski.</li></ul><div class="call b"><b class="k">Programação declarativa</b>Por isso o paradigma é chamado <b>declarativo</b>: a especificação do problema <i>é</i> o programa.</div></div></div>
+  <aside class="notes"><h4>O que dizer</h4><p>Apresente o quadro geral: o programador fornece conhecimento e perguntas; o Prolog fornece o mecanismo de prova. Os dois mecanismos (unificação e backtracking) serão simulados nos slides seguintes.</p><h4>Pergunta para a turma</h4><p>O que faz o Prolog quando uma consulta não tem resposta? (Responde false: não conseguiu provar.)</p><h4>Referência</h4><p>Sebesta, Cap. 16 (§16.1 a §16.5: lógica, cálculo de predicados, resolução e origens do Prolog). Confira as páginas na sua edição.</p></aside>
+</section>
+
+<section class="slide" id="anatomia" data-title="Anatomia da linguagem">
+  <header class="sh"><div class="sn">5</div><div class="tt"><div class="st">Anatomia da linguagem</div><div class="ss">Fatos, regras, consultas e os tipos de termo</div></div>
+    <div class="tags"><span class="t-con">Conceito</span><span>≈ 3 min</span></div></header>
+  
+  <div class="body"><div class="col w2"><pre class="code" data-hl>mae(joana, jake).                    % fato
+
+avo(X, Z) :- progenitor(X, Y),       % regra
+             progenitor(Y, Z).
+
+?- avo(X, jake).                     % consulta</pre><div class="call "><b class="k">Como ler</b><code class="i">:-</code> lê-se <b>se</b>; a vírgula, <b>e</b>; o ponto encerra a cláusula; <code class="i">?-</code> é a consulta.</div><div class="leg"><span class="an-atom">átomo: minúscula</span><span class="an-var">Variável: Maiúscula ou _</span><span class="an-num">número: 42, 3.14</span></div></div><div class="col"><div class="card g"><h4>Termos</h4><ul class="pts"><li><b>átomo</b>: <code class="i">joana</code>, <code class="i">mae</code> (constantes)</li><li><b>variável</b>: <code class="i">X</code>, <code class="i">Filho</code>, <code class="i">_</code> (anônima)</li><li><b>número</b>: <code class="i">10</code>, <code class="i">2.5</code></li><li><b>estrutura</b>: <code class="i">mae(joana, jake)</code>, <code class="i">f(X, g(a))</code></li><li><b>lista</b>: <code class="i">[a, b, c]</code>, <code class="i">[H|T]</code></li></ul></div></div></div>
+  <aside class="notes"><h4>O que dizer</h4><p>Mostre as três formas (fato, regra, consulta) e as regras de escrita que mais geram erro: variável com maiúscula, átomo com minúscula e o ponto final.</p><h4>Pergunta para a turma</h4><p><code>Joana</code> e <code>joana</code> são a mesma coisa? (Não: a primeira é variável; a segunda, átomo.)</p><h4>Aviso para o laboratório</h4><p>No OneCompiler, todo o código deve ser escrito <b>sem acentos</b>.</p></aside>
+</section>
+
+<section class="slide" id="sim-fatos" data-title="Fatos e consultas sem variável">
+  <header class="sh"><div class="sn">6</div><div class="tt"><div class="st">Fatos e consultas sem variável</div><div class="ss">Cada fato é comparado com a meta, de cima para baixo</div></div>
+    <div class="tags"><span class="t-sim">Simulação</span><span>≈ 4 min</span></div></header>
+  <div class="obs"><b>Observe</b><span>O Prolog percorre os fatos de <code>mae/2</code> em ordem. Quando um <b>unifica</b>, a consulta é verdadeira; se nenhum unifica, <b>false</b>.</span></div>
+  <div class="sim" data-sim="{&quot;prog&quot;: &quot;p_fam&quot;, &quot;query&quot;: &quot;mae(joana, jake)&quot;, &quot;chips&quot;: [&quot;mae(jake, joana)&quot;, &quot;pai(maria, jake)&quot;, &quot;homem(jake)&quot;], &quot;edit&quot;: false}"></div>
+  <aside class="notes"><h4>O que dizer</h4><p>Aqui o programa é só uma base de fatos. A consulta <code>mae(joana, jake)</code> não tem variável: só pode ser verdadeira ou falsa.</p><h4>O que fazer no simulador</h4><ul><li>Pressione <kbd>Espaço</kbd> uma vez: <b>CHAMA mae(joana, jake)</b> (a meta e o número de cláusulas).</li><li>Continue com <kbd>Espaço</kbd>: cada linha <b>✘</b> mostra por que a cláusula não unifica (joana ≠ lucia...).</li><li>No 7º passo o fato <code>mae(joana, jake)</code> <b>unifica</b> e, no 8º, aparece <b>★ RESPOSTA 1: true</b>.</li><li>Continue com <kbd>Espaço</kbd>: o Prolog <b>volta</b> ao ponto de escolha (passo 9), tenta os fatos 7 e 8 (✘) e termina (passo 13) por falta de mais respostas.</li></ul><h4>O que vai aparecer</h4><ul><li>O fato certo é o <b>6º</b> da lista; as 5 primeiras cláusulas falham.</li><li>O painel <b>Pontos de escolha</b> mostra que ainda restam 2 cláusulas de <code>mae/2</code> depois da 1ª resposta.</li><li>Total: 13 passos. Com o chip <code>mae(jake, joana)</code>: <b>false</b> (nenhum fato casa).</li></ul><h4>Pergunta para a turma</h4><p>Depois de achar a resposta, por que o Prolog ainda tenta as outras cláusulas? (Porque deixou um ponto de escolha: pode haver outras provas.)</p></aside>
+</section>
+
+<section class="slide" id="mundo-fechado" data-title="Mundo fechado: false não é “falso”">
+  <header class="sh"><div class="sn">7</div><div class="tt"><div class="st">Mundo fechado: false não é “falso”</div><div class="ss">O Prolog só conhece o que está na base</div></div>
+    <div class="tags"><span class="t-con">Conceito</span><span>≈ 2 min</span></div></header>
+  
+  <div class="body"><div class="col w2"><pre class="code" data-hl>?- pai(maria, jake).
+false.
+
+?- homem(jake).
+true.</pre><div class="call w"><b class="k">false quer dizer</b>“<b>não consegui provar</b> com o que eu sei”. Não quer dizer que <i>maria não é pai</i>: o programa nem conhece a maria.</div><ul class="pts"><li><b>Hipótese do mundo fechado</b>: o que não pode ser provado é considerado falso.</li><li>Vale para a <b>negação</b> (<code class="i">\+</code>), que veremos adiante.</li><li>É uma das <b>deficiências</b> apontadas por Sebesta (§16.7).</li></ul></div><div class="col"><div class="card w"><h4>Bases incompletas</h4><p>Se a base de fatos esquecer que Osvaldo é casado, o programa vai concluir que ele é solteiro. O Prolog <b>confia</b> na base.</p></div></div></div>
+  <aside class="notes"><h4>O que dizer</h4><p>Slide opcional (2 min). Prepare o conceito que reaparece nos slides de negação (19) e de limites (24).</p><h4>Pergunta para a turma</h4><p>Se a base não tem o fato <code>casado(osvaldo)</code>, o que o Prolog responde para <code>\+ casado(osvaldo)</code>? (verdadeiro).</p><h4>Retome</h4><p>No slide 6, volte ao chip <code>pai(maria, jake)</code>: <b>false</b> em 11 passos, sem nenhuma cláusula que case.</p></aside>
+</section>
+
+<section class="slide" id="sim-var" data-title="Variáveis e backtracking">
+  <header class="sh"><div class="sn">8</div><div class="tt"><div class="st">Variáveis e backtracking</div><div class="ss">A mesma consulta com várias respostas</div></div>
+    <div class="tags"><span class="t-sim">Simulação</span><span>≈ 4 min</span></div></header>
+  <div class="obs"><b>Observe</b><span>Depois da 1ª resposta o Prolog guarda um <b>ponto de escolha</b>. <b>Enter</b> pede a próxima (o <code>;</code>): ele <b>volta</b>, desfaz o valor de F e continua nos fatos seguintes.</span></div>
+  <div class="sim" data-sim="{&quot;prog&quot;: &quot;p_fam&quot;, &quot;query&quot;: &quot;mae(joana, F)&quot;, &quot;chips&quot;: [&quot;pai(P, jake)&quot;, &quot;mulher(Q)&quot;], &quot;edit&quot;: false}"></div>
+  <aside class="notes"><h4>O que dizer</h4><p>Agora a consulta tem uma variável. A resposta é o valor de <code>F</code> que torna a consulta verdadeira, e pode haver várias.</p><h4>O que fazer no simulador</h4><ul><li><kbd>Espaço</kbd> até a primeira resposta: <b>★ RESPOSTA 1: F = jake</b> (a cláusula 6 unificou e ligou F).</li><li>Mostre o painel <b>Pontos de escolha</b>: <code>mae/2</code> com 2 cláusulas restantes.</li><li>Pressione <kbd>Enter</kbd>: o rastro mostra <b>↩ VOLTA</b>, tenta a cláusula 7 e dá <b>RESPOSTA 2: F = ana</b>.</li><li>Continue: a cláusula 8 não unifica e a execução termina.</li></ul><h4>O que vai aparecer</h4><ul><li>Duas respostas (jake e ana), 15 passos no total.</li><li>Chip <code>pai(P, jake)</code>: uma resposta (jorge).</li><li>Chip <code>mulher(Q)</code>: sete respostas, na ordem dos fatos (22 passos).</li></ul><h4>Pergunta para a turma</h4><p>Quem decide a ordem das respostas? (A ordem dos fatos no arquivo: a busca é de cima para baixo.)</p></aside>
+</section>
+
+<section class="slide" id="unif" data-title="Unificação">
+  <header class="sh"><div class="sn">9</div><div class="tt"><div class="st">Unificação</div><div class="ss">Casar dois termos achando valores para as variáveis</div></div>
+    <div class="tags"><span class="t-sim">Simulação</span><span>≈ 4 min</span></div></header>
+  <div class="obs"><b>Observe</b><span>Cada linha mostra uma decisão da unificação. Em azul: decompõe a estrutura; em verde: liga uma variável; em vermelho: falha.</span></div>
+  <div class="body">
+      <div class="col"><div class="call b"><b class="k">Definição</b>Dois termos <b>unificam</b> se existe uma escolha de valores para as variáveis que os torna <b>iguais</b>.</div><ul class="pts"><li><b>Variável livre</b> unifica com qualquer termo: <b>liga</b> a variável.</li><li><b>Átomos e números</b> só unificam se forem iguais.</li><li><b>Estruturas</b>: mesmo functor e mesma aridade, e os argumentos unificam um a um.</li><li>Uma variável <b>não pode</b> receber dois valores ao mesmo tempo.</li><li>Não existe atribuição no Prolog: <b>só unificação</b>.</li></ul></div>
+      <div class="col w2"><div class="un" data-unif="{&quot;presets&quot;: [[&quot;a&quot;, &quot;a&quot;], [&quot;a&quot;, &quot;b&quot;], [&quot;f(X, b)&quot;, &quot;f(a, Y)&quot;], [&quot;f(X, X)&quot;, &quot;f(a, b)&quot;], [&quot;f(X, X)&quot;, &quot;f(a, Y)&quot;], [&quot;pai(X, jake)&quot;, &quot;pai(jorge, Y)&quot;], [&quot;[H|T]&quot;, &quot;[1, 2, 3]&quot;], [&quot;2 + 3&quot;, &quot;5&quot;]]}"></div></div>
+    </div>
+  <aside class="notes"><h4>O que dizer</h4><p>A unificação é a operação básica do Prolog: toda chamada de cláusula, toda consulta e o operador <code>=</code> usam unificação. Mostre o unificador passo a passo.</p><h4>O que fazer no simulador</h4><ul><li>Clique em <b>f(X, b) = f(a, Y)</b>: <kbd>Espaço</kbd> mostra o functor igual (f/2), depois <code>X = a</code> (liga X) e <code>b = Y</code> (liga Y a b).</li><li>Clique em <b>f(X, X) = f(a, b)</b>: X recebe <code>a</code> e, no 2º argumento, <code>X (= a) = b</code> falha (átomos diferentes ✘). A mesma variável não pode ter dois valores.</li><li>Em <b>f(X, X) = f(a, Y)</b> funciona: X = a e Y = a.</li><li>Em <b>2 + 3 = 5</b> a unificação falha: <code>2+3</code> é uma estrutura, não o número 5 (isso prepara o slide da aritmética).</li></ul><h4>O que vai aparecer</h4><ul><li>Os resultados são os mesmos do programa <code>unificacao.pl</code> do laboratório.</li><li>Você pode digitar outros pares nos campos e apertar Enter.</li></ul><h4>Pergunta para a turma</h4><p><code>[H|T] = []</code> unifica? (Não: a lista vazia não tem cabeça nem cauda.)</p></aside>
+</section>
+
+<section class="slide" id="sim-conj" data-title="Conjunção: metas que compartilham variáveis">
+  <header class="sh"><div class="sn">10</div><div class="tt"><div class="st">Conjunção: metas que compartilham variáveis</div><div class="ss">A vírgula é E; a 2ª meta usa o valor achado pela 1ª</div></div>
+    <div class="tags"><span class="t-sim">Simulação</span><span>≈ 3 min</span></div></header>
+  <div class="obs"><b>Observe</b><span>A vírgula é <b>E</b>. Depois que <code>mae(M, F)</code> liga F, a meta seguinte vira <code>homem(vern)</code> (veja <b>Metas pendentes</b>). Se ela falhar, o Prolog <b>volta</b> à 1ª.</span></div>
+  <div class="sim" data-sim="{&quot;prog&quot;: &quot;p_fam&quot;, &quot;query&quot;: &quot;mae(M, F), homem(F)&quot;, &quot;chips&quot;: [&quot;homem(X), mulher(X)&quot;, &quot;pai(vern, F), mulher(F)&quot;], &quot;edit&quot;: false}"></div>
+  <aside class="notes"><h4>O que dizer</h4><p>A conjunção resolve as metas da esquerda para a direita; as variáveis repetidas carregam o valor de uma meta para a outra.</p><h4>O que fazer no simulador</h4><ul><li><kbd>Espaço</kbd> até <b>CHAMA homem(vern)</b>: F já vale <code>vern</code>.</li><li>Pressione <kbd>Enter</kbd>: o primeiro par que também é homem: <b>M = lucia, F = vern</b>.</li><li><kbd>Enter</kbd> de novo: o rastro mostra <b>falha</b> em <code>homem(tereza)</code> e em <code>homem(joana)</code>, <b>volta</b> a <code>mae/2</code> a cada falha e chega a <b>M = marta, F = paulo</b>.</li><li>Rode tudo (<kbd>T</kbd>): 4 respostas em 95 passos.</li></ul><h4>O que vai aparecer</h4><ul><li>Respostas: lucia-vern, marta-paulo, joana-jake e dora-leo.</li><li>Chip <code>homem(X), mulher(X)</code>: <b>false</b> (ninguém é os dois).</li></ul><h4>Pergunta para a turma</h4><p>Por que o Prolog tenta <code>homem(tereza)</code> mesmo sabendo que tereza é mulher? (Ele não sabe: só testa as cláusulas.)</p></aside>
+</section>
+
+<section class="slide" id="regras" data-title="Regras: ensinando o Prolog a deduzir">
+  <header class="sh"><div class="sn">11</div><div class="tt"><div class="st">Regras: ensinando o Prolog a deduzir</div><div class="ss">cabeça :- corpo</div></div>
+    <div class="tags"><span class="t-con">Conceito</span><span>≈ 2 min</span></div></header>
+  
+  <div class="body"><div class="col w2"><pre class="code" data-hl>progenitor(X, Y) :- mae(X, Y).
+progenitor(X, Y) :- pai(X, Y).
+
+avo(X, Z) :- progenitor(X, Y),
+             progenitor(Y, Z).</pre><div class="call "><b class="k">Leitura</b><b>avo(X, Z)</b> é verdadeiro <b>se</b> existe um Y tal que X é progenitor de Y <b>e</b> Y é progenitor de Z.</div></div><div class="col"><div class="card g"><h4>Regra de ouro</h4><ul class="pts"><li>No corpo, a vírgula é <b>E</b>.</li><li>Duas cláusulas com a <b>mesma cabeça</b> formam um <b>OU</b> (<code class="i">progenitor</code>).</li><li>As variáveis valem <b>só dentro da cláusula</b>.</li><li>A cada uso, a cláusula ganha <b>variáveis novas</b> (renomeação): <code class="i">X_2</code>, <code class="i">Y_4</code>...</li><li>Para provar a meta, o Prolog a <b>troca pelo corpo</b> da regra.</li></ul></div></div></div>
+  <aside class="notes"><h4>O que dizer</h4><p>Introduza a regra como um “se”. Antecipe o que o simulador vai mostrar: a meta é substituída pelas metas do corpo, com variáveis renomeadas.</p><h4>Pergunta para a turma</h4><p>Quantas formas há de provar <code>progenitor(X, Y)</code>? (Duas: pela mãe ou pelo pai.)</p></aside>
+</section>
+
+<section class="slide" id="sim-avo" data-title="Regras na prática: avo(X, jake)">
+  <header class="sh"><div class="sn">12</div><div class="tt"><div class="st">Regras na prática: avo(X, jake)</div><div class="ss">A meta é trocada pelo corpo da regra</div></div>
+    <div class="tags"><span class="t-sim">Simulação</span><span>≈ 5 min</span></div></header>
+  <div class="obs"><b>Observe</b><span>A cabeça <code>avo(X, Z)</code> unifica com a meta; a meta é <b>trocada pelo corpo</b>. Veja as <b>variáveis renomeadas</b> (Y_4, X_5...) e as <b>metas pendentes</b>.</span></div>
+  <div class="sim" data-sim="{&quot;prog&quot;: &quot;p_regras&quot;, &quot;query&quot;: &quot;avo(X, jake)&quot;, &quot;chips&quot;: [&quot;avo(osvaldo, N)&quot;, &quot;progenitor(P, jake)&quot;], &quot;edit&quot;: false}"></div>
+  <aside class="notes"><h4>O que dizer</h4><p>É o slide central da aula: mostra a resolução completa de uma regra que encadeia outros predicados. Vá devagar nos primeiros 10 passos e depois use Enter.</p><h4>O que fazer no simulador</h4><ul><li><kbd>Espaço</kbd> até o passo 2: a cláusula de <code>avo/2</code> unifica e o painel <b>Metas pendentes</b> passa a mostrar <code>progenitor(X, Y_4), progenitor(Y_4, jake)</code>.</li><li>Passos 3 a 6: <code>progenitor</code> escolhe a cláusula da mãe e <code>mae</code> unifica com <b>mae(lucia, vern)</b>: X = lucia, Y_4 = vern.</li><li>Passo 7: a 2ª meta vira <code>progenitor(vern, jake)</code>. Ela falha (vern não é pai nem mãe de jake): nos passos 8 a 13 todas as cláusulas são tentadas (✘) e, no passo 14, aparece o <b>↩ VOLTA</b>.</li><li>Use <kbd>Enter</kbd>: a 1ª resposta é <b>X = marta</b> (passo 29) e a 2ª, <b>X = vern</b> (passo 79).</li></ul><h4>O que vai aparecer</h4><ul><li>103 passos no total e 2 respostas: <b>marta</b> (pela mãe da joana) e <b>vern</b> (pelo pai da joana).</li><li>O programa destacado à esquerda mostra qual cláusula está sendo tentada (verde = unificou; vermelho = não).</li></ul><h4>Pergunta para a turma</h4><p>Por que aparecem tantas tentativas ✘? (O Prolog testa todas as cláusulas na ordem; não há “inteligência”, só busca sistemática.)</p></aside>
+</section>
+
+<section class="slide" id="sim-anc" data-title="Recursão: ancestral">
+  <header class="sh"><div class="sn">13</div><div class="tt"><div class="st">Recursão: ancestral</div><div class="ss">Caso base + caso recursivo, sem laço</div></div>
+    <div class="tags"><span class="t-sim">Simulação</span><span>≈ 3 min</span></div></header>
+  <div class="obs"><b>Observe</b><span><code>ancestral</code> se chama de novo com um passo a menos. A <b>indentação</b> do rastro mostra a profundidade; a resposta nasce quando o <b>caso base</b> fecha.</span></div>
+  <div class="sim" data-sim="{&quot;prog&quot;: &quot;p_regras&quot;, &quot;query&quot;: &quot;ancestral(osvaldo, jake)&quot;, &quot;chips&quot;: [&quot;ancestral(osvaldo, X)&quot;, &quot;ancestral(X, jake)&quot;], &quot;edit&quot;: false}"></div>
+  <aside class="notes"><h4>O que dizer</h4><p>A recursão é o mecanismo de repetição do Prolog (não há laços). Mostre a profundidade do rastro e o caso base fechando a prova.</p><h4>O que fazer no simulador</h4><ul><li>Rode <kbd>Enter</kbd> para ir até a primeira resposta e observe a indentação do rastro (cada <b>CHAMA ancestral</b> mais fundo).</li><li>Troque pelo chip <code>ancestral(osvaldo, X)</code> e use <kbd>Enter</kbd> três vezes: <b>vern</b>, <b>joana</b> e <b>jake</b> (a cadeia osvaldo → vern → joana → jake).</li><li>Chip <code>ancestral(X, jake)</code>: a <b>mesma regra</b> responde de trás para frente.</li></ul><h4>O que vai aparecer</h4><ul><li><code>ancestral(osvaldo, jake)</code> é verdadeiro (osvaldo → vern → joana → jake).</li><li>A regra é <b>relacional</b>: qualquer argumento pode ser a incógnita.</li></ul><h4>Pergunta para a turma</h4><p>Qual é o caso base? (<code>ancestral(X, Y) :- progenitor(X, Y).</code>)</p></aside>
+</section>
+
+<section class="slide" id="listas" data-title="Listas: [Cabeça|Cauda]">
+  <header class="sh"><div class="sn">14</div><div class="tt"><div class="st">Listas: [Cabeça|Cauda]</div><div class="ss">O mesmo padrão do Scheme (car/cdr), agora em Prolog</div></div>
+    <div class="tags"><span class="t-sim">Conceito + unificação</span><span>≈ 3 min</span></div></header>
+  <div class="obs"><b>Observe</b><span>A lista <code>[a, b, c]</code> é o mesmo que <code>.(a, .(b, .(c, [])))</code>: pares de cabeça e cauda, como no Scheme.</span></div>
+  <div class="body">
+      <div class="col">
+        <div class="cells"><span class="cell"><b>a</b><i>•</i></span><span class="ar2">→</span><span class="cell"><b>b</b><i>•</i></span><span class="ar2">→</span><span class="cell"><b>c</b><i>[]</i></span></div>
+        <p style="font-size:18px;margin-top:4px">lista <code class="i">[a, b, c]</code>: cada célula guarda a <b>cabeça</b> e aponta para a <b>cauda</b>.</p><ul class="pts"><li>Uma lista é <code class="i">[]</code> (vazia) ou <code class="i">[H|T]</code>.</li><li><code class="i">[H|T] = [a, b, c]</code> dá <code class="i">H = a</code>, <code class="i">T = [b, c]</code>.</li><li><code class="i">car</code> ≈ cabeça, <code class="i">cdr</code> ≈ cauda (Aula 12).</li><li>Padrão de recursão: <b>lista vazia</b> como caso base; senão, trate a cabeça e recurse na cauda.</li></ul></div>
+      <div class="col w2"><div class="un" data-unif="{&quot;presets&quot;: [[&quot;[H|T]&quot;, &quot;[1, 2, 3]&quot;], [&quot;[X, Y|R]&quot;, &quot;[a, b, c, d]&quot;], [&quot;[H|T]&quot;, &quot;[]&quot;], [&quot;[a, X]&quot;, &quot;[a, b]&quot;], [&quot;[X|T]&quot;, &quot;[a|[b, c]]&quot;]]}"></div></div>
+    </div>
+  <aside class="notes"><h4>O que dizer</h4><p>Slide opcional (3 min), mas importante para os slides seguintes. Use o unificador para mostrar como <code>[H|T]</code> decompõe uma lista.</p><h4>O que fazer no simulador</h4><ul><li><b>[H|T] = [1, 2, 3]</b>: H = 1 e T = [2, 3].</li><li><b>[X, Y|R] = [a, b, c, d]</b>: dois elementos e o resto.</li><li><b>[H|T] = []</b>: falha (não há cabeça).</li></ul><h4>Pergunta para a turma</h4><p>No Scheme, o que faz <code>(car '(a b c))</code>? E o <code>(cdr '(a b c))</code>? (a; (b c).)</p></aside>
+</section>
+
+<section class="slide" id="sim-membro" data-title="Listas: membro">
+  <header class="sh"><div class="sn">15</div><div class="tt"><div class="st">Listas: membro</div><div class="ss">A mesma relação serve para testar e para gerar</div></div>
+    <div class="tags"><span class="t-sim">Simulação</span><span>≈ 2 min</span></div></header>
+  <div class="obs"><b>Observe</b><span>Cada <b>Enter</b> devolve um elemento. O <b>backtracking</b> tenta a 2ª cláusula (cauda) e gera o próximo. Sem laços.</span></div>
+  <div class="sim" data-sim="{&quot;prog&quot;: &quot;p_listas&quot;, &quot;query&quot;: &quot;membro(X, [a, b, c])&quot;, &quot;chips&quot;: [&quot;membro(c, [a, b, c])&quot;, &quot;membro(z, [a, b, c])&quot;], &quot;edit&quot;: false}"></div>
+  <aside class="notes"><h4>O que dizer</h4><p><code>membro</code> tem duas cláusulas: X é a cabeça, ou X está na cauda. Com X livre, ela gera os elementos um a um.</p><h4>O que fazer no simulador</h4><ul><li><kbd>Enter</kbd> três vezes: <b>X = a</b>, <b>X = b</b>, <b>X = c</b>.</li><li>Observe o rastro: cada resposta é um nível mais fundo de recursão sobre a cauda.</li><li>Chip <code>membro(z, [a, b, c])</code>: chega à lista vazia e falha (<b>false</b>).</li></ul><h4>O que vai aparecer</h4><ul><li>20 passos para as 3 respostas.</li><li><code>membro(c, [a, b, c])</code> é <b>true</b> (chip).</li></ul><h4>Pergunta para a turma</h4><p>Como seria o <code>membro</code> em Java? (Um laço com um if.) E o que mudou aqui? (Duas cláusulas e o backtracking.)</p></aside>
+</section>
+
+<section class="slide" id="sim-concat" data-title="Listas: concatena em várias direções">
+  <header class="sh"><div class="sn">16</div><div class="tt"><div class="st">Listas: concatena em várias direções</div><div class="ss">Relações não têm entrada e saída fixas</div></div>
+    <div class="tags"><span class="t-sim">Simulação</span><span>≈ 3 min</span></div></header>
+  <div class="obs"><b>Observe</b><span><code>concatena(X, Y, [1, 2])</code> <b>separa</b> a lista: são 3 respostas. Com os dois primeiros argumentos conhecidos, ela <b>junta</b> (chip).</span></div>
+  <div class="sim" data-sim="{&quot;prog&quot;: &quot;p_listas&quot;, &quot;query&quot;: &quot;concatena(X, Y, [1, 2])&quot;, &quot;chips&quot;: [&quot;concatena([1], [2, 3], L)&quot;, &quot;concatena(X, [3], [1, 2, 3])&quot;, &quot;inverte([1, 2, 3], R)&quot;, &quot;tamanho([a, b, c], N)&quot;], &quot;edit&quot;: false}"></div>
+  <aside class="notes"><h4>O que dizer</h4><p>O ponto alto da programação lógica: o mesmo código junta e separa listas, porque <code>concatena</code> é uma <b>relação</b>.</p><h4>O que fazer no simulador</h4><ul><li><kbd>Enter</kbd> três vezes: <b>X = [] / Y = [1, 2]</b>, depois <b>X = [1] / Y = [2]</b> e <b>X = [1, 2] / Y = []</b>.</li><li>Chip <code>concatena([1], [2, 3], L)</code>: <b>L = [1, 2, 3]</b> (uso “normal”, 10 passos).</li><li>Chip <code>concatena(X, [3], [1, 2, 3])</code>: <b>X = [1, 2]</b> (retira o final).</li><li>Se sobrar tempo: <code>inverte</code> e <code>tamanho</code>, que usam acumulador e aritmética.</li></ul><h4>O que vai aparecer</h4><ul><li>Separar a lista [1, 2]: 17 passos e 3 respostas.</li><li>O <code>anexar</code> do Scheme (Aula 12) só faz o primeiro uso.</li></ul><h4>Pergunta para a turma</h4><p>Uma função de Java consegue ser usada “ao contrário” assim? (Não: entradas e saídas são fixas.)</p></aside>
+</section>
+
+<section class="slide" id="sim-arit" data-title="Aritmética: = não calcula, is calcula">
+  <header class="sh"><div class="sn">17</div><div class="tt"><div class="st">Aritmética: = não calcula, is calcula</div><div class="ss">E a aritmética não é relacional</div></div>
+    <div class="tags"><span class="t-sim">Simulação</span><span>≈ 4 min</span></div></header>
+  <div class="obs"><b>Observe</b><span><code>is</code> <b>calcula</b> o lado direito; <code>=</code> só <b>unifica</b>. Veja as multiplicações pendentes empilhando e o <b>erro</b> ao perguntar “ao contrário”.</span></div>
+  <div class="sim" data-sim="{&quot;prog&quot;: &quot;p_arit&quot;, &quot;query&quot;: &quot;fatorial(3, F)&quot;, &quot;chips&quot;: [&quot;X is 2 + 3&quot;, &quot;X = 2 + 3&quot;, &quot;fatorial(N, 6)&quot;, &quot;fib(4, F)&quot;], &quot;edit&quot;: false}"></div>
+  <aside class="notes"><h4>O que dizer</h4><p>A aritmética tem uma regra: o lado direito de <code>is</code> precisa estar todo conhecido. Isso quebra a simetria das relações.</p><h4>O que fazer no simulador</h4><ul><li>Chip <code>X = 2 + 3</code>: <b>X = 2+3</b> (a estrutura, sem calcular). Chip <code>X is 2 + 3</code>: <b>X = 5</b>.</li><li><code>fatorial(3, F)</code>: <kbd>Espaço</kbd> acompanha <code>3 > 0</code>, <code>N1 is 3-1</code> e as chamadas descendo; as multiplicações <b>ficam pendentes</b> no painel e são resolvidas na volta.</li><li><b>★ RESPOSTA F = 6</b> no passo 21. Depois o Prolog volta (cláusula 2 de <code>fatorial(0, ...)</code>) e falha em <code>0 > 0</code>; total de 25 passos.</li><li>Chip <code>fatorial(N, 6)</code>: <b>ERRO instantiation_error</b> em 4 passos (<code>N > 0</code> com N livre).</li></ul><h4>O que vai aparecer</h4><ul><li>Fatorial de 3: 25 passos; <code>fib(4, F)</code>: 64 passos (recalcula chamadas).</li></ul><h4>Pergunta para a turma</h4><p>Por que <code>concatena(X, [3], [1,2,3])</code> funcionou ao contrário e <code>fatorial(N, 6)</code> não? (Unificação vale em qualquer direção; <code>is</code> não.)</p></aside>
+</section>
+
+<section class="slide" id="sim-back" data-title="Backtracking visível">
+  <header class="sh"><div class="sn">18</div><div class="tt"><div class="st">Backtracking visível</div><div class="ss">O rastro mostra cada tentativa e para onde ele volta</div></div>
+    <div class="tags"><span class="t-sim">Simulação</span><span>≈ 3 min</span></div></header>
+  <div class="obs"><b>Observe</b><span>O <code>format</code> imprime cada tentativa (painel <b>Respostas</b>, na coluna da direita). Veja <b>onde</b> o Prolog volta quando uma meta falha.</span></div>
+  <div class="sim" data-sim="{&quot;prog&quot;: &quot;p_back&quot;, &quot;query&quot;: &quot;mesmo_gosto(X, Y)&quot;, &quot;chips&quot;: [&quot;gosta(X, cafe)&quot;, &quot;amigo(A), amigo(B), A \\== B&quot;], &quot;edit&quot;: false}"></div>
+  <aside class="notes"><h4>O que dizer</h4><p>A busca é <b>em profundidade</b>: escolhe X, escolhe Y e só então testa as outras metas; quando uma meta falha, volta à <b>última</b> escolha pendente.</p><h4>O que fazer no simulador</h4><ul><li><kbd>Espaço</kbd> até o passo 8: com X = ana e Y = ana, a meta <code>ana \== ana</code> <b>falha</b>.</li><li>Passo 9: <b>↩ VOLTA</b> ao ponto de escolha de <code>amigo(Y)</code> (o mais recente), não ao de X.</li><li>Passos 11 a 24: com ana e bia, <code>gosta(bia, cafe)</code> falha; ele volta de novo.</li><li><kbd>Enter</kbd>: primeira resposta <b>X = ana, Y = caio</b> (passo 34); continue até a 2ª (<b>caio e ana</b>).</li></ul><h4>O que vai aparecer</h4><ul><li>O painel <b>Respostas</b> mostra as linhas “tenta ana e ana”, “tenta ana e bia”..., igual à saída de <code>controle.pl</code> no laboratório.</li><li>109 passos e 2 respostas.</li></ul><h4>Pergunta para a turma</h4><p>Por que o Prolog tenta “bia e ana” antes de terminar? (Depois de esgotar Y para X = ana, ele volta e escolhe X = bia.)</p></aside>
+</section>
+
+<section class="slide" id="sim-neg" data-title="Negação como falha e mundo fechado">
+  <header class="sh"><div class="sn">19</div><div class="tt"><div class="st">Negação como falha e mundo fechado</div><div class="ss">\+ quer dizer “não consigo provar”</div></div>
+    <div class="tags"><span class="t-sim">Simulação</span><span>≈ 3 min</span></div></header>
+  <div class="obs"><b>Observe</b><span><code>\+ M</code> tenta <b>provar</b> M. Se conseguir, <code>\+</code> falha; se não conseguir, vale. A <b>ordem</b> das metas muda o resultado.</span></div>
+  <div class="sim" data-sim="{&quot;prog&quot;: &quot;p_neg&quot;, &quot;query&quot;: &quot;solteiro1(X)&quot;, &quot;chips&quot;: [&quot;solteiro2(X)&quot;, &quot;\\+ casado(jake)&quot;, &quot;\\+ casado(vern)&quot;], &quot;edit&quot;: false}"></div>
+  <aside class="notes"><h4>O que dizer</h4><p>A negação do Prolog não é a lógica clássica: é “negação como falha”. Com X livre, <code>casado(X)</code> é provável, então <code>\+ casado(X)</code> falha.</p><h4>O que fazer no simulador</h4><ul><li><code>solteiro1(X)</code>: <kbd>Enter</kbd> duas vezes: <b>osvaldo</b> e <b>paulo</b> (X já tem valor quando \+ roda).</li><li>No rastro, veja <b>⚙ \+ casado(vern)</b>: a meta é provada, o Prolog <b>compromete</b> (descarta os pontos de escolha) e <code>fail</code> força o backtracking.</li><li>Chip <code>solteiro2(X)</code>: <b>false</b> em 8 passos: <code>\+ casado(X)</code> com X livre falha de cara.</li></ul><h4>O que vai aparecer</h4><ul><li><code>solteiro1</code>: 36 passos, respostas osvaldo e paulo (jorge e vern são casados).</li><li>Osvaldo aparece solteiro porque a base não diz que ele é casado: <b>mundo fechado</b>.</li></ul><h4>Pergunta para a turma</h4><p>Qual a diferença entre <code>solteiro1</code> e <code>solteiro2</code>? (Só a ordem das metas.)</p></aside>
+</section>
+
+<section class="slide" id="sim-corte" data-title="O corte (!)">
+  <header class="sh"><div class="sn">20</div><div class="tt"><div class="st">O corte (!)</div><div class="ss">Poda alternativas e pode mudar o significado</div></div>
+    <div class="tags"><span class="t-sim">Simulação</span><span>≈ 3 min</span></div></header>
+  <div class="obs"><b>Observe</b><span>O <b>!</b> descarta os pontos de escolha pendentes: <code>maximo3</code> não volta para a 2ª cláusula. Mas veja o que acontece com <code>maximo3(5, 3, 3)</code>.</span></div>
+  <div class="sim" data-sim="{&quot;prog&quot;: &quot;p_corte&quot;, &quot;query&quot;: &quot;maximo2(5, 3, M)&quot;, &quot;chips&quot;: [&quot;maximo3(5, 3, M)&quot;, &quot;maximo3(5, 3, 3)&quot;, &quot;maximo1(5, 3, 3)&quot;], &quot;edit&quot;: false}"></div>
+  <aside class="notes"><h4>O que dizer</h4><p>O corte controla o backtracking. Compare as três versões de <code>maximo</code>: sem corte e sem teste (duas respostas), com corte (uma) e a pegadinha do terceiro argumento já conhecido.</p><h4>O que fazer no simulador</h4><ul><li><code>maximo2(5, 3, M)</code>: <b>M = 5</b> e <b>M = 3</b> (a 2ª cláusula não tem teste).</li><li>Chip <code>maximo3(5, 3, M)</code>: no passo 4 aparece <b>✂ CORTE</b>: descarta 1 ponto de escolha; <b>só M = 5</b>.</li><li>Chip <code>maximo3(5, 3, 3)</code>: a cláusula 1 <b>não unifica</b> (3 ≠ 5), o corte nem é alcançado, a cláusula 2 responde <b>true</b>: errado!</li><li>Chip <code>maximo1(5, 3, 3)</code>: <b>false</b> (a versão sem corte, com testes, está correta).</li></ul><h4>O que vai aparecer</h4><ul><li>Correção: unificar <b>depois</b> do corte: <code>maximo4(X, Y, Z) :- X >= Y, !, Z = X.</code> (você pode editar o programa e aplicar para testar).</li></ul><h4>Pergunta para a turma</h4><p>O corte muda o que o programa significa ou só a eficiência? (Pode mudar o significado: daí o cuidado.)</p></aside>
+</section>
+
+<section class="slide" id="sim-ordem" data-title="A ordem das metas importa">
+  <header class="sh"><div class="sn">21</div><div class="tt"><div class="st">A ordem das metas importa</div><div class="ss">Mesma lógica, execução diferente</div></div>
+    <div class="tags"><span class="t-sim">Simulação</span><span>≈ 2 min</span></div></header>
+  <div class="obs"><b>Observe</b><span><code>ancestral_ruim</code> chama a si mesma <b>antes</b> de consumir qualquer fato: a recursão não tem fim e a pilha <b>estoura</b>. Use Passo e depois T.</span></div>
+  <div class="sim" data-sim="{&quot;prog&quot;: &quot;p_ordem&quot;, &quot;query&quot;: &quot;ancestral_bom(osvaldo, jake)&quot;, &quot;chips&quot;: [&quot;ancestral_ruim(osvaldo, jake)&quot;, &quot;ancestral_bom(osvaldo, X)&quot;], &quot;edit&quot;: false}"></div>
+  <aside class="notes"><h4>O que dizer</h4><p>Logicamente as duas versões dizem o mesmo; o Prolog executa na ordem escrita. É a “recursão à esquerda” e é uma das deficiências do Prolog (controle da ordem de resolução).</p><h4>O que fazer no simulador</h4><ul><li><code>ancestral_bom(osvaldo, jake)</code>: <kbd>Enter</kbd>: responde <b>true</b> (130 passos).</li><li>Chip <code>ancestral_ruim(osvaldo, jake)</code>: <kbd>Espaço</kbd> 10 vezes: cada passo repete a mesma chamada com <b>indentação cada vez maior</b>.</li><li>Pressione <kbd>T</kbd>: após ~1500 chamadas aninhadas o simulador mostra <b>estouro de pilha</b> (o OneCompiler mostra “Fatal Error: local stack overflow”).</li></ul><h4>O que vai aparecer</h4><ul><li>O erro aparece em 3003 passos (o limite de profundidade é 1500).</li></ul><h4>Pergunta para a turma</h4><p>Como consertar? (Consumir um <code>progenitor</code> antes de recursar: é a versão <code>ancestral_bom</code>.)</p></aside>
+</section>
+
+<section class="slide" id="sim-mapa" data-title="Busca declarativa: colorir um mapa">
+  <header class="sh"><div class="sn">22</div><div class="tt"><div class="st">Busca declarativa: colorir um mapa</div><div class="ss">Só descrevemos o que é válido; o backtracking procura</div></div>
+    <div class="tags"><span class="t-sim">Simulação</span><span>≈ 3 min</span></div></header>
+  <div class="obs"><b>Observe</b><span>Gerar e testar: <code>membro</code> escolhe uma cor para cada região e <code>\==</code> rejeita vizinhos iguais. Nenhum laço, nenhum algoritmo de coloração.</span></div>
+  <div class="sim" data-sim="{&quot;prog&quot;: &quot;p_mapa&quot;, &quot;query&quot;: &quot;mapa_sul([vermelho, verde, azul], C)&quot;, &quot;chips&quot;: [&quot;findall(C, mapa_sul([vermelho, verde, azul], C), L), length(L, N)&quot;, &quot;mapa_sul([vermelho, verde], C)&quot;, &quot;mapa_sul([vermelho], C)&quot;], &quot;edit&quot;: false}"></div>
+  <aside class="notes"><h4>O que dizer</h4><p>Fecha a parte técnica com um problema de busca: a regra do mapa é só “vizinhos têm cores diferentes”. O Prolog gera combinações e o backtracking rejeita as inválidas.</p><h4>O que fazer no simulador</h4><ul><li><kbd>Enter</kbd>: primeira coloração <b>[vermelho, verde, vermelho]</b> (RS, SC, PR).</li><li>Chip do <code>findall</code>: <b>12</b> colorações com 3 cores.</li><li>Chip com 2 cores: 2 respostas; com 1 cor: <b>false</b> (RS e SC são vizinhos).</li></ul><h4>O que vai aparecer</h4><ul><li>No laboratório o mapa é maior (RS, SC, PR, SP, MS, MG, RJ, ES): 24 colorações com 3 cores.</li></ul><h4>Pergunta para a turma</h4><p>O que torna este programa declarativo? (Ele diz o que é uma coloração válida, não como encontrá-la.)</p></aside>
+</section>
+
+<section class="slide" id="quadro" data-title="Os três paradigmas lado a lado">
+  <header class="sh"><div class="sn">23</div><div class="tt"><div class="st">Os três paradigmas lado a lado</div><div class="ss">Imperativo, funcional (Aula 12) e lógico (hoje)</div></div>
+    <div class="tags"><span class="t-con">Conceito</span><span>≈ 2 min</span></div></header>
+  
+  <div class="body"><div class="col w2"><table class="t"><tr><th></th><th>Imperativo</th><th>Funcional</th><th>Lógico</th></tr><tr><td>Você descreve</td><td>os passos</td><td>funções que se compõem</td><td>fatos, regras e perguntas</td></tr><tr><td>Repetição por</td><td>laços</td><td>recursão e formas funcionais</td><td>recursão e backtracking</td></tr><tr><td>Variáveis</td><td>mudam (atribuição)</td><td>só valores</td><td>ligadas por unificação</td></tr><tr><td>Direção de uso</td><td>uma (entrada → saída)</td><td>uma</td><td><b>várias</b> (relações)</td></tr><tr><td>Resultado</td><td>estado final</td><td>valor devolvido</td><td>respostas da prova</td></tr><tr><td>Na aula</td><td>—</td><td><code>anexar</code>, <code>pares</code></td><td><code>concatena</code>, <code>ancestral</code></td></tr></table></div></div>
+  <aside class="notes"><h4>O que dizer</h4><p>Slide opcional (2 min). Feche a comparação com o funcional da Aula 12: a mesma recursão sobre listas, mas relações em vez de funções.</p><h4>Pergunta para a turma</h4><p>Em que problema você escolheria Prolog em vez de Java? (Regras e buscas: sistemas especialistas, linguagem natural, restrições.)</p></aside>
+</section>
+
+<section class="slide" id="limites" data-title="Limites e aplicações">
+  <header class="sh"><div class="sn">24</div><div class="tt"><div class="st">Limites e aplicações</div><div class="ss">Sebesta, §16.7 e §16.8</div></div>
+    <div class="tags"><span class="t-con">Conceito</span><span>≈ 2 min</span></div></header>
+  
+  <div class="body"><div class="col"><div class="card w"><h4>Deficiências (o que vimos)</h4><ul class="pts"><li><b>Controle da ordem de resolução</b>: recursão à esquerda estoura a pilha (slide 21).</li><li><b>Mundo fechado</b>: “não provo” vira “falso” (slides 7 e 19).</li><li><b>Problema da negação</b>: <code class="i">\+</code> não é a negação lógica (slide 19).</li><li><b>Corte</b>: poda a busca, mas pode mudar o significado (slide 20).</li><li><b>Aritmética</b> não relacional (slide 17).</li></ul></div></div><div class="col"><div class="card g"><h4>Aplicações</h4><ul class="pts"><li><b>Bancos de dados dedutivos</b> (relação com SQL e Datalog)</li><li><b>Sistemas especialistas</b> (regras “se... então”)</li><li><b>Processamento de linguagem natural</b></li><li><b>Restrições e planejamento</b> (CLP)</li><li><b>Enigmas e verificação</b></li></ul></div></div></div>
+  <aside class="notes"><h4>O que dizer</h4><p>Amarre os limites aos slides em que eles apareceram. É uma boa hora para perguntar à turma quando usaria Prolog.</p><h4>Pergunta para a turma</h4><p>Qual limite você achou mais perigoso? Por quê?</p><h4>Referência</h4><p>Sebesta, §16.7 (deficiências do Prolog) e §16.8 (aplicações). Confira as páginas na sua edição.</p></aside>
+</section>
+
+<section class="slide" id="play" data-title="Playground: digite você mesmo">
+  <header class="sh"><div class="sn">25</div><div class="tt"><div class="st">Playground: digite você mesmo</div><div class="ss">Programa livre: editável ao vivo</div></div>
+    <div class="tags"><span class="t-sim">Simulação</span><span>≈ 3 min</span></div></header>
+  <div class="obs"><b>Observe</b><span>O programa está em <b>modo de edição</b>: altere, clique em <b>Aplicar</b> e consulte. Tente <code>findall(X, ancestral(osvaldo, X), L)</code>.</span></div>
+  <div class="sim" data-sim="{&quot;prog&quot;: &quot;p_play&quot;, &quot;query&quot;: &quot;ancestral(osvaldo, X)&quot;, &quot;chips&quot;: [&quot;tio(T, jake)&quot;, &quot;irmao(jake, I)&quot;, &quot;membro(X, [a, b])&quot;], &quot;edit&quot;: true}"></div>
+  <aside class="notes"><h4>O que dizer</h4><p>Momento aberto: deixe a turma sugerir consultas e alterações no programa (por exemplo, acrescentar um fato novo e ver o efeito).</p><h4>O que fazer no simulador</h4><ul><li>Peça uma consulta nova e digite no campo ?-. <kbd>Enter</kbd> no campo executa.</li><li>Edite o programa: acrescente <code>mae(tereza, zeca).</code> (clique em Aplicar) e consulte <code>mae(tereza, F)</code>: agora são duas respostas, <b>bia</b> e <b>zeca</b>.</li><li>Digite <code>findall(X, ancestral(osvaldo, X), L)</code> e rode tudo (<kbd>T</kbd>).</li></ul><h4>O que vai aparecer</h4><ul><li>O simulador aceita fatos, regras, <code>findall</code>, <code>\+</code>, <code>!</code>, <code>is</code> e <code>format</code>.</li><li>Ao editar, escreva sem acentos para poder copiar o programa depois para o OneCompiler.</li></ul><h4>Pergunta para a turma</h4><p>O que acontece se você apagar uma cláusula de <code>progenitor</code>? (Predicados deixam de provar certos fatos.)</p></aside>
+</section>
+
+<section class="slide" id="fim" data-title="Fechamento">
+  <header class="sh"><div class="sn">26</div><div class="tt"><div class="st">Fechamento</div><div class="ss">O que vimos e o que fazer agora</div></div>
+    <div class="tags"><span class="t-con">Conceito</span><span>≈ 1 min</span></div></header>
+  
+  <div class="body"><div class="col w2"><div class="card "><h4>Em uma página</h4><ul class="pts"><li><b>Fatos, regras e consultas</b>: programa = declarações; executar = provar.</li><li><b>Unificação</b>: casar termos ligando variáveis.</li><li><b>Backtracking</b>: busca em profundidade com pontos de escolha.</li><li><b>Recursão</b> no lugar de laços; <b>relações</b> em várias direções.</li><li><b>Cuidados</b>: ordem das metas, mundo fechado, negação, corte, aritmética.</li></ul></div></div><div class="col"><div class="card g"><h4>Agora, mão na massa</h4><ul class="pts"><li><b>Laboratório</b> (<code class="i">Aula013_Laboratorio_Prolog.html</code>) no OneCompiler: prever, executar, registrar.</li><li><b>Exercícios opcionais</b>: <code class="i">exemplos/08_exercicio</code>.</li><li>Escreva o código <b>sem acentos</b> no OneCompiler.</li></ul></div></div></div>
+  <aside class="notes"><h4>O que dizer</h4><p>Retome em voz alta as quatro ideias (fatos/regras, unificação, backtracking, recursão) e aponte o laboratório.</p><h4>Pergunta para a turma</h4><p>Qual conceito do dia você ainda não consegue explicar sem olhar? (Use para abrir a revisão ou as dúvidas.)</p></aside>
+</section>
+</div></div></div>
+
+<div id="prog"></div>
+<div id="notes" role="region" aria-label="Anotações do apresentador"></div>
+<div id="bar">
+  <button id="bprev" title="Slide anterior (←)" aria-label="Anterior">◀</button>
+  <span id="count">1 / 1</span>
+  <button id="bnext" title="Próximo slide (→)" aria-label="Próximo">▶</button>
+  <span class="hintsim" id="hintsim"></span>
+  <span class="sp"></span>
+  <button id="clock" title="Cronômetro regressivo (C inicia/pausa; Shift+R reinicia)">⏱ 70:00</button>
+  <button id="bnotes" aria-pressed="false" title="Anotações do apresentador (N)">Notas (N)</button>
+  <button id="bpres" title="Janela do apresentador (P)">Apresentador (P)</button>
+  <button id="bfull" title="Tela cheia (F)">Tela cheia (F)</button>
+  <button id="bhelp" title="Atalhos (?)">?</button>
+</div>
+<div id="help" role="dialog" aria-label="Atalhos"><div>
+  <h3>Atalhos</h3>
+  <dl>
+    <dt>→ PgDn</dt><dd>Próximo slide</dd>
+    <dt>← PgUp</dt><dd>Slide anterior</dd>
+    <dt>Espaço</dt><dd><b>Slide com simulador:</b> um passo da execução. Nos outros: próximo slide</dd>
+    <dt>Enter</dt><dd>Simulador: executa até a próxima resposta (o <code>;</code> do Prolog)</dd>
+    <dt>T</dt><dd>Simulador: roda tudo</dd>
+    <dt>R</dt><dd>Simulador: reinicia a consulta</dd>
+    <dt>A</dt><dd>Simulador: liga/desliga o modo automático</dd>
+    <dt>N</dt><dd>Anotações do apresentador (não use com o projetor ligado)</dd>
+    <dt>P</dt><dd>Janela do apresentador (arraste para o seu monitor)</dd>
+    <dt>C</dt><dd>Cronômetro (Shift+R reinicia)</dd>
+    <dt>F · D · Esc</dt><dd>Tela cheia · tema claro/escuro · fechar ajuda</dd>
+  </dl>
+  <p style="margin:12px 0 0;font-size:14px;color:var(--muted)">Os atalhos do simulador não funcionam enquanto você digita em um campo de texto.</p>
+</div></div>
+<div id="toast"></div>
+
+<script>
+/* Mini Prolog passo a passo para a aula (Aula 13). Sem dependencias.
+   Roda no navegador e no Node (module.exports). */
+(function (root) {
+  'use strict';
+
+  // ------------------------------------------------------------------ termos
+  let VID = 0;
+  const mkVar = (name) => ({ t: 'v', id: ++VID, ref: null, name: name || '_' });
+  const mkAtom = (n) => ({ t: 'a', n });
+  const mkNum = (v, f) => ({ t: 'n', v, f: !!f });
+  const mkStr = (n, a) => ({ t: 's', n, a });
+  const NIL = mkAtom('[]');
+  const cons = (h, t) => mkStr('.', [h, t]);
+  const deref = (x) => { while (x.t === 'v' && x.ref) x = x.ref; return x; };
+  const isCons = (x) => x.t === 's' && x.n === '.' && x.a.length === 2;
+  const fromArray = (arr, tail) => { let l = tail || NIL; for (let i = arr.length - 1; i >= 0; i--) l = cons(arr[i], l); return l; };
+
+  class PrologError extends Error {
+    constructor(kind, text) { super(text); this.kind = kind; this.text = text; }
+  }
+
+  // ------------------------------------------------------------------ parser
+  const PREFIX = { '\\+': [900, 'fy'], '-': [200, 'fy'], '+': [200, 'fy'], ':-': [1200, 'fx'], '?-': [1200, 'fx'] };
+  const INFIX = {
+    ':-': [1200, 'xfx'], ';': [1100, 'xfy'], '->': [1050, 'xfy'], ',': [1000, 'xfy'],
+    '=': [700, 'xfx'], '\\=': [700, 'xfx'], '==': [700, 'xfx'], '\\==': [700, 'xfx'], 'is': [700, 'xfx'],
+    '=:=': [700, 'xfx'], '=\\=': [700, 'xfx'], '<': [700, 'xfx'], '>': [700, 'xfx'], '=<': [700, 'xfx'], '>=': [700, 'xfx'],
+    '=..': [700, 'xfx'], '+': [500, 'yfx'], '-': [500, 'yfx'], '*': [400, 'yfx'], '/': [400, 'yfx'], '//': [400, 'yfx'],
+    'mod': [400, 'yfx'], 'rem': [400, 'yfx'], '^': [200, 'xfy']
+  };
+  const SYMCH = '+-*/\\^<>=~:.?@#&$';
+
+  function tokenize(src) {
+    const toks = []; let i = 0, line = 1;
+    const n = src.length;
+    while (i < n) {
+      const c = src[i];
+      if (c === '\n') { line++; i++; continue; }
+      if (/\s/.test(c)) { i++; continue; }
+      if (c === '%') { while (i < n && src[i] !== '\n') i++; continue; }
+      if (c === '/' && src[i + 1] === '*') { i += 2; while (i < n && !(src[i] === '*' && src[i + 1] === '/')) { if (src[i] === '\n') line++; i++; } i += 2; continue; }
+      const start = i, ln = line;
+      const layout = start > 0 && /\s/.test(src[start - 1]);
+      let tok = null;
+      if (/[0-9]/.test(c)) {
+        let j = i; while (j < n && /[0-9]/.test(src[j])) j++;
+        let isF = false;
+        if (src[j] === '.' && /[0-9]/.test(src[j + 1] || '')) { isF = true; j++; while (j < n && /[0-9]/.test(src[j])) j++; }
+        if ((src[j] === 'e' || src[j] === 'E') && /[0-9+\-]/.test(src[j + 1] || '')) { let k = j + 1; if (/[+\-]/.test(src[k])) k++; if (/[0-9]/.test(src[k] || '')) { isF = true; j = k; while (j < n && /[0-9]/.test(src[j])) j++; } }
+        tok = { k: 'num', v: parseFloat(src.slice(i, j)), f: isF }; i = j;
+      } else if (/[A-Z_]/.test(c)) {
+        let j = i; while (j < n && /[A-Za-z0-9_]/.test(src[j])) j++;
+        tok = { k: 'var', v: src.slice(i, j) }; i = j;
+      } else if (/[a-z]/.test(c)) {
+        let j = i; while (j < n && /[A-Za-z0-9_]/.test(src[j])) j++;
+        tok = { k: 'atom', v: src.slice(i, j) }; i = j;
+      } else if (c === "'" || c === '"') {
+        let j = i + 1, s = '';
+        while (j < n) {
+          if (src[j] === c) { if (src[j + 1] === c) { s += c; j += 2; continue; } break; }
+          if (src[j] === '\\' && j + 1 < n) { const e = src[j + 1]; s += e === 'n' ? '\n' : e === 't' ? '\t' : e; j += 2; continue; }
+          if (src[j] === '\n') line++;
+          s += src[j]; j++;
+        }
+        if (j >= n) throw new PrologError('syntax', 'texto entre aspas nao terminado (linha ' + ln + ')');
+        tok = { k: 'qatom', v: s }; i = j + 1;
+      } else if (c === '.' && (i + 1 >= n || /[\s%]/.test(src[i + 1]))) {
+        tok = { k: 'end', v: '.' }; i++;
+      } else if (c === '!' || c === ';') {
+        tok = { k: 'atom', v: c }; i++;
+      } else if ('()[]{},|'.includes(c)) {
+        tok = { k: 'punct', v: c }; i++;
+      } else if (SYMCH.includes(c)) {
+        let j = i; while (j < n && SYMCH.includes(src[j])) j++;
+        // um ponto final colado em simbolos (ex.: "X = Y.") nao faz parte do atomo
+        if (src[j - 1] === '.' && j - i > 1 && (j >= n || /[\s%]/.test(src[j]))) j--;
+        tok = { k: 'atom', v: src.slice(i, j) }; i = j;
+      } else {
+        throw new PrologError('syntax', 'caractere inesperado "' + c + '" (linha ' + ln + ')');
+      }
+      tok.line = ln; tok.layout = layout; tok.pos = start; tok.endPos = i;
+      tok.fn = (tok.k === 'atom' || tok.k === 'qatom') && src[i] === '(';
+      toks.push(tok);
+    }
+    return toks;
+  }
+
+  class Parser {
+    constructor(src) { this.src = src; this.toks = tokenize(src); this.p = 0; this.vars = null; }
+    peek() { return this.toks[this.p]; }
+    next() { return this.toks[this.p++]; }
+    eof() { return this.p >= this.toks.length; }
+    err(msg, tok) { throw new PrologError('syntax', msg + (tok ? ' (linha ' + tok.line + ')' : '')); }
+    readClauseTerm() {
+      if (this.eof()) return null;
+      this.vars = new Map(); this.varList = [];
+      const startTok = this.peek();
+      const t = this.parse(1200);
+      const e = this.next();
+      if (!e || e.k !== 'end') this.err('faltou o ponto final', e || startTok);
+      return { term: t, startTok, endTok: e };
+    }
+    parse(max) {
+      let { term, prec } = this.primary(max);
+      for (;;) {
+        const t = this.peek(); if (!t) break;
+        let name = null;
+        if (t.k === 'atom' || t.k === 'qatom') name = t.v; else if (t.k === 'punct' && t.v === ',') name = ','; else if (t.k === 'punct' && t.v === '|') name = ';';
+        if (name === null || !INFIX[name]) break;
+        const [p, type] = INFIX[name];
+        const lmax = type[0] === 'y' ? p : p - 1, rmax = type[2] === 'y' ? p : p - 1;
+        if (p > max || prec > lmax) break;
+        this.next();
+        const right = this.parse(rmax);
+        term = mkStr(name, [term, right]); prec = p;
+      }
+      return term;
+    }
+    primary(max) {
+      const t = this.next();
+      if (!t) this.err('fim inesperado');
+      if (t.k === 'num') return { term: mkNum(t.v, t.f), prec: 0 };
+      if (t.k === 'var') {
+        if (t.v === '_') return { term: mkVar('_'), prec: 0 };
+        if (!this.vars.has(t.v)) { const v = mkVar(t.v); this.vars.set(t.v, v); this.varList.push(v); }
+        return { term: this.vars.get(t.v), prec: 0 };
+      }
+      if (t.k === 'punct') {
+        if (t.v === '(') { const x = this.parse(1200); this.expect(')'); return { term: x, prec: 0 }; }
+        if (t.v === '[') {
+          if (this.peek() && this.peek().k === 'punct' && this.peek().v === ']') { this.next(); return this.atomOrCompound('[]', t, max); }
+          const items = [this.parse(999)]; let tail = NIL;
+          for (;;) {
+            const q = this.next();
+            if (!q) this.err('lista nao fechada', t);
+            if (q.k === 'punct' && q.v === ',') { items.push(this.parse(999)); continue; }
+            if (q.k === 'punct' && q.v === '|') { tail = this.parse(999); this.expect(']'); break; }
+            if (q.k === 'punct' && q.v === ']') break;
+            this.err('esperava , | ou ] na lista', q);
+          }
+          return { term: fromArray(items, tail), prec: 0 };
+        }
+        if (t.v === '{') { if (this.peek() && this.peek().v === '}') { this.next(); return { term: mkAtom('{}'), prec: 0 }; } const x = this.parse(1200); this.expect('}'); return { term: mkStr('{}', [x]), prec: 0 }; }
+        this.err('simbolo inesperado "' + t.v + '"', t);
+      }
+      if (t.k === 'end') this.err('ponto final inesperado', t);
+      // atomo
+      const name = t.v;
+      if (t.k === 'atom' && name === '-' && this.peek() && this.peek().k === 'num' && !this.peek().layout && !t.fn) {
+        const nt = this.next(); return { term: mkNum(-nt.v, nt.f), prec: 0 };
+      }
+      if (t.fn) return this.atomOrCompound(name, t, max);
+      if (t.k === 'atom' && PREFIX[name]) {
+        const nx = this.peek();
+        const startsTerm = nx && !(nx.k === 'end') && !(nx.k === 'punct' && (nx.v === ')' || nx.v === ',' || nx.v === '|' || nx.v === ']' || nx.v === '}')) &&
+          !((nx.k === 'atom') && INFIX[nx.v] && !PREFIX[nx.v] && !nx.fn);
+        if (startsTerm) {
+          let [p, type] = PREFIX[name];
+          if (p > max) { p = 999; }
+          const amax = type === 'fy' ? p : p - 1;
+          const arg = this.parse(amax);
+          return { term: mkStr(name, [arg]), prec: p };
+        }
+      }
+      return { term: mkAtom(name), prec: 0 };
+    }
+    atomOrCompound(name, t, max) {
+      if (this.peek() && this.peek().k === 'punct' && this.peek().v === '(' && !this.peek().layout) {
+        this.next();
+        const args = [this.parse(999)];
+        for (;;) {
+          const q = this.next();
+          if (!q) this.err('parenteses nao fechado', t);
+          if (q.k === 'punct' && q.v === ',') { args.push(this.parse(999)); continue; }
+          if (q.k === 'punct' && q.v === ')') break;
+          this.err('esperava , ou )', q);
+        }
+        return { term: mkStr(name, args), prec: 0 };
+      }
+      return { term: mkAtom(name), prec: 0 };
+    }
+    expect(ch) { const t = this.next(); if (!t || t.k !== 'punct' || t.v !== ch) this.err('esperava "' + ch + '"', t); }
+  }
+
+  // ------------------------------------------------------------------ impressao
+  const SPACED = new Set(['=', '\\=', '==', '\\==', 'is', '=:=', '=\\=', '<', '>', '=<', '>=', '->', ':-', '=..', ';']);
+  function varLabel(v) {
+    if (v.name === '_' || !v.name) return '_' + v.id;
+    return v.q ? v.name : v.name + '_' + v.id;
+  }
+  function fmtAtom(n, quoted) {
+    if (!quoted) return n;
+    if (/^[a-z][A-Za-z0-9_]*$/.test(n) || n === '[]' || n === '!' || n === ';' || /^[+\-*\/\\^<>=~:.?@#&$]+$/.test(n)) return n;
+    return "'" + n.replace(/'/g, "''") + "'";
+  }
+  function fmt(x, quoted, prec) {
+    x = deref(x); prec = prec === undefined ? 1200 : prec;
+    if (x.t === 'v') return varLabel(x);
+    if (x.t === 'n') {
+      if (x.f && Number.isInteger(x.v)) return x.v.toFixed(1);
+      return String(x.v);
+    }
+    if (x.t === 'a') return fmtAtom(x.n, quoted);
+    if (isCons(x)) {
+      const items = []; let l = x;
+      while (isCons(l)) { items.push(fmt(l.a[0], quoted, 999)); l = deref(l.a[1]); }
+      let s = '[' + items.join(', ');
+      if (!(l.t === 'a' && l.n === '[]')) s += '|' + fmt(l, quoted, 999);
+      return s + ']';
+    }
+    if (x.a.length === 2 && INFIX[x.n]) {
+      const [p, type] = INFIX[x.n];
+      const lp = type[0] === 'y' ? p : p - 1, rp = type[2] === 'y' ? p : p - 1;
+      let op = x.n === ',' ? ', ' : (SPACED.has(x.n) || /^[a-z]/.test(x.n)) ? ' ' + x.n + ' ' : x.n;
+      const s = fmt(x.a[0], quoted, lp) + op + fmt(x.a[1], quoted, rp);
+      return p > prec ? '(' + s + ')' : s;
+    }
+    if (x.a.length === 1 && PREFIX[x.n] && x.n !== ':-') {
+      const [p, type] = PREFIX[x.n]; const ap = type === 'fy' ? p : p - 1;
+      const s = x.n + (/^[a-z]/.test(x.n) || x.n === '\\+' ? ' ' : '') + fmt(x.a[0], quoted, ap);
+      return p > prec ? '(' + s + ')' : s;
+    }
+    return fmtAtom(x.n, quoted) + '(' + x.a.map((a) => fmt(a, quoted, 999)).join(', ') + ')';
+  }
+
+  // ------------------------------------------------------------------ unificacao
+  function bind(v, t, trail) { v.ref = t; trail.push(v); }
+  function unify(a, b, trail, exp) {
+    a = deref(a); b = deref(b);
+    if (a === b) return true;
+    if (a.t === 'v' && b.t === 'v') { if (a.id < b.id) bind(b, a, trail); else bind(a, b, trail); return true; }
+    if (a.t === 'v') { bind(a, b, trail); return true; }
+    if (b.t === 'v') { bind(b, a, trail); return true; }
+    if (a.t === 'n' && b.t === 'n') { if (a.v === b.v) return true; if (exp) exp.reason = fmt(a) + ' ≠ ' + fmt(b); return false; }
+    if (a.t === 'a' && b.t === 'a') { if (a.n === b.n) return true; if (exp) exp.reason = fmt(a, true) + ' ≠ ' + fmt(b, true); return false; }
+    if (a.t === 's' && b.t === 's') {
+      if (a.n !== b.n || a.a.length !== b.a.length) { if (exp) exp.reason = a.n + '/' + a.a.length + ' ≠ ' + b.n + '/' + b.a.length + ' (functores diferentes)'; return false; }
+      for (let i = 0; i < a.a.length; i++) if (!unify(a.a[i], b.a[i], trail, exp)) return false;
+      return true;
+    }
+    if (exp) exp.reason = fmt(a, true) + ' ≠ ' + fmt(b, true) + ' (tipos diferentes)';
+    return false;
+  }
+  function undoTo(trail, top) { while (trail.length > top) trail.pop().ref = null; }
+
+  function copyTerm(x, map, keepName) {
+    x = deref(x);
+    if (x.t === 'v') { if (!map.has(x)) { const nv = mkVar(x.name); map.set(x, nv); } return map.get(x); }
+    if (x.t === 's') return mkStr(x.n, x.a.map((a) => copyTerm(a, map)));
+    return x;
+  }
+  function renameClause(c) {
+    const map = new Map();
+    const rn = (x) => {
+      if (x.t === 'v') { if (!map.has(x)) { const nv = mkVar(x.name); map.set(x, nv); } return map.get(x); }
+      if (x.t === 's') return mkStr(x.n, x.a.map(rn));
+      return x;
+    };
+    return { head: rn(c.head), body: rn(c.body) };
+  }
+
+  // ------------------------------------------------------------------ aritmetica e comparacao
+  function evalArith(x) {
+    x = deref(x);
+    if (x.t === 'n') return x;
+    if (x.t === 'v') throw new PrologError('instantiation_error', 'instantiation_error: uma variavel livre apareceu onde se precisa de um numero');
+    if (x.t === 'a') {
+      if (x.n === 'pi') return mkNum(Math.PI, true);
+      throw new PrologError('type_error', 'type_error(evaluable, ' + x.n + '/0)');
+    }
+    const n = x.n, a = x.a;
+    if (a.length === 1) {
+      const v = evalArith(a[0]);
+      if (n === '-') return mkNum(-v.v, v.f);
+      if (n === '+') return v;
+      if (n === 'abs') return mkNum(Math.abs(v.v), v.f);
+      if (n === 'sqrt') return mkNum(Math.sqrt(v.v), true);
+    }
+    if (a.length === 2) {
+      const l = evalArith(a[0]), r = evalArith(a[1]); const f = l.f || r.f;
+      switch (n) {
+        case '+': return mkNum(l.v + r.v, f);
+        case '-': return mkNum(l.v - r.v, f);
+        case '*': return mkNum(l.v * r.v, f);
+        case '/': if (r.v === 0) throw new PrologError('evaluation_error', 'evaluation_error(zero_divisor)');
+          if (!f && l.v % r.v === 0) return mkNum(l.v / r.v, false); return mkNum(l.v / r.v, true);
+        case '//': if (r.v === 0) throw new PrologError('evaluation_error', 'evaluation_error(zero_divisor)'); return mkNum(Math.trunc(l.v / r.v), false);
+        case 'mod': if (r.v === 0) throw new PrologError('evaluation_error', 'evaluation_error(zero_divisor)'); return mkNum(l.v - r.v * Math.floor(l.v / r.v), false);
+        case 'rem': if (r.v === 0) throw new PrologError('evaluation_error', 'evaluation_error(zero_divisor)'); return mkNum(l.v % r.v, false);
+        case '^': return mkNum(Math.pow(l.v, r.v), f && !(Number.isInteger(l.v) && Number.isInteger(r.v)));
+        case 'min': return mkNum(Math.min(l.v, r.v), f);
+        case 'max': return mkNum(Math.max(l.v, r.v), f);
+      }
+    }
+    throw new PrologError('type_error', 'type_error(evaluable, ' + n + '/' + a.length + ')');
+  }
+
+  // ordem padrao simples (para ==)
+  function identical(a, b) {
+    a = deref(a); b = deref(b);
+    if (a === b) return true;
+    if (a.t !== b.t) return false;
+    if (a.t === 'n') return a.v === b.v;
+    if (a.t === 'a') return a.n === b.n;
+    if (a.t === 's') { if (a.n !== b.n || a.a.length !== b.a.length) return false; return a.a.every((x, i) => identical(x, b.a[i])); }
+    return false;
+  }
+
+  // ------------------------------------------------------------------ banco de dados
+  const PRELUDE = `
+between(L, H, L) :- L =< H.
+between(L, H, X) :- L < H, L1 is L + 1, between(L1, H, X).
+once(G) :- call(G), !.
+ignore(G) :- (call(G) -> true ; true).
+forall(C, A) :- \\+ (C, \\+ A).
+member(X, [X|_]).
+member(X, [_|T]) :- member(X, T).
+append([], L, L).
+append([H|T], L, [H|R]) :- append(T, L, R).
+length([], 0).
+length([_|T], N) :- length(T, M), N is M + 1.
+reverse(L, R) :- reverse_(L, [], R).
+reverse_([], A, A).
+reverse_([H|T], A, R) :- reverse_(T, [H|A], R).
+`;
+  const keyOf = (t) => (t.t === 'a' ? t.n + '/0' : t.n + '/' + t.a.length);
+
+  class Database {
+    constructor() { this.preds = new Map(); this.lib = new Map(); this.clauses = []; this.errors = []; }
+    static fromSource(src) {
+      const db = new Database();
+      const lib = new Parser(PRELUDE);
+      let r;
+      while ((r = lib.readClauseTerm())) db.addClause(r.term, true, null);
+      db.consult(src);
+      return db;
+    }
+    addClause(t, isLib, meta) {
+      let head = t, body = mkAtom('true');
+      if (t.t === 's' && t.n === ':-' && t.a.length === 2) { head = t.a[0]; body = t.a[1]; }
+      if (head.t === 'v') throw new PrologError('syntax', 'a cabeca da clausula nao pode ser variavel');
+      if (head.t !== 'a' && head.t !== 's') throw new PrologError('syntax', 'cabeca invalida');
+      const key = keyOf(head);
+      const c = { head, body, key, lib: !!isLib, meta };
+      if (isLib) { if (!this.lib.has(key)) this.lib.set(key, []); this.lib.get(key).push(c); }
+      else { if (!this.preds.has(key)) this.preds.set(key, []); this.preds.get(key).push(c); c.index = this.clauses.length; this.clauses.push(c); }
+    }
+    consult(src) {
+      this.clauses = []; this.errors = [];
+      let p;
+      try { p = new Parser(src); } catch (e) { if (e instanceof PrologError) { this.errors.push(e.text); return; } throw e; }
+      for (;;) {
+        let r;
+        try { r = p.readClauseTerm(); } catch (e) {
+          if (!(e instanceof PrologError)) throw e;
+          this.errors.push(e.text);
+          // ressincroniza: avanca ate o proximo token 'end'
+          while (!p.eof() && p.toks[p.p - 1] && p.toks[p.p - 1].k !== 'end') p.p++;
+          continue;
+        }
+        if (!r) break;
+        const t = r.term;
+        if (t.t === 's' && t.n === ':-' && t.a.length === 1) continue;   // diretivas sao ignoradas
+        try { this.addClause(t, false, { line0: r.startTok.line, line1: r.endTok.line }); }
+        catch (e) { if (e instanceof PrologError) this.errors.push(e.text + ' (linha ' + r.startTok.line + ')'); else throw e; }
+      }
+    }
+    lookup(key) {
+      if (this.preds.has(key)) return this.preds.get(key);
+      if (this.lib.has(key)) return this.lib.get(key);
+      return null;
+    }
+  }
+
+  // ------------------------------------------------------------------ maquina
+  class Frame { constructor(g, next, cb, d) { this.g = g; this.next = next; this.cb = cb; this.d = d; } }
+
+  const MAXDEPTH = 1500, MAXSTEPS = 3000000;
+
+  class Machine {
+    constructor(db, goal, qvars) {
+      this.db = db; this.qvars = qvars || []; this.trail = []; this.cps = []; this.out = '';
+      this.frame = new Frame(goal, null, 0, 0); this.goal0 = goal;
+      this.mode = 'run'; this.pending = null; this.done = false; this.steps = 0; this.answers = 0;
+    }
+    // ---- estado para a interface
+    pendingGoals(max) {
+      const r = []; let f = this.frame; let cnt = 0;
+      while (f && cnt < (max || 10)) { const g = deref(f.g); if (!(g.t === 'a' && g.n === 'true') && !(g.t === 's' && g.n === '$cut')) { r.push(fmt(g)); cnt++; } f = f.next; }
+      if (f) r.push('…');
+      return r;
+    }
+    cpList() {
+      return this.cps.map((cp) => cp.kind === 'clauses'
+        ? { text: cp.key + ': ' + fmt(cp.goal), rest: cp.clauses.length - cp.idx + ' cláusula(s) restante(s)' }
+        : { text: 'alternativa: ' + cp.label, rest: 'outro ramo' });
+    }
+    bindingsText() {
+      const parts = this.qvars.filter((v) => { const d = deref(v); return !(d.t === 'v' && d === v); }).map((v) => v.name + ' = ' + fmt(v, true));
+      return parts.length ? parts.join(', ') : 'true';
+    }
+    // ---- passo
+    step() {
+      if (this.done) return null;
+      if (++this.steps > MAXSTEPS) { this.done = true; return { type: 'error', d: 0, text: 'limite de passos excedido (provavel laco infinito)' }; }
+      try {
+        for (;;) {
+          if (this.mode === 'afteranswer') this.mode = 'backtrack';
+          if (this.mode === 'backtrack') return this.doBacktrack();
+          if (this.mode === 'try') { const ev = this.doTry(); if (ev) return ev; continue; }
+          if (!this.frame) { this.mode = 'afteranswer'; this.answers++; return { type: 'answer', d: 0, text: 'RESPOSTA ' + this.answers + ': ' + this.bindingsText(), bindings: this.bindingsText() }; }
+          const ev = this.doGoal(); if (ev) return ev;
+        }
+      } catch (e) {
+        if (e instanceof PrologError) { this.done = true; return { type: 'error', d: this.frame ? this.frame.d : 0, text: 'ERRO: ' + e.text, kind: e.kind }; }
+        throw e;
+      }
+    }
+    fail(d, text) { this.mode = 'backtrack'; return { type: 'fail', d, text }; }
+    doBacktrack() {
+      if (!this.cps.length) { this.done = true; return { type: 'final', d: 0, text: this.answers ? 'Não há mais pontos de escolha: acabaram as respostas.' : 'Não há pontos de escolha: a resposta é false.', answers: this.answers }; }
+      const cp = this.cps.pop();
+      undoTo(this.trail, cp.trailTop);
+      if (cp.kind === 'clauses') {
+        this.pending = { goal: cp.goal, next: cp.next, clauses: cp.clauses, idx: cp.idx, cb: cp.cb, d: cp.d, key: cp.key };
+        this.mode = 'try';
+        return { type: 'redo', d: cp.d, text: 'VOLTA (backtracking) ao ponto de escolha de ' + cp.key + ': desfaz as ligações e tenta a cláusula ' + (cp.idx + 1), key: cp.key, clauseIdx: cp.idx };
+      }
+      this.frame = cp.frame; this.mode = 'run';
+      return { type: 'redo', d: cp.d, text: 'VOLTA ao ponto de escolha (' + cp.label + '): tenta o outro ramo' };
+    }
+    doTry() {
+      const p = this.pending;
+      if (p.idx >= p.clauses.length) {
+        this.pending = null;
+        return this.fail(p.d, 'acabaram as cláusulas de ' + p.key + ': a meta ' + fmt(p.goal) + ' falha');
+      }
+      const c = p.clauses[p.idx], n = p.idx + 1;
+      const top = this.trail.length;
+      const rn = renameClause(c);
+      const exp = { reason: '' };
+      const goalBefore = fmt(p.goal);
+      const ok = unify(p.goal, rn.head, this.trail, exp);
+      const lib = c.lib;
+      if (!ok) {
+        undoTo(this.trail, top); p.idx++;
+        return { type: 'try', ok: false, d: p.d, key: p.key, clauseIdx: c.index, lib, text: 'tenta a cláusula ' + n + ' de ' + p.key + ': ' + fmt(rn.head, true) + '   → NÃO unifica (' + exp.reason + ')' };
+      }
+      const made = this.trail.slice(top).map((v) => varLabel(v) + ' = ' + fmt(v.ref, true)).join(', ');
+      const remaining = p.clauses.length - (p.idx + 1);
+      if (remaining > 0) this.cps.push({ kind: 'clauses', goal: p.goal, next: p.next, clauses: p.clauses, idx: p.idx + 1, trailTop: top, cb: p.cb, d: p.d, key: p.key });
+      const isFact = deref(rn.body).t === 'a' && deref(rn.body).n === 'true';
+      if (isFact) this.frame = p.next; else this.frame = new Frame(rn.body, p.next, p.cb, p.d + 1);
+      this.mode = 'run'; this.pending = null;
+      let txt = 'tenta a cláusula ' + n + ' de ' + p.key + ': ' + (isFact ? fmt(rn.head, true) + '.' : fmt(rn.head, true) + ' :- ' + fmt(rn.body, true) + '.') + '   → unifica' + (made ? ' {' + made + '}' : '');
+      txt += isFact ? '. É um fato: a meta está resolvida.' : '. Troca a meta pelo corpo da regra.';
+      return { type: 'try', ok: true, d: p.d, key: p.key, clauseIdx: c.index, lib, text: txt, more: remaining };
+    }
+    doGoal() {
+      const f = this.frame;
+      const g = deref(f.g);
+      const d = f.d;
+      if (g.t === 'v') throw new PrologError('instantiation_error', 'instantiation_error: meta é uma variável livre');
+      if (g.t === 'n') throw new PrologError('type_error', 'type_error(callable, ' + fmt(g) + ')');
+      const name = g.n, args = g.t === 's' ? g.a : [], ar = args.length;
+      const skip = () => { this.frame = f.next; };
+      // controle
+      if (name === ',' && ar === 2) { this.frame = new Frame(args[0], new Frame(args[1], f.next, f.cb, d), f.cb, d); return null; }
+      if (name === 'true' && ar === 0) { skip(); return null; }
+      if (name === '$cut' && ar === 1) { const h = deref(args[0]).v; const n = this.cps.length - h; this.cps.length = h; skip(); return { type: 'cut', d, text: 'meta provada: descarta ' + n + ' ponto(s) de escolha criado(s) para ela (compromisso)' }; }
+      if (name === '!' && ar === 0) { const n = this.cps.length - f.cb; this.cps.length = f.cb; skip(); return { type: 'cut', d, text: 'CORTE (!): descarta ' + n + ' ponto(s) de escolha desta cláusula e dos filhos; não há volta' }; }
+      if (name === ';' && ar === 2) {
+        const l = deref(args[0]);
+        if (l.t === 's' && l.n === '->' && l.a.length === 2) return this.ite(f, l.a[0], l.a[1], args[1], d);
+        this.cps.push({ kind: 'alt', frame: new Frame(args[1], f.next, f.cb, d), trailTop: this.trail.length, label: fmt(args[1]), d });
+        this.frame = new Frame(args[0], f.next, f.cb, d);
+        return { type: 'ctrl', d, text: 'disjunção (;): tenta o 1º ramo e guarda o 2º como ponto de escolha' };
+      }
+      if (name === '->' && ar === 2) return this.ite(f, args[0], args[1], mkAtom('fail'), d);
+      if (name === '\\+' && ar === 1) {
+        const idx = this.cps.length;
+        this.cps.push({ kind: 'alt', frame: f.next, trailTop: this.trail.length, label: 'se ' + fmt(args[0]) + ' falhar, \\+ vale', d });
+        this.frame = new Frame(args[0], new Frame(mkStr('$cut', [mkNum(idx)]), new Frame(mkAtom('fail'), null, f.cb, d), f.cb, d), idx + 1, d + 1);
+        return { type: 'ctrl', d, text: '\\+ ' + fmt(args[0]) + ': tenta PROVAR a meta; se conseguir, \\+ falha; se não conseguir, \\+ vale' };
+      }
+      if (name === 'call' && ar === 1) { this.frame = new Frame(args[0], f.next, this.cps.length, d); return null; }
+      if (name === 'fail' && ar === 0 || name === 'false' && ar === 0) return this.fail(d, 'fail: a meta falha de propósito');
+      // builtins
+      const bi = this.builtin(name, args, f, d);
+      if (bi) return bi;
+      // predicado do usuario
+      const key = name + '/' + ar;
+      const clauses = this.db.lookup(key);
+      if (!clauses) throw new PrologError('existence_error', 'existence_error: o predicado ' + key + ' não está definido');
+      if (d > MAXDEPTH) throw new PrologError('resource_error', 'estouro de pilha (stack overflow): chamadas aninhadas demais, como em recursão infinita');
+      this.pending = { goal: g, next: f.next, clauses, idx: 0, cb: this.cps.length, d, key };
+      this.mode = 'try';
+      return { type: 'call', d, key, text: 'CHAMA ' + fmt(g, true) + '  → procura cláusulas de ' + key + ' (' + clauses.length + ')' };
+    }
+    ite(f, c, t, e, d) {
+      const idx = this.cps.length;
+      this.cps.push({ kind: 'alt', frame: new Frame(e, f.next, f.cb, d), trailTop: this.trail.length, label: 'senão: ' + fmt(e), d });
+      this.frame = new Frame(c, new Frame(mkStr('$cut', [mkNum(idx)]), new Frame(t, f.next, f.cb, d), f.cb, d), f.cb, d);
+      return { type: 'ctrl', d, text: 'se-então-senão: tenta a condição ' + fmt(c) + '; se valer, segue para o "então" e descarta o "senão"' };
+    }
+    builtin(name, a, f, d) {
+      const ar = a.length;
+      const done = (ok, okText, failText) => {
+        if (ok) { this.frame = f.next; return { type: 'builtin', d, ok: true, text: okText }; }
+        return this.fail(d, failText);
+      };
+      const cmp = (op) => { const l = evalArith(a[0]), r = evalArith(a[1]); const res = op(l.v, r.v);
+        return done(res, fmt(a[0]) + ' ' + name + ' ' + fmt(a[1]) + '  →  ' + fmt(l) + ' ' + name + ' ' + fmt(r) + ': verdadeiro', fmt(a[0]) + ' ' + name + ' ' + fmt(a[1]) + '  →  ' + fmt(l) + ' ' + name + ' ' + fmt(r) + ': falso, a meta falha'); };
+      if (ar === 2) {
+        switch (name) {
+          case '=': { const top = this.trail.length; const exp = { reason: '' }; const before = fmt(a[0]) + ' = ' + fmt(a[1]);
+            const ok = unify(a[0], a[1], this.trail, exp); if (!ok) undoTo(this.trail, top);
+            const made = this.trail.slice(top).map((v) => varLabel(v) + ' = ' + fmt(v.ref, true)).join(', ');
+            return done(ok, before + '  → unifica' + (made ? ' {' + made + '}' : ''), before + '  → NÃO unifica (' + exp.reason + ')'); }
+          case '\\=': { const top = this.trail.length; const ok = unify(a[0], a[1], this.trail, null); undoTo(this.trail, top);
+            return done(!ok, fmt(a[0]) + ' \\= ' + fmt(a[1]) + '  → não unificam: verdadeiro', fmt(a[0]) + ' \\= ' + fmt(a[1]) + '  → unificariam: falso'); }
+          case '==': { const ok = identical(a[0], a[1]); return done(ok, fmt(a[0]) + ' == ' + fmt(a[1]) + ': idênticos', fmt(a[0]) + ' == ' + fmt(a[1]) + ': não são idênticos'); }
+          case '\\==': { const ok = !identical(a[0], a[1]); return done(ok, fmt(a[0]) + ' \\== ' + fmt(a[1]) + ': diferentes, verdadeiro', fmt(a[0]) + ' \\== ' + fmt(a[1]) + ': são idênticos, falso'); }
+          case 'is': { const v = evalArith(a[1]); const top = this.trail.length; const exp = { reason: '' };
+            const ok = unify(a[0], v, this.trail, exp); if (!ok) undoTo(this.trail, top);
+            return done(ok, fmt(a[0]) + ' is ' + fmt(a[1]) + '  → calcula ' + fmt(v) + ' e unifica', fmt(a[0]) + ' is ' + fmt(a[1]) + '  → resultado ' + fmt(v) + ' não unifica com ' + fmt(a[0])); }
+          case '<': return cmp((x, y) => x < y);
+          case '>': return cmp((x, y) => x > y);
+          case '=<': return cmp((x, y) => x <= y);
+          case '>=': return cmp((x, y) => x >= y);
+          case '=:=': return cmp((x, y) => x === y);
+          case '=\\=': return cmp((x, y) => x !== y);
+        }
+      }
+      if (ar === 1) {
+        const x = deref(a[0]);
+        switch (name) {
+          case 'write': case 'print': this.out += fmt(x); this.frame = f.next; return { type: 'builtin', d, ok: true, text: 'escreve ' + fmt(x), out: true };
+          case 'writeq': this.out += fmt(x, true); this.frame = f.next; return { type: 'builtin', d, ok: true, text: 'escreve ' + fmt(x, true), out: true };
+          case 'var': return done(x.t === 'v', 'var(' + fmt(x) + '): é variável livre', 'var(' + fmt(x) + '): já tem valor, falha');
+          case 'nonvar': return done(x.t !== 'v', 'nonvar(' + fmt(x) + '): verdadeiro', 'nonvar(' + fmt(x) + '): é variável livre, falha');
+          case 'atom': return done(x.t === 'a', 'atom(' + fmt(x) + '): verdadeiro', 'atom(' + fmt(x) + '): não é átomo, falha');
+          case 'number': return done(x.t === 'n', 'number(' + fmt(x) + '): verdadeiro', 'number(' + fmt(x) + '): não é número, falha');
+          case 'integer': return done(x.t === 'n' && !x.f, 'integer(' + fmt(x) + '): verdadeiro', 'integer(' + fmt(x) + '): falha');
+        }
+      }
+      if (ar === 0 && name === 'nl') { this.out += '\n'; this.frame = f.next; return { type: 'builtin', d, ok: true, text: 'nl: quebra de linha', out: true }; }
+      if ((name === 'format') && (ar === 1 || ar === 2)) {
+        const fs = deref(a[0]); const fa = ar === 2 ? deref(a[1]) : NIL;
+        const list = []; let l = fa; while (isCons(l)) { list.push(l.a[0]); l = deref(l.a[1]); }
+        if (ar === 2 && !(l.t === 'a' && l.n === '[]')) list.push(fa);
+        const text = fs.t === 'a' ? fs.n : fmt(fs);
+        let out = '', k = 0;
+        for (let i = 0; i < text.length; i++) {
+          if (text[i] === '~' && i + 1 < text.length) {
+            const c = text[++i];
+            if (c === 'n') out += '\n'; else if (c === '~') out += '~';
+            else if (c === 'w' || c === 'a' || c === 'd' || c === 'p') out += fmt(list[k++] || NIL);
+            else if (c === 'q') out += fmt(list[k++] || NIL, true);
+            else out += '~' + c;
+          } else out += text[i];
+        }
+        this.out += out; this.frame = f.next;
+        return { type: 'builtin', d, ok: true, text: 'escreve ' + JSON.stringify(out).slice(1, -1), out: true };
+      }
+      if (name === 'findall' && ar === 3) {
+        const sols = []; const sm = new Machine(this.db, a[1], []); sm.frame.d = d + 1; sm.steps = this.steps;
+        for (;;) {
+          const ev = sm.step();
+          if (!ev) break;
+          if (ev.type === 'answer') sols.push(copyTerm(a[0], new Map()));
+          if (ev.type === 'error') throw new PrologError(ev.kind || 'error', ev.text.replace(/^ERRO: /, ''));
+          if (ev.type === 'final') break;
+          if (sm.done) break;
+        }
+        undoTo(sm.trail, 0);
+        this.out += sm.out;
+        const lst = fromArray(sols);
+        const top = this.trail.length; const exp = { reason: '' };
+        const ok = unify(a[2], lst, this.trail, exp); if (!ok) undoTo(this.trail, top);
+        return done(ok, 'findall coletou ' + sols.length + ' resposta(s): ' + fmt(lst), 'findall: o resultado não unifica com ' + fmt(a[2]));
+      }
+      return null;
+    }
+  }
+
+  // ------------------------------------------------------------------ API
+  function parseQuery(src) {
+    let s = src.trim(); if (!s) throw new PrologError('syntax', 'consulta vazia');
+    s = s.replace(/^\?-\s*/, '');
+    if (!/\.\s*$/.test(s)) s += '.';
+    const p = new Parser(s);
+    const r = p.readClauseTerm();
+    if (!r) throw new PrologError('syntax', 'consulta vazia');
+    p.varList.forEach((v) => { v.q = true; });
+    return { goal: r.term, qvars: p.varList.filter((v) => v.name !== '_') };
+  }
+  function parseTermPair(s1, s2) {
+    const vars = new Map();
+    const one = (s) => {
+      let t = s.trim(); if (!/\.\s*$/.test(t)) t += '.';
+      const p = new Parser(t); p.vars = vars; p.varList = [];
+      const r = (function () { p.vars = vars; const x = p.parse(1200); const e = p.next(); if (!e || e.k !== 'end') p.err('termo mal formado'); return x; })();
+      return r;
+    };
+    const a = one(s1), b = one(s2);
+    for (const v of vars.values()) v.q = true;
+    return { a, b, vars };
+  }
+
+  const resetIds = () => { VID = 0; };
+  const api = { resetIds, Database, Machine, parseQuery, parseTermPair, fmt, unify, deref, undoTo, PrologError, mkVar, mkAtom, mkNum, mkStr, NIL, isCons, MAXDEPTH };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.PL = api;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+(function(){
+  'use strict';
+  var PL = window.PL;
+  var DW = 1280, DH = 720, BAR = 44, TOTAL = 70*60;
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var stage = document.getElementById('stage'), wrap = document.getElementById('wrap'), frame = document.getElementById('frame');
+  var notesEl = document.getElementById('notes'), clock = document.getElementById('clock');
+  var idx = 0, pres = null, remaining = TOTAL, running = false, tickId = null, idleId = null;
+  var sims = {}, unifs = {};
+  var $ = function(s, r){ return (r || document).querySelector(s); };
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  /* ---------- realce de codigo Prolog ---------- */
+  var KW = {is:1, mod:1, rem:1, not:1};
+  function hl(src){
+    var re = /(%[^\n]*)|('(?:\\.|[^'\\\n])*')|(\b\d+(?:\.\d+)?\b)|([A-Za-z_]\w*)|([\s\S])/g, out = '', m;
+    while ((m = re.exec(src))) {
+      if (m[1]) out += '<span class="tk-c">' + esc(m[1]) + '</span>';
+      else if (m[2]) out += '<span class="tk-s">' + esc(m[2]) + '</span>';
+      else if (m[3]) out += '<span class="tk-n">' + m[3] + '</span>';
+      else if (m[4]) out += /^[A-Z_]/.test(m[4]) ? '<span class="tk-v">' + m[4] + '</span>' : (KW[m[4]] ? '<span class="tk-k">' + m[4] + '</span>' : m[4]);
+      else out += esc(m[5]);
+    }
+    return out;
+  }
+  document.querySelectorAll('pre.code[data-hl]').forEach(function(p){ p.innerHTML = hl(p.textContent); });
+
+  /* ---------- simulador de execucao ---------- */
+  var ICON = {start:'', call:'▶', 'try':'', redo:'↩', fail:'✖', cut:'✂', ctrl:'⚙', builtin:'ƒ', answer:'★', final:'■', error:'⚠', note:'…'};
+  function Sim(root, spec){
+    this.root = root; this.spec = spec;
+    this.progText = document.getElementById(spec.prog).textContent.replace(/^\n/, '').replace(/\s+$/, '') + '\n';
+    this.editing = false; this.m = null; this.db = null; this.answers = []; this.finished = false; this.timer = null; this.speed = 800;
+    this.build(); this.renderProg(); this.q.value = spec.query || '';
+    if (spec.edit) this.toggleEdit();
+    this.load();
+  }
+  Sim.prototype.build = function(){
+    var self = this, r = this.root;
+    r.innerHTML =
+      '<div class="sim-left">' +
+        '<div class="sim-h"><b>Programa</b><span class="sim-err"></span><button class="sbtn s-edit" title="Editar o programa ao vivo">Editar</button></div>' +
+        '<div class="sim-prog"></div><textarea class="sim-ta" spellcheck="false" hidden></textarea>' +
+        '<div class="sim-qrow"><span>?-</span><input class="sim-q" spellcheck="false" autocomplete="off"><button class="sbtn main s-run">Executar</button></div>' +
+        '<div class="sim-chips"></div>' +
+      '</div>' +
+      '<div class="sim-right">' +
+        '<div class="sim-ctl">' +
+          '<button class="sbtn main s-step" title="Um passo (Espaço)">Passo<kbd>␣</kbd></button>' +
+          '<button class="sbtn s-ans" title="Até a próxima resposta (Enter)">Até a resposta<kbd>⏎</kbd></button>' +
+          '<button class="sbtn s-all" title="Rodar tudo (T)">Rodar tudo<kbd>T</kbd></button>' +
+          '<button class="sbtn s-rst" title="Reiniciar (R)">Reiniciar<kbd>R</kbd></button>' +
+          '<button class="sbtn s-auto" title="Automático (A)">Auto<kbd>A</kbd></button>' +
+          '<select class="s-speed" title="Velocidade do modo automático"><option value="1500">lento</option><option value="800" selected>normal</option><option value="250">rápido</option></select>' +
+        '</div>' +
+        '<div class="sim-trace"><div class="sim-h"><b>Rastro</b><span class="muted">cada linha é um passo da execução</span></div><div class="log"></div></div>' +
+        '<div class="sim-bot">' +
+          '<div class="pn"><div class="sim-h"><b>Metas pendentes</b></div><ol class="pend"></ol></div>' +
+          '<div class="pn"><div class="sim-h"><b>Pontos de escolha</b></div><ol class="cps"></ol></div>' +
+          '<div class="pn"><div class="sim-h"><b>Respostas</b></div><div class="answers"></div><div class="out"></div></div>' +
+        '</div>' +
+      '</div>';
+    this.prog = $('.sim-prog', r); this.ta = $('.sim-ta', r); this.q = $('.sim-q', r); this.log = $('.log', r);
+    this.errEl = $('.sim-err', r); this.pendEl = $('.pend', r); this.cpsEl = $('.cps', r); this.ansEl = $('.answers', r); this.outEl = $('.out', r);
+    this.btnEdit = $('.s-edit', r); this.btnAuto = $('.s-auto', r);
+    $('.s-step', r).onclick = function(){ self.step(); };
+    $('.s-ans', r).onclick = function(){ self.toAnswer(); };
+    $('.s-all', r).onclick = function(){ self.runAll(); };
+    $('.s-rst', r).onclick = function(){ self.load(); };
+    $('.s-run', r).onclick = function(){ self.load(); };
+    this.btnAuto.onclick = function(){ self.toggleAuto(); };
+    this.btnEdit.onclick = function(){ self.toggleEdit(); };
+    $('.s-speed', r).onchange = function(e){ self.speed = +e.target.value; if (self.timer) { self.stopAuto(); self.startAuto(); } };
+    this.q.addEventListener('keydown', function(e){ if (e.key === 'Enter') { e.preventDefault(); self.load(); } });
+    var chips = $('.sim-chips', r);
+    (this.spec.chips || []).forEach(function(c){
+      var b = document.createElement('button'); b.textContent = c; b.title = 'Usar esta consulta';
+      b.onclick = function(){ self.q.value = c; self.load(); };
+      chips.appendChild(b);
+    });
+  };
+  Sim.prototype.renderProg = function(){
+    var lines = this.progText.replace(/\n$/, '').split('\n');
+    this.prog.innerHTML = lines.map(function(l, i){ return '<div class="ln" data-n="' + (i + 1) + '"><i>' + (i + 1) + '</i><span>' + hl(l) + '</span></div>'; }).join('');
+  };
+  Sim.prototype.toggleEdit = function(){
+    if (!this.editing) {
+      this.editing = true; this.ta.value = this.progText; this.ta.hidden = false; this.prog.style.display = 'none';
+      this.btnEdit.textContent = 'Aplicar'; this.btnEdit.classList.add('on'); this.ta.focus();
+    } else {
+      this.editing = false; this.progText = this.ta.value.replace(/\s+$/, '') + '\n'; this.ta.hidden = true; this.prog.style.display = '';
+      this.btnEdit.textContent = 'Editar'; this.btnEdit.classList.remove('on'); this.renderProg(); this.load();
+    }
+  };
+  Sim.prototype.load = function(){
+    this.stopAuto();
+    this.db = PL.Database.fromSource(this.editing ? this.ta.value : this.progText);
+    this.errEl.textContent = this.db.errors.length ? 'erro no programa: ' + this.db.errors[0] : '';
+    this.log.innerHTML = ''; this.answers = []; this.finished = false; this.m = null; this.clearHl();
+    try {
+      PL.resetIds();
+      var q = PL.parseQuery(this.q.value);
+      this.m = new PL.Machine(this.db, q.goal, q.qvars);
+    } catch (e) {
+      if (e instanceof PL.PrologError) { this.addRow({type:'error', d:0, text:'Consulta inválida: ' + e.text}); this.panels(); return; }
+      throw e;
+    }
+    this.addRow({type:'start', d:0, text:'?- ' + this.q.value.trim().replace(/^\?-\s*/, '').replace(/\.\s*$/, '') + '.'});
+    this.panels();
+  };
+  Sim.prototype.addRow = function(ev, cur){
+    var d = document.createElement('div');
+    var cls = 'ev t-' + ev.type + (ev.type === 'try' ? (ev.ok ? ' okk' : ' nok') : '');
+    d.className = cls; d.style.marginLeft = Math.min(ev.d || 0, 10) * 14 + 'px';
+    var ic = ev.type === 'try' ? (ev.ok ? '✔' : '✘') : (ICON[ev.type] || '');
+    d.innerHTML = '<span class="ic">' + ic + '</span><span>' + esc(ev.text) + '</span>';
+    var prev = $('.cur', this.log); if (prev) prev.classList.remove('cur');
+    d.classList.add('cur');
+    this.log.appendChild(d);
+    while (this.log.children.length > 500) this.log.removeChild(this.log.firstChild);
+    this.log.scrollTop = this.log.scrollHeight;
+  };
+  Sim.prototype.clearHl = function(){ this.prog.querySelectorAll('.ln').forEach(function(l){ l.classList.remove('pred', 'ok', 'bad'); }); };
+  Sim.prototype.lines = function(c, cls){
+    if (!c || !c.meta) return null;
+    var first = null;
+    for (var n = c.meta.line0; n <= c.meta.line1; n++) { var el = this.prog.querySelector('.ln[data-n="' + n + '"]'); if (el) { el.classList.add(cls); if (!first) first = el; } }
+    return first;
+  };
+  Sim.prototype.highlight = function(ev){
+    if (ev && ev.type === 'answer') return;
+    this.clearHl(); if (!ev || !ev.key) return;
+    var cl = this.db.preds.get(ev.key), self = this;
+    if (cl) cl.forEach(function(c){ self.lines(c, 'pred'); });
+    if (ev.type === 'try' && !ev.lib && ev.clauseIdx !== undefined) {
+      var c = this.db.clauses[ev.clauseIdx];
+      var el = this.lines(c, ev.ok ? 'ok' : 'bad');
+      if (el) { var top = el.offsetTop - this.prog.clientHeight / 3; this.prog.scrollTop = Math.max(0, top); }
+    } else if ((ev.type === 'call' || ev.type === 'redo') && cl && cl[0] && cl[0].meta) {
+      var f = this.prog.querySelector('.ln[data-n="' + cl[0].meta.line0 + '"]'); if (f) this.prog.scrollTop = Math.max(0, f.offsetTop - this.prog.clientHeight / 3);
+    }
+  };
+  Sim.prototype.panels = function(){
+    var m = this.m, self = this;
+    if (!m) { this.pendEl.innerHTML = ''; this.cpsEl.innerHTML = ''; return; }
+    var pg = m.finished || m.done ? [] : m.pendingGoals(8);
+    if (m.pending && !m.done) pg.unshift(PL.fmt(m.pending.goal) + '  ← em curso');
+    this.pendEl.innerHTML = pg.length ? pg.map(function(g){ return '<li>' + esc(g) + '</li>'; }).join('') : '<li style="color:var(--muted)">(vazio)</li>';
+    var cps = m.cpList().reverse();
+    this.cpsEl.innerHTML = cps.length ? cps.map(function(c){ return '<li><span class="nx">próximo</span>' + esc(c.text) + '<span class="rest">' + esc(c.rest) + '</span></li>'; }).join('') : '<li style="color:var(--muted)">(nenhum)</li>';
+    this.ansEl.innerHTML = this.answers.length ? this.answers.map(function(a, i){ return '<div>' + (i + 1) + '. ' + esc(a) + '</div>'; }).join('') : '<div class="none">nenhuma ainda</div>';
+    this.ansEl.scrollTop = this.ansEl.scrollHeight;
+    this.outEl.textContent = m.out; this.outEl.classList.toggle('has', !!m.out);
+  };
+  Sim.prototype.after = function(ev){
+    if (ev.type === 'answer') this.answers.push(ev.bindings);
+    if (ev.type === 'final' || ev.type === 'error') this.finished = true;
+    if (ev.type === 'final' && !this.answers.length) { /* false */ }
+  };
+  Sim.prototype.step = function(){
+    if (!this.m) this.load(); if (!this.m || this.finished) { this.stopAuto(); return; }
+    var ev = this.m.step(); if (!ev) { this.finished = true; this.stopAuto(); return; }
+    this.addRow(ev); this.after(ev); this.highlight(ev); this.panels();
+    if (this.finished) this.stopAuto();
+  };
+  Sim.prototype.runUntil = function(stop, limitMs){
+    var evs = [], t0 = Date.now(), n = 0;
+    if (!this.m) this.load(); if (!this.m || this.finished) return evs;
+    for (;;) {
+      var ev = this.m.step(); if (!ev) { this.finished = true; break; }
+      evs.push(ev); this.after(ev); n++;
+      if (stop[ev.type]) break;
+      if ((n & 1023) === 0 && Date.now() - t0 > limitMs) { evs.push({type:'note', d:0, text:'(interrompido por tempo: use Passo ou Até a resposta para continuar)'}); break; }
+    }
+    return evs;
+  };
+  Sim.prototype.showBatch = function(evs){
+    if (!evs.length) return;
+    var keep = 60, self = this;
+    if (evs.length > keep + 5) this.addRow({type:'note', d:0, text:'… ' + (evs.length - keep) + ' passos intermediários não mostrados (use Passo para ver um a um)'});
+    evs.slice(-keep).forEach(function(ev){ self.addRow(ev); });
+    this.highlight(evs[evs.length - 1]); this.panels();
+  };
+  Sim.prototype.toAnswer = function(){ this.stopAuto(); this.showBatch(this.runUntil({answer:1, final:1, error:1}, 2500)); };
+  Sim.prototype.runAll = function(){
+    this.stopAuto();
+    var evs = this.runUntil({final:1, error:1}, 4000);
+    var tot = this.m ? this.m.steps : 0;
+    this.showBatch(evs);
+    this.addRow({type:'note', d:0, text:'Resumo: ' + this.answers.length + ' resposta(s) em ' + tot + ' passos.'});
+  };
+  Sim.prototype.startAuto = function(){ var self = this; this.btnAuto.classList.add('on'); this.timer = setInterval(function(){ self.step(); }, this.speed); };
+  Sim.prototype.stopAuto = function(){ if (this.timer) { clearInterval(this.timer); this.timer = null; } this.btnAuto.classList.remove('on'); };
+  Sim.prototype.toggleAuto = function(){ if (this.timer) this.stopAuto(); else this.startAuto(); };
+
+  /* ---------- unificador passo a passo ---------- */
+  function Unif(root, spec){
+    this.root = root; this.spec = spec; this.lines = []; this.shown = 0;
+    var self = this, presets = spec.presets || [];
+    root.innerHTML =
+      '<div class="un-row"><input class="u1" spellcheck="false" autocomplete="off"><span class="eq">=</span><input class="u2" spellcheck="false" autocomplete="off">' +
+      '<button class="sbtn main u-go">Unificar</button></div>' +
+      '<div class="sim-chips"></div>' +
+      '<div class="sim-ctl"><button class="sbtn main u-step">Passo<kbd>␣</kbd></button><button class="sbtn u-all">Mostrar tudo<kbd>T</kbd></button><button class="sbtn u-rst">Reiniciar<kbd>R</kbd></button></div>' +
+      '<div class="un-log"></div><div class="un-res"></div>';
+    this.i1 = $('.u1', root); this.i2 = $('.u2', root); this.logEl = $('.un-log', root); this.resEl = $('.un-res', root);
+    var chips = $('.sim-chips', root);
+    presets.forEach(function(p){ var b = document.createElement('button'); b.textContent = p[0] + '  =  ' + p[1]; b.onclick = function(){ self.i1.value = p[0]; self.i2.value = p[1]; self.go(); }; chips.appendChild(b); });
+    $('.u-go', root).onclick = function(){ self.go(); };
+    $('.u-step', root).onclick = function(){ self.step(); };
+    $('.u-all', root).onclick = function(){ self.all(); };
+    $('.u-rst', root).onclick = function(){ self.go(); };
+    [this.i1, this.i2].forEach(function(i){ i.addEventListener('keydown', function(e){ if (e.key === 'Enter') { e.preventDefault(); self.go(); } }); });
+    if (presets[0]) { this.i1.value = spec.a || presets[0][0]; this.i2.value = spec.b || presets[0][1]; }
+    this.go();
+  }
+  Unif.prototype.compute = function(){
+    var pr = PL.parseTermPair(this.i1.value, this.i2.value), lines = [], trail = [];
+    var d = PL.deref, f = PL.fmt;
+    function bindv(v, t){ v.ref = t; trail.push(v); }
+    function L(depth, kind, text){ lines.push({depth: depth, kind: kind, text: text}); }
+    function isC(x){ return x.t === 's' && x.n === '.' && x.a.length === 2; }
+    function lab(o){ var x = d(o); return (o.t === 'v' && x !== o) ? o.name + ' (= ' + f(x, true) + ')' : f(x, true); }
+    function tr(a0, b0, depth){
+      var a = d(a0), b = d(b0);
+      var txt = lab(a0) + '  =  ' + lab(b0);
+      if (a === b) { L(depth, 'ok', txt + ' : é a mesma variável, nada a fazer'); return true; }
+      if (a.t === 'v' && b.t === 'v') { bindv(a, b); L(depth, 'bind', txt + ' : duas variáveis livres, liga ' + f(a, true) + ' à outra'); return true; }
+      if (a.t === 'v') { bindv(a, b); L(depth, 'bind', txt + ' : variável livre, liga  ' + a.name + ' = ' + f(b, true)); return true; }
+      if (b.t === 'v') { bindv(b, a); L(depth, 'bind', txt + ' : variável livre, liga  ' + b.name + ' = ' + f(a, true)); return true; }
+      if (a.t === 'n' && b.t === 'n') { if (a.v === b.v) { L(depth, 'ok', txt + ' : números iguais ✔'); return true; } L(depth, 'fail', txt + ' : números diferentes ✘'); return false; }
+      if (a.t === 'a' && b.t === 'a') { if (a.n === b.n) { L(depth, 'ok', txt + ' : mesmo átomo ✔'); return true; } L(depth, 'fail', txt + ' : átomos diferentes ✘'); return false; }
+      if (a.t === 's' && b.t === 's') {
+        if (isC(a) && isC(b)) {
+          L(depth, 'dec', txt + ' : duas listas: cabeça com cabeça, cauda com cauda');
+          return tr(a.a[0], b.a[0], depth + 1) && tr(a.a[1], b.a[1], depth + 1);
+        }
+        if (a.n !== b.n || a.a.length !== b.a.length) { L(depth, 'fail', txt + ' : functores diferentes (' + a.n + '/' + a.a.length + ' ≠ ' + b.n + '/' + b.a.length + ') ✘'); return false; }
+        L(depth, 'dec', txt + ' : mesmo functor ' + a.n + '/' + a.a.length + ', unifica argumento a argumento');
+        for (var i = 0; i < a.a.length; i++) if (!tr(a.a[i], b.a[i], depth + 1)) return false;
+        return true;
+      }
+      L(depth, 'fail', txt + ' : tipos diferentes ✘'); return false;
+    }
+    var ok = tr(pr.a, pr.b, 0), binds = [];
+    pr.vars.forEach(function(v, name){ var x = d(v); if (!(x.t === 'v' && x === v)) binds.push(name + ' = ' + f(x, true)); });
+    var inst = ok ? f(pr.a, true) : '';
+    PL.undoTo(trail, 0);
+    return {ok: ok, lines: lines, binds: binds, inst: inst};
+  };
+  Unif.prototype.go = function(){
+    this.resEl.className = 'un-res'; this.resEl.textContent = ''; this.logEl.innerHTML = ''; this.shown = 0;
+    try { this.r = this.compute(); } catch (e) { if (e instanceof PL.PrologError) { this.r = null; this.logEl.innerHTML = '<div class="un-l k-fail">' + esc(e.text) + '</div>'; return; } throw e; }
+    this.lines = this.r.lines;
+  };
+  Unif.prototype.step = function(){
+    if (!this.r) return;
+    if (this.shown < this.lines.length) {
+      var l = this.lines[this.shown++], d = document.createElement('div');
+      d.className = 'un-l k-' + l.kind; d.style.marginLeft = l.depth * 22 + 'px'; d.textContent = l.text;
+      var prev = $('.cur', this.logEl); if (prev) prev.classList.remove('cur'); d.classList.add('cur');
+      this.logEl.appendChild(d); this.logEl.scrollTop = this.logEl.scrollHeight;
+    }
+    if (this.shown >= this.lines.length) {
+      if (this.r.ok) { this.resEl.className = 'un-res ok'; this.resEl.textContent = 'UNIFICA' + (this.r.binds.length ? ' com  ' + this.r.binds.join(',  ') : ' (sem ligações)') + '   →   ' + this.r.inst; }
+      else { this.resEl.className = 'un-res bad'; this.resEl.textContent = 'NÃO UNIFICA: a execução desfaz as ligações e segue o backtracking'; }
+    }
+  };
+  Unif.prototype.all = function(){ while (this.r && this.shown < this.lines.length) this.step(); this.step(); };
+
+  document.querySelectorAll('.sim[data-sim]').forEach(function(el){ var s = JSON.parse(el.getAttribute('data-sim')); sims[el.closest('.slide').id] = new Sim(el, s); });
+  document.querySelectorAll('.un[data-unif]').forEach(function(el){ var s = JSON.parse(el.getAttribute('data-unif')); unifs[el.closest('.slide').id] = new Unif(el, s); });
+
+  /* ---------- palco ---------- */
+  function layout(){
+    var notesOn = notesEl.classList.contains('on');
+    var bottom = BAR + (notesOn ? Math.round(window.innerHeight * 0.40) : 0);
+    frame.style.bottom = bottom + 'px';
+    var s = Math.min(window.innerWidth / DW, (window.innerHeight - bottom) / DH);
+    stage.style.transform = 'scale(' + s + ')'; wrap.style.width = (DW * s) + 'px'; wrap.style.height = (DH * s) + 'px';
+  }
+  function cur(){ return slides[idx]; }
+  function stopAllAuto(){ Object.keys(sims).forEach(function(k){ sims[k].stopAuto(); }); }
+  function show(n, noHash){
+    stopAllAuto();
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(s, i){ s.classList.toggle('on', i === idx); s.setAttribute('aria-hidden', i === idx ? 'false' : 'true'); });
+    document.getElementById('count').textContent = (idx + 1) + ' / ' + slides.length;
+    document.getElementById('prog').style.width = ((idx + 1) / slides.length * 100) + '%';
+    var id = cur().id;
+    document.getElementById('hintsim').textContent = sims[id] ? 'Simulador: Espaço = passo · Enter = até a resposta · T = tudo · R = reiniciar · A = auto' : (unifs[id] ? 'Unificador: Espaço = passo · T = tudo · R = reiniciar' : '');
+    if (!noHash) { try { history.replaceState(null, '', '#' + (idx + 1)); } catch (e) {} }
+    renderNotes(); syncPresenter();
+  }
+  function notesHTML(i){ var a = slides[i] && slides[i].querySelector('aside.notes'); return a ? a.innerHTML : '<p><em>Sem anotações para este slide.</em></p>'; }
+  function renderNotes(){ notesEl.innerHTML = '<div class="nh">Anotações do apresentador · não exiba com o projetor ligado</div>' + notesHTML(idx); notesEl.scrollTop = 0; }
+  function next(){ show(idx + 1); } function prev(){ show(idx - 1); }
+  function toggleNotes(){ var on = !notesEl.classList.contains('on'); notesEl.classList.toggle('on', on); document.getElementById('bnotes').setAttribute('aria-pressed', on ? 'true' : 'false'); layout(); }
+
+  /* ---------- cronometro ---------- */
+  function fmtT(t){ var m = Math.floor(t / 60), s = t % 60; return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s; }
+  function paintClock(){
+    clock.textContent = '⏱ ' + fmtT(remaining);
+    clock.className = (running ? 'run ' : '') + (remaining <= 300 ? 'bad' : remaining <= 900 ? 'warn' : '');
+    if (pres && !pres.closed) { var pc = pres.document.getElementById('pclock'); if (pc) pc.textContent = fmtT(remaining); }
+  }
+  function tick(){ if (remaining > 0) remaining--; else { toggleClock(); toast('Tempo esgotado'); } paintClock(); }
+  function toggleClock(){ running = !running; if (running) { tickId = setInterval(tick, 1000); toast('Cronômetro iniciado'); } else { clearInterval(tickId); toast('Cronômetro pausado'); } paintClock(); }
+  function resetClock(){ running = false; clearInterval(tickId); remaining = TOTAL; paintClock(); toast('Cronômetro reiniciado'); }
+
+  /* ---------- janela do apresentador ---------- */
+  function openPresenter(){
+    if (pres && !pres.closed) { pres.focus(); return; }
+    pres = window.open('', 'aula13_presenter', 'width=980,height=720');
+    if (!pres) { toast('Pop-up bloqueado: libere pop-ups ou use a tecla N'); return; }
+    var d = pres.document; d.open();
+    d.write('<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Apresentador · Aula 13</title><style>'
+      + 'body{margin:0;font:18px/1.5 "Segoe UI",system-ui,sans-serif;background:#0d151c;color:#e3eaf0;display:flex;flex-direction:column;height:100vh}'
+      + 'header{display:flex;gap:12px;align-items:center;padding:12px 18px;background:#142230;border-bottom:3px solid #ff7c50}header b{font-size:20px;flex:1}'
+      + '#pclock{font:700 34px ui-monospace,Consolas,monospace;color:#ffb48f}button{font:inherit;background:#1f3140;color:#e3eaf0;border:1px solid #38505f;border-radius:8px;padding:6px 14px;cursor:pointer}'
+      + 'main{flex:1;overflow:auto;padding:6px 22px 20px}h4{margin:14px 0 4px;color:#ffb48f}ul{padding-left:22px}li{margin:3px 0}code{background:#1f3140;padding:1px 6px;border-radius:5px}'
+      + 'kbd{background:#1f3140;border:1px solid #38505f;border-radius:4px;padding:0 5px}footer{padding:10px 18px;background:#142230;color:#98a8b6;font-size:15px}</style></head><body>'
+      + '<header><button id="pp">◀</button><b id="pt"></b><button id="pn">▶</button><span id="pclock"></span></header><main id="pm"></main><footer id="px"></footer></body></html>');
+    d.close();
+    d.getElementById('pp').onclick = prev; d.getElementById('pn').onclick = next;
+    d.addEventListener('keydown', onKey); syncPresenter(); paintClock();
+  }
+  function syncPresenter(){
+    if (!pres || pres.closed) return; var d = pres.document; if (!d.getElementById('pm')) return;
+    d.getElementById('pt').textContent = (idx + 1) + '/' + slides.length + ' · ' + (slides[idx].getAttribute('data-title') || '');
+    d.getElementById('pm').innerHTML = notesHTML(idx);
+    d.getElementById('px').textContent = idx + 1 < slides.length ? 'Próximo: ' + (slides[idx + 1].getAttribute('data-title') || '') : 'Último slide';
+  }
+
+  var toastT;
+  function toast(msg){ var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(function(){ t.classList.remove('on'); }, 1700); }
+  function fullscreen(){ if (document.fullscreenElement) document.exitFullscreen(); else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }
+  function theme(){ var r = document.documentElement, dark = r.getAttribute('data-theme') === 'dark' || (!r.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches); r.setAttribute('data-theme', dark ? 'light' : 'dark'); }
+  function help(on){ document.getElementById('help').classList.toggle('on', on); }
+
+  function typing(e){ var t = e.target; return t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable); }
+  function onKey(e){
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    var k = e.key;
+    if (typing(e)) { if (k === 'Escape') { e.target.blur(); } return; }
+    var id = cur().id, sm = sims[id], un = unifs[id];
+    if (k === 'ArrowRight' || k === 'PageDown') { e.preventDefault(); next(); }
+    else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); prev(); }
+    else if (k === ' ') { e.preventDefault(); if (sm) sm.step(); else if (un) un.step(); else next(); }
+    else if (k === 'Enter') { e.preventDefault(); if (sm) sm.toAnswer(); else if (un) un.all(); else next(); }
+    else if (k === 'Backspace') { e.preventDefault(); prev(); }
+    else if (k === 'Home') show(0); else if (k === 'End') show(slides.length - 1);
+    else if (k === 't' || k === 'T') { if (sm) sm.runAll(); else if (un) un.all(); }
+    else if (k === 'r') { if (sm) sm.load(); else if (un) un.go(); }
+    else if (k === 'a' || k === 'A') { if (sm) sm.toggleAuto(); }
+    else if (k === 'n' || k === 'N') toggleNotes();
+    else if (k === 'p' || k === 'P') openPresenter();
+    else if (k === 'c' || k === 'C') toggleClock();
+    else if (k === 'R') resetClock();
+    else if (k === 'f' || k === 'F') fullscreen();
+    else if (k === 'd' || k === 'D') theme();
+    else if (k === '?') help(!document.getElementById('help').classList.contains('on'));
+    else if (k === 'Escape') help(false);
+  }
+  document.addEventListener('keydown', onKey);
+  document.getElementById('bprev').onclick = prev; document.getElementById('bnext').onclick = next;
+  document.getElementById('bnotes').onclick = toggleNotes; document.getElementById('bpres').onclick = openPresenter;
+  document.getElementById('bfull').onclick = fullscreen; document.getElementById('bhelp').onclick = function(){ help(true); };
+  clock.onclick = toggleClock; document.getElementById('help').onclick = function(){ help(false); };
+  function wake(){ document.body.classList.remove('idle'); clearTimeout(idleId); idleId = setTimeout(function(){ document.body.classList.add('idle'); }, 3500); }
+  document.addEventListener('mousemove', wake); wake();
+  window.addEventListener('resize', layout);
+  window.addEventListener('hashchange', function(){ var n = parseInt(location.hash.slice(1), 10); if (n) show(n - 1, true); });
+  window.addEventListener('beforeunload', function(){ if (pres && !pres.closed) pres.close(); });
+  var start = parseInt(location.hash.slice(1), 10);
+  layout(); show(start ? start - 1 : 0, !start); paintClock();
+  window.__sims = sims; window.__unifs = unifs;
+})();
+</script>
+</body>
+</html>

@@ -1052,7 +1052,264 @@ db.pokemon.aggregate([
 # Aula + - Atividade 
 ```json
 //Ex1 a
+db.campeoes.aggregate([
 
+  {
+
+    $lookup: {
+
+      from: "regioes_lol",
+
+      localField: "region",
+
+      foreignField: "_id",
+
+      as: "regioes_info"
+
+    }
+
+  },
+
+  {
+
+    $unwind: "$regioes_info"
+
+  },
+
+  {
+
+    $project:{
+
+      _id: 0,
+
+      name:1,
+
+      region:1,
+
+      caracteristicas: "$regioes_info.identity"
+
+    }
+
+  },
+
+  {
+
+    $sort: {
+
+      region:1
+
+    }
+
+  }
+//B)
+db.pokemon.aggregate([
+  {
+    $lookup: {
+      from: "geracoes_pokemon",
+      localField: "generation",
+      foreignField: "_id",
+      as: "generation_info"
+    }
+  },
+  {
+    $unwind: "$generation_info"
+  },
+  {
+    $project:{
+      _id:0,
+      name:1,
+      regiao:"$generation_info.region",
+      ano:"$generation_info.years",
+      lendario:"$legendary"
+    }
+  },
+  {
+    $limit: 10
+  }
+])
+//Verdadeira resposta para essa questão: 
+db.pokemon.aggregate([
+  {
+    $lookup: {
+      from: "geracoes_pokemon",
+      localField: "generation",
+      foreignField: "_id",
+      as: "generation_info"
+    }
+  },
+  {
+    $unwind: "$generation_info"
+  },
+  {
+    $lookup:{
+      from:"pokemon",
+      let: {
+        genAtual: "$generation"
+      },
+      pipeline:[
+        {
+          $match:{
+            $expr:{
+              $and:[
+                {
+                  $eq: [
+                    "$generation", "$$genAtual"
+                  ]
+                },
+                {
+                  $eq:[
+                    "$legendary", true//no meu banco isso aqui ta como booleano
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          $project: {
+            _id: 0,
+            name: 1
+          }
+        }
+      ],
+      as: "lendarios_geracao"
+    }
+  },
+  {
+    $project:{
+      _id:0,
+      name:1,
+      regiao:"$generation_info.region",
+      ano:"$generation_info.years",
+      lendario:"$lendarios_geracao.name"
+    }
+  },
+  {
+    $limit: 10
+  }
+])
+
+//ex2 a)
+ db.pokemon.aggregate([
+  {
+    $addFields:{
+      classificacaoAtack:{
+        $switch:{
+          branches: [
+            {
+              case:{
+                $lt:[
+                  "$attack",50
+                ],
+              },
+              then:"Fraco"
+            },
+            {
+              case:{
+                $lt:[
+                  "$attack",80
+                ],
+              },
+              then:"Medio"
+            },
+            {
+              case:{
+                $lt:[
+                  "$attack",100
+                ],
+              },
+              then:"forte"
+            }
+          ],
+          default: "Lendário"
+        }
+      }
+    }
+  },
+  {
+    $group:{
+      _id:"$classificacaoAtack",
+      total:{
+        $sum:1
+      },
+      mediaHp:{
+        $avg:"$hp"
+      }
+    }
+  },
+  {
+    $project:{
+      _id:0,
+      classe:"$_id",
+      totalClass:"$total",
+      mediaPorHp:{
+        $round:[
+          "$mediaHp",1
+        ]
+      }
+    }
+  }
+])
+//ex 2 b)
+db.campeoes.aggregate([
+  {
+    $addFields:{
+      classificacaoVida:{
+        $switch:{
+          branches:[
+            {
+              case:{
+                $lt:[
+                  "$stats.hp",550
+                ]
+              },
+              then:"Fragil"
+            },
+            {
+              case:{
+                $lt:[
+                  "$stats.hp",600
+                ]
+              },
+              then:"Medio"
+            },
+            {
+              case:{
+                $lt:[
+                  "$stats.hp",650
+                ]
+              },
+              then:"Tanque"
+            }
+          ],
+          default: "Super tanque"
+        }
+      }
+    }
+  },
+    {
+    $group:{
+      _id:"$classificacaoVida",
+      total:{
+        $sum:1
+      },
+      media:{
+        $avg:"$stats.hp"
+      }
+    }
+  },
+  {
+    $project:{
+      _id:0,
+      Classe:"$_id",
+      Total:"$total",
+      MediaHP:{
+        $round:["$media",1]
+      }
+    }
+  }
+])
+//Ex3 a)
 
 ```
 
