@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz MongoDB — Aggregation Pipeline</title>
+<style>
+  :root{
+    --verde:#00684A; --verde2:#00ED64; --escuro:#001E2B; --cinza:#5C6C75;
+    --bg:#F4F7F6; --card:#FFFFFF; --erro:#C0392B; --acerto:#00684A; --borda:#D8E0DE;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:linear-gradient(180deg,#001E2B 0%, #00382E 320px, var(--bg) 320px);
+    color:var(--escuro); min-height:100vh; padding-bottom:60px;
+  }
+  header{ padding:28px 20px 18px; text-align:center; color:#fff; }
+  header h1{ margin:0 0 6px; font-size:1.5rem; }
+  header p{ margin:0; color:#B7EFD6; font-size:0.92rem; }
+  #setup, #quiz, #result{ max-width:760px; margin:0 auto; padding:0 16px; }
+  .card{
+    background:var(--card); border-radius:14px; padding:22px 24px; margin-top:18px;
+    box-shadow:0 8px 24px rgba(0,30,43,0.12); border:1px solid var(--borda);
+  }
+  .hidden{ display:none !important; }
+  input[type=text]{
+    width:100%; padding:12px 14px; font-size:1rem; border-radius:8px; border:1.5px solid var(--borda);
+    margin-top:6px;
+  }
+  label.small{ font-size:0.85rem; color:var(--cinza); font-weight:600; }
+  button{
+    background:var(--verde); color:#fff; border:none; padding:13px 22px; border-radius:8px;
+    font-size:1rem; font-weight:700; cursor:pointer; margin-top:16px;
+  }
+  button:hover{ background:#00543B; }
+  button.secondary{ background:#fff; color:var(--verde); border:1.5px solid var(--verde); }
+  button.secondary:hover{ background:#EAF7F1; }
+  button:disabled{ background:#A9B4B1; cursor:not-allowed; }
+  #progressWrap{ display:flex; align-items:center; gap:12px; margin:16px auto 0; max-width:760px; padding:0 16px; }
+  #progressBar{ flex:1; height:8px; background:#DCE5E2; border-radius:6px; overflow:hidden; }
+  #progressFill{ height:100%; width:0%; background:var(--verde2); transition:width .25s; }
+  #progressLabel{ font-size:0.82rem; color:var(--cinza); white-space:nowrap; font-weight:600; }
+  .topic-tag{
+    display:inline-block; background:#E4F7EE; color:var(--verde); font-size:0.72rem; font-weight:700;
+    padding:3px 10px; border-radius:20px; margin-bottom:10px; text-transform:uppercase; letter-spacing:.02em;
+  }
+  .qnum{ color:var(--cinza); font-size:0.85rem; font-weight:600; margin-bottom:4px; }
+  .qtext{ font-size:1.08rem; font-weight:600; line-height:1.45; margin:4px 0 14px; }
+  pre.code{
+    background:#001E2B; color:#B7EFD6; padding:14px 16px; border-radius:8px; overflow-x:auto;
+    font-size:0.85rem; line-height:1.5; margin:0 0 16px; white-space:pre-wrap; word-break:break-word;
+  }
+  .opt{
+    white-space:pre-wrap; word-break:break-word;
+    display:block; width:100%; text-align:left; background:#fff; border:1.5px solid var(--borda);
+    border-radius:10px; padding:12px 14px; margin-bottom:10px; cursor:pointer; font-size:0.95rem;
+    font-family:inherit; color:var(--escuro); transition:.15s; line-height:1.4;
+  }
+  .opt:hover{ border-color:var(--verde); background:#F3FBF7; }
+  .opt .letra{
+    display:inline-block; width:22px; height:22px; line-height:22px; text-align:center;
+    background:#EDF2F1; border-radius:50%; font-weight:700; font-size:0.78rem; margin-right:10px; color:var(--cinza);
+  }
+  .opt.correta{ border-color:var(--acerto); background:#E4F7EE; }
+  .opt.correta .letra{ background:var(--acerto); color:#fff; }
+  .opt.errada{ border-color:var(--erro); background:#FBECEA; }
+  .opt.errada .letra{ background:var(--erro); color:#fff; }
+  .opt[disabled]{ cursor:default; }
+  .feedback{
+    margin-top:6px; padding:12px 14px; border-radius:8px; font-size:0.88rem; line-height:1.5;
+  }
+  .feedback.ok{ background:#E4F7EE; color:#00543B; }
+  .feedback.no{ background:#FBECEA; color:#8B2E22; }
+  .navrow{ display:flex; justify-content:flex-end; margin-top:14px; }
+  .scorebig{ font-size:3rem; font-weight:800; color:var(--verde); text-align:center; margin:6px 0 0; }
+  .scoresub{ text-align:center; color:var(--cinza); margin-bottom:10px; }
+  table.rev{ width:100%; border-collapse:collapse; margin-top:8px; font-size:0.85rem; }
+  table.rev th, table.rev td{ text-align:left; padding:8px 6px; border-bottom:1px solid var(--borda); }
+  table.rev th{ color:var(--cinza); font-size:0.75rem; text-transform:uppercase; }
+  .pill{ display:inline-block; padding:2px 9px; border-radius:20px; font-size:0.72rem; font-weight:700; }
+  .pill.ok{ background:#E4F7EE; color:var(--acerto); }
+  .pill.no{ background:#FBECEA; color:var(--erro); }
+  .footer-note{ text-align:center; color:#8496A0; font-size:0.78rem; margin-top:22px; }
+  .btnrow{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🍃 Quiz MongoDB — Aggregate</h1>
+  <p>42 questões objetivas — Estágios, $group, $cond e pipelines integrados</p>
+</header>
+
+<div id="progressWrap" class="hidden">
+  <div id="progressBar"><div id="progressFill"></div></div>
+  <div id="progressLabel">0 / 42</div>
+</div>
+
+<div id="setup">
+  <div class="card">
+    <label class="small">SEU NOME (como aparecerá na sua nota)</label>
+    <input type="text" id="nomeAluno" placeholder="Digite seu nome completo">
+    <button id="btnStart">Começar o quiz</button>
+    <p style="color:var(--cinza); font-size:0.85rem; margin-top:14px;">
+      42 questões de múltipla escolha (A–D). A cada resposta você já vê se acertou, com uma explicação rápida.
+      No final aparece sua nota e o resumo por tópico.
+    </p>
+  </div>
+</div>
+
+<div id="quiz" class="hidden"></div>
+
+<div id="result" class="hidden"></div>
+
+<script id="quiz-data" type="application/json">[
+  {
+    "id": 1,
+    "topic": "Pipeline — conceito",
+    "block": "estagios",
+    "question": "O que é um Aggregation Pipeline no MongoDB?",
+    "code": null,
+    "options": {
+      "A": "Uma única consulta que executa todos os estágios ao mesmo tempo, independente da ordem",
+      "B": "Um tipo de coleção especial que guarda resultados de consultas",
+      "C": "Uma sequência de estágios em que a saída de cada estágio é a entrada do próximo",
+      "D": "Um índice composto criado automaticamente pelo MongoDB"
+    },
+    "answer": "C",
+    "explanation": "No pipeline, os documentos fluem de estágio em estágio ($match, $group, $sort...). Por isso a ORDEM dos estágios muda o resultado."
+  },
+  {
+    "id": 2,
+    "topic": "aggregate — sintaxe",
+    "block": "estagios",
+    "question": "Qual é a forma correta de iniciar um pipeline na coleção restaurants?",
+    "code": null,
+    "options": {
+      "A": "db.restaurants.aggregate({ $match: { borough: \"Bronx\" } })",
+      "B": "db.restaurants.pipeline([ { $match: { borough: \"Bronx\" } } ])",
+      "C": "db.restaurants.aggregate([ { $match: { borough: \"Bronx\" } } ])",
+      "D": "db.restaurants.find([ { $match: { borough: \"Bronx\" } } ])"
+    },
+    "answer": "C",
+    "explanation": "aggregate() recebe um ARRAY de estágios: aggregate([ {estágio1}, {estágio2}, ... ])."
+  },
+  {
+    "id": 3,
+    "topic": "$match",
+    "block": "estagios",
+    "question": "Por que, em geral, é boa prática colocar o $match o mais cedo possível no pipeline?",
+    "code": null,
+    "options": {
+      "A": "Porque o $match só funciona no início do pipeline",
+      "B": "Porque o $match ordena os documentos automaticamente",
+      "C": "Porque o $match cria um índice temporário que acelera o $group",
+      "D": "Porque reduz a quantidade de documentos que os estágios seguintes precisam processar"
+    },
+    "answer": "D",
+    "explanation": "Filtrar cedo diminui o volume de dados nos estágios seguintes (ex.: $unwind e $group), melhorando o desempenho. O $match pode aparecer em outros pontos, mas filtrar antes é mais eficiente."
+  },
+  {
+    "id": 4,
+    "topic": "$project — renomear",
+    "block": "estagios",
+    "question": "Qual $project devolve apenas \"name\" e o logradouro renomeado para \"street\" (sem o _id)?",
+    "code": null,
+    "options": {
+      "A": "{ $project: { _id: 0, name: 1, street: \"$address.street\" } }",
+      "B": "{ $project: { _id: 0, name: 1, street: address.street } }",
+      "C": "{ $project: { _id: 0, name: 1, \"address.street\": \"street\" } }",
+      "D": "{ $project: { _id: 0, name: 1, street: \"address.street\" } }"
+    },
+    "answer": "A",
+    "explanation": "Para copiar o VALOR de outro campo, usa-se o nome do campo com prefixo $ dentro de aspas: \"$address.street\"."
+  },
+  {
+    "id": 5,
+    "topic": "$project — erro do $ ausente",
+    "block": "estagios",
+    "question": "O que acontece com o campo \"coord\" em { $project: { name: 1, coord: \"address.coord\" } } (sem o $)?",
+    "code": null,
+    "options": {
+      "A": "Ocorre um erro de sintaxe e o pipeline não executa",
+      "B": "O campo coord é omitido do resultado",
+      "C": "O MongoDB corrige automaticamente e devolve o array de coordenadas",
+      "D": "Todos os documentos recebem coord com o texto literal \"address.coord\", e não o valor do campo"
+    },
+    "answer": "D",
+    "explanation": "Sem o $, \"address.coord\" é apenas uma string literal. Para referenciar o valor do campo: \"$address.coord\"."
+  },
+  {
+    "id": 6,
+    "topic": "$sort",
+    "block": "estagios",
+    "question": "Qual estágio ordena os restaurantes pelo nome, de Z para A?",
+    "code": null,
+    "options": {
+      "A": "{ $sort: { name: -1 } }",
+      "B": "{ $sort: { name: \"desc\" } }",
+      "C": "{ $orderBy: { name: -1 } }",
+      "D": "{ $sort: { name: 1 } }"
+    },
+    "answer": "A",
+    "explanation": "No $sort, 1 = crescente (A–Z) e -1 = decrescente (Z–A)."
+  },
+  {
+    "id": 7,
+    "topic": "$sort + $limit — ordem",
+    "block": "estagios",
+    "question": "Qual pipeline devolve os 3 restaurantes com MAIOR valor em um campo numérico \"total\"?",
+    "code": null,
+    "options": {
+      "A": "[ { $limit: 3 }, { $sort: { total: 1 } } ]",
+      "B": "[ { $sort: { total: -1 } }, { $limit: 3 } ]",
+      "C": "[ { $limit: 3 }, { $sort: { total: -1 } } ]",
+      "D": "[ { $sort: { total: 1 } }, { $limit: 3 } ]"
+    },
+    "answer": "B",
+    "explanation": "Primeiro ordena (-1 = maiores primeiro), depois limita. Com $limit antes do $sort, o MongoDB pegaria 3 documentos quaisquer e só então os ordenaria."
+  },
+  {
+    "id": 8,
+    "topic": "$skip + $limit — paginação",
+    "block": "estagios",
+    "question": "Para exibir a PÁGINA 3 de uma listagem com 10 itens por página (itens 21 a 30), usa-se:",
+    "code": null,
+    "options": {
+      "A": "{ $skip: 10 }, { $limit: 20 }",
+      "B": "{ $skip: 30 }, { $limit: 10 }",
+      "C": "{ $limit: 10 }, { $skip: 20 }",
+      "D": "{ $skip: 20 }, { $limit: 10 }"
+    },
+    "answer": "D",
+    "explanation": "$skip descarta os 20 primeiros e $limit pega os 10 seguintes. Se o $limit viesse antes, sobrariam só 10 documentos e o $skip de 20 deixaria o resultado vazio."
+  },
+  {
+    "id": 9,
+    "topic": "$unwind",
+    "block": "estagios",
+    "question": "O que o estágio { $unwind: \"$grades\" } faz?",
+    "code": null,
+    "options": {
+      "A": "Ordena os elementos do array grades",
+      "B": "Soma os valores do array grades em um único número",
+      "C": "Remove o campo grades de todos os documentos",
+      "D": "Gera um documento para cada elemento do array grades, repetindo os demais campos do restaurante"
+    },
+    "answer": "D",
+    "explanation": "$unwind \"desmonta\" o array: um restaurante com 4 avaliações vira 4 documentos, cada um com UMA avaliação em grades."
+  },
+  {
+    "id": 10,
+    "topic": "$unwind — contagem de documentos",
+    "block": "estagios",
+    "question": "Três restaurantes têm, respectivamente, 2, 4 e 0 avaliações (grades vazio). Quantos documentos saem de { $unwind: \"$grades\" }?",
+    "code": null,
+    "options": {
+      "A": "6 documentos (o restaurante com array vazio é descartado)",
+      "B": "7 documentos",
+      "C": "9 documentos",
+      "D": "3 documentos"
+    },
+    "answer": "A",
+    "explanation": "2 + 4 + 0 = 6. Por padrão, documentos com array vazio (ou sem o campo) não passam pelo $unwind."
+  },
+  {
+    "id": 11,
+    "topic": "$addFields x $project",
+    "block": "estagios",
+    "question": "Qual a principal diferença entre $addFields e $project?",
+    "code": null,
+    "options": {
+      "A": "Não há diferença: são nomes diferentes para o mesmo estágio",
+      "B": "$addFields remove campos; $project só adiciona",
+      "C": "$addFields acrescenta/altera campos mantendo os demais; $project (inclusão) devolve só os campos listados",
+      "D": "$project só funciona antes do $group; $addFields só depois"
+    },
+    "answer": "C",
+    "explanation": "Com { $project: { name: 1 } }, só name (e _id) permanece. Com { $addFields: { nova: ... } }, todos os campos continuam e \"nova\" é acrescentada."
+  },
+  {
+    "id": 12,
+    "topic": "$count",
+    "block": "estagios",
+    "question": "Qual estágio devolve o total de documentos que chegaram até ele, em um campo chamado \"total\"?",
+    "code": null,
+    "options": {
+      "A": "{ $sum: \"total\" }",
+      "B": "{ $count: \"total\" }",
+      "C": "{ $group: { total: { $count: 1 } } }",
+      "D": "{ $count: { total: 1 } }"
+    },
+    "answer": "B",
+    "explanation": "{ $count: \"nome\" } devolve um único documento no formato { nome: N }."
+  },
+  {
+    "id": 13,
+    "topic": "$size",
+    "block": "estagios",
+    "question": "Qual $project devolve o nome e a QUANTIDADE de avaliações de cada restaurante, sem usar $unwind?",
+    "code": null,
+    "options": {
+      "A": "{ $project: { name: 1, qtd: { $size: \"$grades\" } } }",
+      "B": "{ $project: { name: 1, qtd: { $sum: \"$grades\" } } }",
+      "C": "{ $project: { name: 1, qtd: { $length: \"$grades\" } } }",
+      "D": "{ $project: { name: 1, qtd: { $count: \"$grades\" } } }"
+    },
+    "answer": "A",
+    "explanation": "$size devolve o número de elementos de um array. $count e $length não existem como operadores de expressão para arrays."
+  },
+  {
+    "id": 14,
+    "topic": "$group — contagem",
+    "block": "group",
+    "question": "Qual estágio conta quantos restaurantes existem em cada borough?",
+    "code": null,
+    "options": {
+      "A": "{ $group: { _id: \"$borough\", total: { $count: 1 } } }",
+      "B": "{ $group: { borough: \"$borough\", total: { $sum: 1 } } }",
+      "C": "{ $group: { _id: \"$borough\", total: { $sum: 1 } } }",
+      "D": "{ $group: { _id: \"borough\", total: { $sum: 1 } } }"
+    },
+    "answer": "C",
+    "explanation": "O _id do $group define a chave de agrupamento e é OBRIGATÓRIO. Precisa do $ (\"$borough\") para usar o valor do campo; { $sum: 1 } soma 1 por documento (contagem)."
+  },
+  {
+    "id": 15,
+    "topic": "$group — total geral",
+    "block": "group",
+    "question": "Qual estágio conta TODOS os documentos, formando um único grupo?",
+    "code": null,
+    "options": {
+      "A": "{ $group: { total: { $sum: 1 } } }",
+      "B": "{ $group: { _id: null, total: { $count: \"$name\" } } }",
+      "C": "{ $group: { _id: null, total: { $sum: 1 } } }",
+      "D": "{ $group: { _id: \"$_id\", total: { $sum: 1 } } }"
+    },
+    "answer": "C",
+    "explanation": "Com _id: null, todos os documentos caem no mesmo grupo. Sem _id o $group dá erro; com _id: \"$_id\" haveria um grupo por documento."
+  },
+  {
+    "id": 16,
+    "topic": "$sum — soma x contagem",
+    "block": "group",
+    "question": "Após o $unwind de grades, qual acumulador SOMA os valores de score por cuisine?",
+    "code": null,
+    "options": {
+      "A": "total: { $sum: \"grades.score\" }",
+      "B": "total: { $count: \"$grades.score\" }",
+      "C": "total: { $sum: 1 }",
+      "D": "total: { $sum: \"$grades.score\" }"
+    },
+    "answer": "D",
+    "explanation": "{ $sum: 1 } conta documentos. Para somar valores, passa-se o campo com $: { $sum: \"$grades.score\" }. Sem o $, a string é literal e a soma resulta em 0."
+  },
+  {
+    "id": 17,
+    "topic": "$avg",
+    "block": "group",
+    "question": "Qual acumulador calcula a MÉDIA de score por cuisine (após o $unwind)?",
+    "code": null,
+    "options": {
+      "A": "media: { $avg: \"$grades.score\" }",
+      "B": "media: { $mean: \"$grades.score\" }",
+      "C": "media: { $average: \"$grades.score\" }",
+      "D": "media: { $avg: \"grades.score\" }"
+    },
+    "answer": "A",
+    "explanation": "O acumulador de média é $avg, aplicado sobre o campo com $: \"$grades.score\"."
+  },
+  {
+    "id": 18,
+    "topic": "$max / $min",
+    "block": "group",
+    "question": "Qual acumulador devolve o MAIOR score por cuisine (após o $unwind)?",
+    "code": null,
+    "options": {
+      "A": "maior: { $biggest: \"$grades.score\" }",
+      "B": "maior: { $maximum: \"$grades.score\" }",
+      "C": "maior: { $maxOf: \"$grades.score\" }",
+      "D": "maior: { $max: \"$grades.score\" }"
+    },
+    "answer": "D",
+    "explanation": "Os acumuladores são $max e $min (maior e menor valor do grupo)."
+  },
+  {
+    "id": 19,
+    "topic": "$push x $addToSet",
+    "block": "group",
+    "question": "Qual a diferença entre $push e $addToSet dentro de um $group?",
+    "code": null,
+    "options": {
+      "A": "São idênticos; só mudam de nome",
+      "B": "$addToSet guarda todos os valores; $push elimina os repetidos",
+      "C": "$push guarda todos os valores (inclusive repetidos); $addToSet guarda apenas valores distintos",
+      "D": "$addToSet ordena os valores em ordem alfabética; $push não"
+    },
+    "answer": "C",
+    "explanation": "$addToSet monta um conjunto sem repetições; $push monta uma lista que pode ter valores duplicados."
+  },
+  {
+    "id": 20,
+    "topic": "$addToSet + $size — distintos",
+    "block": "group",
+    "question": "Após o $unwind de grades, como contar quantos RESTAURANTES DISTINTOS há por cuisine?",
+    "code": null,
+    "options": {
+      "A": "{ $group: { _id: \"$cuisine\", total: { $sum: 1 } } }",
+      "B": "{ $group: { _id: \"$cuisine\", r: { $addToSet: \"$_id\" } } }, { $project: { total: { $size: \"$r\" } } }",
+      "C": "{ $group: { _id: \"$cuisine\", r: { $push: \"$_id\" } } }, { $project: { total: { $size: \"$r\" } } }",
+      "D": "{ $group: { _id: \"$cuisine\", r: { $addToSet: \"$grades.grade\" } } }, { $project: { total: { $size: \"$r\" } } }"
+    },
+    "answer": "B",
+    "explanation": "Depois do $unwind, um restaurante aparece várias vezes. $sum:1 e $push contariam repetidos. $addToSet do _id guarda cada restaurante uma só vez e $size conta o conjunto."
+  },
+  {
+    "id": 21,
+    "topic": "$first",
+    "block": "group",
+    "question": "Para obter, por cuisine, o nome do restaurante que aparece primeiro DEPOIS de ordenar por score decrescente, o correto é:",
+    "code": null,
+    "options": {
+      "A": "{ $limit: 1 }, { $group: { _id: \"$cuisine\", top: { $first: \"$name\" } } }",
+      "B": "{ $group: { _id: \"$cuisine\", top: { $max: \"$name\" } } }",
+      "C": "{ $sort: { \"grades.score\": -1 } }, { $group: { _id: \"$cuisine\", top: { $first: \"$name\" } } }",
+      "D": "{ $group: { _id: \"$cuisine\", top: { $first: \"$name\" } } }, { $sort: { \"grades.score\": -1 } }"
+    },
+    "answer": "C",
+    "explanation": "$first depende da ordem em que os documentos chegam ao $group, então o $sort precisa vir ANTES. $max:\"$name\" pegaria o maior nome alfabeticamente."
+  },
+  {
+    "id": 22,
+    "topic": "$group — vários acumuladores",
+    "block": "group",
+    "question": "Como obter, em um único $group por cuisine, o total de avaliações E a média de score (após o $unwind)?",
+    "code": null,
+    "options": {
+      "A": "{ $group: { _id: \"$cuisine\" } }, { $sum: 1 }, { $avg: \"$grades.score\" }",
+      "B": "{ $group: { _id: \"$cuisine\", total: { $sum: 1 } }, media: { $avg: \"$grades.score\" } }",
+      "C": "{ $group: { _id: \"$cuisine\", total: { $sum: 1 } } }, { $group: { _id: \"$_id\", media: { $avg: \"$grades.score\" } } }",
+      "D": "{ $group: { _id: \"$cuisine\", total: { $sum: 1 }, media: { $avg: \"$grades.score\" } } }"
+    },
+    "answer": "D",
+    "explanation": "Um $group aceita quantos acumuladores forem necessários, todos dentro do mesmo objeto. Acumuladores não são estágios; e um 2º $group não enxerga mais o campo grades."
+  },
+  {
+    "id": 23,
+    "topic": "$group — _id composto",
+    "block": "group",
+    "question": "Como agrupar por PAR (borough, classificacao)?",
+    "code": null,
+    "options": {
+      "A": "{ $group: { _id: \"$borough, $classificacao\", total: { $sum: 1 } } }",
+      "B": "{ $group: { borough: \"$borough\", classificacao: \"$classificacao\", total: { $sum: 1 } } }",
+      "C": "{ $group: { _id: { borough: \"$borough\", classificacao: \"$classificacao\" }, total: { $sum: 1 } } }",
+      "D": "{ $group: { _id: \"$borough\", _id: \"$classificacao\", total: { $sum: 1 } } }"
+    },
+    "answer": "C",
+    "explanation": "O _id pode ser um subdocumento com vários campos. Chaves repetidas no mesmo objeto se sobrescrevem e sem _id o $group falha."
+  },
+  {
+    "id": 24,
+    "topic": "$_id.campo — 2º $group",
+    "block": "group",
+    "question": "Após um $group com _id: { borough, classificacao }, como reagrupar somente por borough?",
+    "code": null,
+    "options": {
+      "A": "{ $group: { _id: \"$_id.classificacao\" } }",
+      "B": "{ $group: { _id: \"$_id\" } }",
+      "C": "{ $group: { _id: \"$_id.borough\" } }",
+      "D": "{ $group: { _id: \"$borough\" } }"
+    },
+    "answer": "C",
+    "explanation": "Depois do 1º $group, borough deixa de ser campo do documento: ele passou a viver dentro do _id composto. O acesso é \"$_id.borough\"."
+  },
+  {
+    "id": 25,
+    "topic": "$project após $group",
+    "block": "group",
+    "question": "Depois de { $group: { _id: \"$borough\", total: { $sum: 1 } } }, qual $project mostra o bairro com o nome \"borough\" e o total, sem o _id?",
+    "code": null,
+    "options": {
+      "A": "{ $project: { _id: 0, borough: \"$_id\", total: 1 } }",
+      "B": "{ $project: { _id: 0, borough: \"$borough\", total: 1 } }",
+      "C": "{ $project: { _id: 0, borough: 1, total: 1 } }",
+      "D": "{ $project: { _id: 0, borough: \"_id\", total: 1 } }"
+    },
+    "answer": "A",
+    "explanation": "Após o $group o bairro está em _id. Para renomear: borough: \"$_id\". \"$borough\" não existe mais e \"_id\" sem $ seria texto literal."
+  },
+  {
+    "id": 26,
+    "topic": "$match após $group",
+    "block": "group",
+    "question": "Como listar apenas as cuisines com MAIS de 100 restaurantes, depois de contá-los em \"total\"?",
+    "code": null,
+    "options": {
+      "A": "{ $group: { _id: \"$cuisine\", total: { $sum: 1 }, $gt: 100 } }",
+      "B": "{ $match: { total: { $gt: 100 } } }, { $group: { _id: \"$cuisine\", total: { $sum: 1 } } }",
+      "C": "{ $group: { _id: \"$cuisine\", total: { $sum: 1 } } }, { $match: { total: { $gt: 100 } } }",
+      "D": "{ $group: { _id: \"$cuisine\", total: { $sum: 1 } } }, { $limit: 100 }"
+    },
+    "answer": "C",
+    "explanation": "O campo \"total\" só passa a existir depois do $group; filtrar por ele exige um $match APÓS o $group (equivale ao HAVING do SQL)."
+  },
+  {
+    "id": 27,
+    "topic": "Erro clássico — $project antes do $group",
+    "block": "group",
+    "question": "No pipeline [ {$unwind:\"$grades\"}, {$project:{classificacao: ...}}, {$group:{_id:\"$borough\", total:{$sum:1}}} ] o que acontece?",
+    "code": null,
+    "options": {
+      "A": "Um grupo para cada borough, normalmente",
+      "B": "Erro de sintaxe: $group não pode vir depois de $project",
+      "C": "Um grupo para cada valor de classificacao",
+      "D": "Um único grupo com _id null, porque o $project descartou o campo borough"
+    },
+    "answer": "D",
+    "explanation": "Um $project de inclusão mantém SÓ os campos listados (e _id). Como borough não foi listado, \"$borough\" não existe no $group e todos viram _id: null. Solução: incluir borough: 1 no $project."
+  },
+  {
+    "id": 28,
+    "topic": "$cond — sintaxe",
+    "block": "cond",
+    "question": "Qual $cond devolve \"Bom\" quando score < 15 e \"Ruim\" caso contrário?",
+    "code": null,
+    "options": {
+      "A": "{ $cond: { when: { $lt: [\"$grades.score\", 15] }, then: \"Bom\", otherwise: \"Ruim\" } }",
+      "B": "{ $cond: { if: { $lt: [\"$grades.score\", 15] }, then: \"Bom\", else: \"Ruim\" } }",
+      "C": "{ $if: { $lt: [\"$grades.score\", 15] }, $then: \"Bom\", $else: \"Ruim\" }",
+      "D": "{ $cond: { if: { \"grades.score\": { $lt: 15 } }, then: \"Bom\", else: \"Ruim\" } }"
+    },
+    "answer": "B",
+    "explanation": "Dentro do $cond a condição é uma EXPRESSÃO de agregação ({ $lt: [\"$campo\", valor] }), não um filtro do tipo { campo: { $lt: valor } }. As chaves são if, then e else."
+  },
+  {
+    "id": 29,
+    "topic": "$cond — forma de array",
+    "block": "cond",
+    "question": "Qual afirmação sobre o $cond é VERDADEIRA?",
+    "code": null,
+    "options": {
+      "A": "Aceita a forma de objeto (if/then/else) e a forma de array [condição, valorSeVerdadeiro, valorSeFalso]",
+      "B": "A cláusula else é opcional",
+      "C": "Só aceita a forma de objeto (if/then/else)",
+      "D": "Só aceita a forma de array"
+    },
+    "answer": "A",
+    "explanation": "As duas formas são equivalentes: { $cond: [ cond, a, b ] } = { $cond: { if: cond, then: a, else: b } }. then e else são obrigatórios."
+  },
+  {
+    "id": 30,
+    "topic": "$cond aninhado",
+    "block": "cond",
+    "question": "Qual $cond classifica: score < 5 = Excelente, < 15 = Bom, < 30 = Regular, senão Ruim?",
+    "code": null,
+    "options": {
+      "A": "{ $cond: [ { $lt: [\"$grades.score\", 5] }, \"Excelente\", { $cond: [ { $lt: [\"$grades.score\", 15] }, \"Bom\", \"Regular\" ] } ] }",
+      "B": "{ $cond: [ { $lt: [\"$grades.score\", 5] }, \"Excelente\", { $cond: [ { $lt: [\"$grades.score\", 15] }, \"Bom\", { $cond: [ { $lt: [\"$grades.score\", 30] }, \"Regular\", \"Ruim\" ] } ] } ] }",
+      "C": "{ $cond: { if: { score: { $lt: 5 } }, then: \"Excelente\", else: { $cond: { if: { score: { $lt: 15 } }, then: \"Bom\", else: \"Ruim\" } } } }",
+      "D": "{ $cond: [ { $lt: [\"$grades.score\", 30] }, \"Regular\", { $cond: [ { $lt: [\"$grades.score\", 15] }, \"Bom\", { $cond: [ { $lt: [\"$grades.score\", 5] }, \"Excelente\", \"Ruim\" ] } ] } ] }"
+    },
+    "answer": "B",
+    "explanation": "A ordem importa: testa-se da faixa mais restrita (<5) para a mais ampla (<30). Se a faixa mais ampla (<30) for testada primeiro, quase tudo cairia em 'Regular'; se faltar o último nível, nunca existe 'Ruim'; e condições no formato de filtro ({ score: { $lt: 5 } }) são inválidas dentro do $cond."
+  },
+  {
+    "id": 31,
+    "topic": "$sum + $cond — contar por condição",
+    "block": "cond",
+    "question": "Após o $unwind, qual acumulador conta QUANTAS avaliações têm score < 15?",
+    "code": null,
+    "options": {
+      "A": "excelentes: { $sum: { $cond: [ { $lt: [\"$grades.score\", 15] }, 0, 1 ] } }",
+      "B": "excelentes: { $sum: { $cond: [ { $lt: [\"$grades.score\", 15] }, 1, 0 ] } }",
+      "C": "excelentes: { $cond: [ { $lt: [\"$grades.score\", 15] }, 1, 0 ] }",
+      "D": "excelentes: { $sum: { $lt: [\"$grades.score\", 15] } }"
+    },
+    "answer": "B",
+    "explanation": "$cond devolve 1 quando a condição é verdadeira e 0 caso contrário; o $sum soma esses 1s. Sem o $sum falta o acumulador; invertendo 1 e 0 a contagem seria das avaliações com score >= 15."
+  },
+  {
+    "id": 32,
+    "topic": "$sum + $cond + $eq — por categoria",
+    "block": "cond",
+    "question": "Em documentos que já têm o campo \"classificacao\", qual acumulador conta quantos são \"Excelente\"?",
+    "code": null,
+    "options": {
+      "A": "totalExcelente: { $sum: { $eq: [\"$classificacao\", \"Excelente\"] } }",
+      "B": "totalExcelente: { $sum: { $cond: [ { $eq: [\"$classificacao\", \"Excelente\"] }, 1, 0 ] } }",
+      "C": "totalExcelente: { $sum: { $cond: [ { $eq: [\"$classificacao\", \"excelente\"] }, 1, 0 ] } }",
+      "D": "totalExcelente: { $sum: { $cond: [ { $eq: [\"classificacao\", \"Excelente\"] }, 1, 0 ] } }"
+    },
+    "answer": "B",
+    "explanation": "Somar direto o resultado do $eq não funciona (booleanos não são somados). Sem o $, \"classificacao\" é texto literal e nunca é igual a \"Excelente\". E a comparação diferencia maiúsculas de minúsculas (\"excelente\" ≠ \"Excelente\"; atenção também a erros de digitação como \"Exelente\")."
+  },
+  {
+    "id": 33,
+    "topic": "$sum com campo calculado",
+    "block": "cond",
+    "question": "Um 1º $group gerou { _id: { borough, classificacao }, total } (contagem por par). No 2º $group (por \"$_id.borough\"), como obter o totalGeral do bairro?",
+    "code": null,
+    "options": {
+      "A": "totalGeral: { $sum: \"$_id.classificacao\" }",
+      "B": "totalGeral: { $sum: 1 }",
+      "C": "totalGeral: { $sum: \"$total\" }",
+      "D": "totalGeral: { $count: \"$total\" }"
+    },
+    "answer": "C",
+    "explanation": "Cada documento do 2º estágio já traz a contagem de uma classificação em \"total\"; somar esses valores dá o total do bairro. { $sum: 1 } só contaria quantas classificações existem (no máximo 4)."
+  },
+  {
+    "id": 34,
+    "topic": "$_id.classificacao dentro do $cond",
+    "block": "cond",
+    "question": "No 2º $group (por \"$_id.borough\"), qual acumulador soma os restaurantes classificados como \"Bom\" a partir dos pares já contados em \"total\"?",
+    "code": null,
+    "options": {
+      "A": "Bom: { $sum: { $cond: [ { $eq: [\"$_id.classificacao\", \"Bom\"] }, \"$total\", 0 ] } }",
+      "B": "Bom: { $sum: { $cond: [ { $eq: [\"$_id.classificacao\", \"Bom\"] }, 1, 0 ] } }",
+      "C": "Bom: { $sum: { $eq: [\"$_id.classificacao\", \"Bom\"] } }",
+      "D": "Bom: { $sum: { $cond: [ { $eq: [\"$classificacao\", \"Bom\"] }, \"$total\", 0 ] } }"
+    },
+    "answer": "A",
+    "explanation": "Após o 1º $group, a classificação está em $_id.classificacao e a contagem em $total. Usar 1 no lugar de $total contaria linhas (uma por classificação), não restaurantes; usar $classificacao referencia um campo que não existe mais; e somar o $eq direto não soma booleanos."
+  },
+  {
+    "id": 35,
+    "topic": "$round",
+    "block": "cond",
+    "question": "Qual $project arredonda a média (campo \"media\") para 2 casas decimais?",
+    "code": null,
+    "options": {
+      "A": "{ $project: { media: { $round: [\"$media\", 2] } } }",
+      "B": "{ $project: { media: { $round: [2, \"$media\"] } } }",
+      "C": "{ $project: { media: { $round: \"$media\", 2 } } }",
+      "D": "{ $project: { media: { $rounded: [\"$media\", 2] } } }"
+    },
+    "answer": "A",
+    "explanation": "$round recebe um array [número, casasDecimais]. A ordem importa e o operador se chama $round."
+  },
+  {
+    "id": 36,
+    "topic": "Pipeline — Top 5 bairros",
+    "block": "integradas",
+    "question": "Qual pipeline devolve os 5 bairros com mais restaurantes ITALIANOS com CEP começando por 10?",
+    "code": null,
+    "options": {
+      "A": "[ { $match: { cuisine: \"Italian\", \"address.zipcode\": { $regex: \"^10\" } } }, { $group: { _id: \"$borough\", total: { $sum: 1 } } }, { $sort: { total: -1 } }, { $limit: 5 } ]",
+      "B": "[ { $match: { cuisine: \"Italian\", \"address.zipcode\": { $regex: \"^10\" } } }, { $sort: { total: -1 } }, { $group: { _id: \"$borough\", total: { $sum: 1 } } }, { $limit: 5 } ]",
+      "C": "[ { $match: { cuisine: \"Italian\", \"address.zipcode\": { $regex: \"^10\" } } }, { $group: { _id: \"$borough\", total: { $sum: 1 } } }, { $limit: 5 }, { $sort: { total: -1 } } ]",
+      "D": "[ { $group: { _id: \"$borough\", total: { $sum: 1 } } }, { $match: { cuisine: \"Italian\", \"address.zipcode\": { $regex: \"^10\" } } }, { $sort: { total: -1 } }, { $limit: 5 } ]"
+    },
+    "answer": "A",
+    "explanation": "Ordem lógica: filtrar ($match) → agrupar e contar ($group) → ordenar ($sort -1) → limitar ($limit). Alternativas erradas: limitar antes de ordenar; ordenar por um campo que ainda não existe; filtrar por campos que o $group já eliminou."
+  },
+  {
+    "id": 37,
+    "topic": "$match com $regex",
+    "block": "integradas",
+    "question": "Qual $match filtra restaurantes cujo address.street contém \"Avenue\", ignorando maiúsculas/minúsculas?",
+    "code": null,
+    "options": {
+      "A": "{ $match: { \"address.street\": /Avenue/, $options: \"i\" } }",
+      "B": "{ $match: { \"address.street\": { $regex: \"Avenue\", $options: \"i\" } } }",
+      "C": "{ $match: { address: { street: { $regex: \"Avenue\", $options: \"i\" } } } }",
+      "D": "{ $match: { \"address.street\": { $regex: \"Avenue\" } } }"
+    },
+    "answer": "B",
+    "explanation": "A opção \"i\" precisa ficar dentro do mesmo objeto do $regex. Subcampos são acessados com dot notation (\"address.street\"), não aninhando objetos no filtro."
+  },
+  {
+    "id": 38,
+    "topic": "Posição em array — coord",
+    "block": "integradas",
+    "question": "Qual filtro seleciona restaurantes com longitude (primeiro item de address.coord) menor que -73.9?",
+    "code": null,
+    "options": {
+      "A": "{ \"address.coord[0]\": { $lt: -73.9 } }",
+      "B": "{ \"address.0.coord\": { $lt: -73.9 } }",
+      "C": "{ \"address.coord.first\": { $lt: -73.9 } }",
+      "D": "{ \"address.coord.0\": { $lt: -73.9 } }"
+    },
+    "answer": "D",
+    "explanation": "A posição de um array entra na dot notation como número: \"address.coord.0\" (primeiro elemento)."
+  },
+  {
+    "id": 39,
+    "topic": "Pipeline — média por borough",
+    "block": "integradas",
+    "question": "Qual sequência calcula a média de score por borough, mostra os 3 melhores e arredonda a média?",
+    "code": null,
+    "options": {
+      "A": "$sort média -1 → $unwind grades → $group por borough com $avg → $limit 3 → $project com $round",
+      "B": "$unwind grades → $limit 3 → $group por borough com $avg → $sort média -1 → $project com $round",
+      "C": "$group por borough com $avg → $unwind grades → $limit 3 → $sort média -1 → $project com $round",
+      "D": "$unwind grades → $group por borough com $avg → $sort média -1 → $limit 3 → $project com $round"
+    },
+    "answer": "D",
+    "explanation": "É preciso desmontar o array antes de calcular a média, agrupar, só então ordenar pelo resultado, limitar e por fim formatar com $round. Limitar ou ordenar antes do $group usa campos/documentos errados."
+  },
+  {
+    "id": 40,
+    "topic": "$unwind + $match",
+    "block": "integradas",
+    "question": "Após { $unwind: \"$grades\" } e { $match: { \"grades.grade\": \"Z\" } }, o que o pipeline retorna?",
+    "code": null,
+    "options": {
+      "A": "Os restaurantes inteiros, com todas as suas avaliações",
+      "B": "Um documento para cada avaliação Z, trazendo só aquela avaliação em grades",
+      "C": "Erro, pois $match não pode vir depois do $unwind",
+      "D": "Apenas restaurantes que têm uma única avaliação"
+    },
+    "answer": "B",
+    "explanation": "Depois do $unwind cada documento tem UMA avaliação; o $match mantém só os documentos cuja avaliação é Z. Para filtrar restaurantes inteiros, o $match com \"grades.grade\" deve vir ANTES do $unwind."
+  },
+  {
+    "id": 41,
+    "topic": "Desempenho — posição do $match",
+    "block": "integradas",
+    "question": "Em um pipeline com $unwind e $group, onde deve ficar um $match que usa apenas campos originais (como cuisine)?",
+    "code": null,
+    "options": {
+      "A": "Dentro do $group, como um acumulador",
+      "B": "Antes do $unwind, para reduzir os documentos que serão desmontados e agrupados",
+      "C": "Tanto faz: a posição nunca afeta o desempenho",
+      "D": "No fim, depois do $group, para filtrar o resultado final"
+    },
+    "answer": "B",
+    "explanation": "Filtrar antes do $unwind evita multiplicar documentos que serão descartados depois — menos trabalho para todos os estágios seguintes."
+  },
+  {
+    "id": 42,
+    "topic": "Relatório por borough — raciocínio",
+    "block": "integradas",
+    "question": "Para um relatório com UMA linha por borough e colunas Excelente/Bom/Regular/Ruim/totalGeral, qual é a estratégia correta?",
+    "code": null,
+    "options": {
+      "A": "$unwind → $project (classificacao com $cond aninhado, mantendo borough) → $group por {borough, classificacao} → $group por \"$_id.borough\" com $sum+$cond → $project → $sort por borough",
+      "B": "$project (classificacao sobre o array grades, sem $unwind) → $group por {borough, classificacao} → $sort por borough",
+      "C": "$group por \"$borough\" → $unwind → $project (classificacao) → $sort por borough",
+      "D": "$unwind → $project (classificacao, descartando borough) → $group por \"$borough\" com $sum+$cond → $sort"
+    },
+    "answer": "A",
+    "explanation": "É preciso: desmontar grades; classificar cada avaliação sem perder o borough; contar por par; reagrupar por bairro transformando as contagens em colunas com $cond; ajustar a saída; e ordenar. Sem o $unwind, a comparação de score seria feita contra o array inteiro."
+  }
+]</script>
+<script>
+(function(){
+  const QUESTIONS = JSON.parse(document.getElementById('quiz-data').textContent);
+  let current = 0;
+  let answers = new Array(QUESTIONS.length).fill(null);
+  let nomeAluno = "";
+
+  const setupEl = document.getElementById('setup');
+  const quizEl = document.getElementById('quiz');
+  const resultEl = document.getElementById('result');
+  const progressWrap = document.getElementById('progressWrap');
+  const progressFill = document.getElementById('progressFill');
+  const progressLabel = document.getElementById('progressLabel');
+
+  document.getElementById('btnStart').addEventListener('click', () => {
+    nomeAluno = document.getElementById('nomeAluno').value.trim() || "Aluno(a)";
+    setupEl.classList.add('hidden');
+    quizEl.classList.remove('hidden');
+    progressWrap.classList.remove('hidden');
+    renderQuestion();
+  });
+
+  function updateProgress(){
+    const answeredCount = answers.filter(a => a !== null).length;
+    const pct = Math.round((answeredCount / QUESTIONS.length) * 100);
+    progressFill.style.width = pct + "%";
+    progressLabel.textContent = answeredCount + " / " + QUESTIONS.length;
+  }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  }
+
+  function renderQuestion(){
+    const q = QUESTIONS[current];
+    const already = answers[current];
+    let html = '<div class="card">';
+    html += '<span class="topic-tag">' + escapeHtml(q.topic) + '</span>';
+    html += '<div class="qnum">Questão ' + (current+1) + ' de ' + QUESTIONS.length + '</div>';
+    html += '<div class="qtext">' + escapeHtml(q.question) + '</div>';
+    if(q.code){
+      html += '<pre class="code">' + escapeHtml(q.code) + '</pre>';
+    }
+    ['A','B','C','D'].forEach(letra => {
+      let cls = 'opt';
+      let disabledAttr = '';
+      if(already){
+        disabledAttr = 'disabled';
+        if(letra === q.answer) cls += ' correta';
+        else if(letra === already) cls += ' errada';
+      }
+      html += '<button class="' + cls + '" data-letra="' + letra + '" ' + disabledAttr + '>' +
+        '<span class="letra">' + letra + '</span>' + escapeHtml(q.options[letra]) +
+        '</button>';
+    });
+    if(already){
+      const acertou = already === q.answer;
+      html += '<div class="feedback ' + (acertou ? 'ok' : 'no') + '">' +
+        (acertou ? '✅ Correto! ' : '❌ Não foi dessa vez. Resposta certa: ' + q.answer + '. ') +
+        escapeHtml(q.explanation) + '</div>';
+    }
+    html += '<div class="navrow">';
+    if(already){
+      html += '<button id="btnNext">' + (current === QUESTIONS.length - 1 ? 'Ver resultado final' : 'Próxima questão →') + '</button>';
+    }
+    html += '</div></div>';
+    quizEl.innerHTML = html;
+
+    quizEl.querySelectorAll('.opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(answers[current] !== null) return;
+        answers[current] = btn.getAttribute('data-letra');
+        updateProgress();
+        renderQuestion();
+      });
+    });
+    const nextBtn = document.getElementById('btnNext');
+    if(nextBtn){
+      nextBtn.addEventListener('click', () => {
+        if(current < QUESTIONS.length - 1){
+          current++;
+          renderQuestion();
+        } else {
+          renderResult();
+        }
+      });
+    }
+    updateProgress();
+  }
+
+  function renderResult(){
+    quizEl.classList.add('hidden');
+    progressWrap.classList.add('hidden');
+    let acertos = 0;
+    const porTopico = {};
+    QUESTIONS.forEach((q, i) => {
+      const ok = answers[i] === q.answer;
+      if(ok) acertos++;
+      if(!porTopico[q.topic]) porTopico[q.topic] = {ok:0, total:0};
+      porTopico[q.topic].total++;
+      if(ok) porTopico[q.topic].ok++;
+    });
+    const nota10 = (acertos / QUESTIONS.length * 10).toFixed(1);
+    let html = '<div class="card">';
+    html += '<div class="qnum" style="text-align:center;">' + escapeHtml(nomeAluno) + '</div>';
+    html += '<div class="scorebig">' + acertos + ' / ' + QUESTIONS.length + '</div>';
+    html += '<div class="scoresub">Nota equivalente: ' + nota10 + '</div>';
+    html += '<hr style="border:none;border-top:1px solid var(--borda); margin:16px 0;">';
+    html += '<div class="qnum" style="margin-bottom:8px;">Desempenho por tópico</div>';
+    html += '<table class="rev"><thead><tr><th>Tópico</th><th>Acertos</th></tr></thead><tbody>';
+    Object.keys(porTopico).forEach(t => {
+      const d = porTopico[t];
+      const cls = d.ok === d.total ? 'ok' : 'no';
+      html += '<tr><td>' + escapeHtml(t) + '</td><td><span class="pill ' + cls + '">' + d.ok + '/' + d.total + '</span></td></tr>';
+    });
+    html += '</tbody></table>';
+    html += '<div class="btnrow" style="margin-top:20px;">';
+    html += '<button class="secondary" id="btnReview">Revisar todas as respostas</button>';
+    html += '<button class="secondary" id="btnCopy">Copiar resultado</button>';
+    html += '<button id="btnRestart">Refazer o quiz</button>';
+    html += '</div></div>';
+
+    html += '<div class="card" id="reviewCard" style="display:none;">';
+    html += '<div class="qnum" style="margin-bottom:10px;">Revisão questão a questão</div>';
+    QUESTIONS.forEach((q, i) => {
+      const ok = answers[i] === q.answer;
+      html += '<div style="padding:10px 0; border-bottom:1px solid var(--borda);">';
+      html += '<span class="pill ' + (ok?'ok':'no') + '">' + (ok?'Certo':'Errado') + '</span> ';
+      html += '<strong>Q' + (i+1) + '.</strong> ' + escapeHtml(q.question);
+      if(!ok){
+        html += '<br><span style="color:var(--erro); font-size:0.85rem;">Sua resposta: ' + (answers[i] || '—') + '</span>';
+      }
+      html += '<br><span style="color:var(--acerto); font-size:0.85rem;">Resposta certa: ' + q.answer + ' — ' + escapeHtml(q.options[q.answer]) + '</span>';
+      html += '</div>';
+    });
+    html += '</div>';
+
+    resultEl.innerHTML = html;
+    resultEl.classList.remove('hidden');
+
+    document.getElementById('btnReview').addEventListener('click', () => {
+      const rc = document.getElementById('reviewCard');
+      rc.style.display = rc.style.display === 'none' ? 'block' : 'none';
+    });
+    document.getElementById('btnCopy').addEventListener('click', () => {
+      const txt = nomeAluno + ' — ' + acertos + '/' + QUESTIONS.length + ' acertos (' + nota10 + ')';
+      if(navigator.clipboard){ navigator.clipboard.writeText(txt).then(()=>{ document.getElementById('btnCopy').textContent='Copiado!'; }); }
+    });
+    document.getElementById('btnRestart').addEventListener('click', () => {
+      answers = new Array(QUESTIONS.length).fill(null);
+      current = 0;
+      resultEl.classList.add('hidden');
+      quizEl.classList.remove('hidden');
+      progressWrap.classList.remove('hidden');
+      renderQuestion();
+    });
+  }
+})();
+</script>
+
+<p class="footer-note">Disciplina de Banco de Dados NoSQL (MongoDB) — Engenharia de Software — Unicesumar</p>
+
+</body>
+</html>

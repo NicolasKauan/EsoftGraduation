@@ -1319,3 +1319,261 @@ db.campeoes.aggregate([
 
 ```
 
+# Aula 20 - 20/10/2026
+	$dataToString;
+	
+```json
+//Exericio da aula de hoje:
+db.visualizacoes.aggregate([
+  {
+    $addFields: {
+      mesEscrito: {
+        $switch: {
+          branches: [
+            {
+              case: {
+                $eq: [
+                  {
+                    $dateToString: {
+                      format: "%m",
+                      date: "$dataHora"
+                    }
+                  },
+                  "01"
+                ]
+              },
+              then: "Janeiro"
+            },
+            {
+              case: {
+                $eq: [
+                  {
+                    $dateToString: {
+                      format: "%m",
+                      date: "$dataHora"
+                    }
+                  },
+                  "02"
+                ]
+              },
+              then: "Fevereiro"
+            },
+            {
+              case: {
+                $eq: [
+                  {
+                    $dateToString: {
+                      format: "%m",
+                      date: "$dataHora"
+                    }
+                  },
+                  "03"
+                ]
+              },
+              then: "Março"
+            },
+            {
+              case: {
+                $eq: [
+                  {
+                    $dateToString: {
+                      format: "%m",
+                      date: "$dataHora"
+                    }
+                  },
+                  "04"
+                ]
+              },
+              then: "Abril"
+            },
+            {
+              case: {
+                $eq: [
+                  {
+                    $dateToString: {
+                      format: "%m",
+                      date: "$dataHora"
+                    }
+                  },
+                  "05"
+                ]
+              },
+              then: "Maio"
+            },
+            {
+              case: {
+                $eq: [
+                  {
+                    $dateToString: {
+                      format: "%m",
+                      date: "$dataHora"
+                    }
+                  },
+                  "06"
+                ]
+              },
+              then: "Junho"
+            },
+            {
+              case: {
+                $eq: [
+                  {
+                    $dateToString: {
+                      format: "%m",
+                      date: "$dataHora"
+                    }
+                  },
+                  "07"
+                ]
+              },
+              then: "Julho"
+            },
+            {
+              case: {
+                $eq: [
+                  {
+                    $dateToString: {
+                      format: "%m",
+                      date: "$dataHora"
+                    }
+                  },
+                  "08"
+                ]
+              },
+              then: "Agosto"
+            },
+            {
+              case: {
+                $eq: [
+                  {
+                    $dateToString: {
+                      format: "%m",
+                      date: "$dataHora"
+                    }
+                  },
+                  "09"
+                ]
+              },
+              then: "Setembro"
+            },
+            {
+              case: {
+                $eq: [
+                  {
+                    $dateToString: {
+                      format: "%m",
+                      date: "$dataHora"
+                    }
+                  },
+                  "10"
+                ]
+              },
+              then: "Outubro"
+            },
+            {
+              case: {
+                $eq: [
+                  {
+                    $dateToString: {
+                      format: "%m",
+                      date: "$dataHora"
+                    }
+                  },
+                  "11"
+                ]
+              },
+              then: "Novembro"
+            },
+            {
+              case: {
+                $eq: [
+                  {
+                    $dateToString: {
+                      format: "%m",
+                      date: "$dataHora"
+                    }
+                  },
+                  "12"
+                ]
+              },
+              then: "Dezembro"
+            }
+          ],
+          default: "mes não encontrado"
+        }
+      }
+    }
+  },
+  {
+    $sort: {
+      _id: 1
+    }
+  },
+  {
+    $limit: 4
+  }
+])
+
+db.visualizacoes.aggregate([
+  {
+    $group:{
+      _id:{
+        $dateToString:{
+          format: "%Y-%m",
+          date:"$dataHora"
+        }
+      },
+      minutos: {
+        $sum: "$minutosAssistidos"
+      },
+      views: {
+        $sum: 1
+      }
+    }
+  },
+  {
+    $sort: {
+      _id: 1
+    }
+  },
+  {
+    $limit: 4
+  }
+])
+
+//aaaaaaaa
+db.visualizacoes.aggregate([
+  {
+    $group: {
+      _id: {
+        $month: "$dataHora"
+      },
+      minutos: {
+        $sum: "$minutosAssistidos"
+      }
+    }
+  },
+  {
+    $sort: {
+      _id: 1
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      mes: {
+        $arrayElemAt: [
+          [
+            "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho",
+            "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+          ],
+          {
+            $subtract: ["$_id", 1]
+          }
+        ]
+      },
+      minutos: 1
+    }
+  }
+])
+```
