@@ -1577,3 +1577,35 @@ db.visualizacoes.aggregate([
   }
 ])
 ```
+
+# Aula 21 - 21/10/2026
+	$sortByCount: classifica e ja conta ao mesmo tempo
+	$unionWith: 
+
+```json
+//como que faz
+{
+	$sortByCount:"$campo"
+}
+//eita
+db.titulos.aggregate([
+  {
+    $sortByCount: "$tipo"
+  }
+])
+//
+db.visualizacoes.aggregate([
+  {
+    $sortByCount:{
+      $cond: [
+        {z
+          $gte: ["$minutosAssistidos", 60]
+        },
+        "sessão longa", "sessão curta"
+      ]
+    }
+  }
+])
+//
+
+```
