@@ -1609,3 +1609,35 @@ db.visualizacoes.aggregate([
 //
 
 ```
+# Aula ?? - 10/11/2026
+
+```json
+db.titulos.aggregate([
+  {
+    $lookup: {
+      from: "visualizacoes",
+      localField: "_id",
+      foreignField: "tituloId",
+      as: "visualizacoesTitulo"
+    }
+  },
+  {
+    $unwind: "$visualizacoesTitulo" 
+  },
+  {
+    $group: {
+      _id: "$titulo", 
+      Tipo: { $first: "$tipo" },
+      TotalMinPorTitulo: { $sum: "$visualizacoesTitulo.minutosAssistidos" } 
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      Titulo: "$_id", 
+      Tipo: 1, 
+      TotalMinPorTitulo: 1
+    }
+  }
+])
+```
