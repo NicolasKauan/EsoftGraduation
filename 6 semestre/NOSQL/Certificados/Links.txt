@@ -1,0 +1,23 @@
+ Curso 1: M001 - Introduction to MongoDB / MongoDB Basics -  Certificado de conclusao + Skill Badge gratuito. 
+Link: https://learn.mongodb.com/learn/course/crud-operations-in-mongodb-on-demand/
+
+Curso 2: M320 - Data Modeling - Intermediario, modelagem documento, anti-patterns, essencial para NoSQL. Link:
+https://learn.mongodb.com/learning-paths/mongodb-data-modeling-certification-learning-path
+
+Curso 3: M121 - The Aggregation Framework - Pipelines $match $group $sort. Link:
+https://learn.mongodb.com/courses/mongodb-aggregation-in-python
+https://learn.mongodb.com/learn/course/fundamentals-of-data-transformation/fundamentals-of-data-transformation/introduction-to-aggregation
+
+Learning Paths gratuitos: MongoDB Python Developer Path, Node.js Developer Path - todos dão certificado. Associate
+
+
+
+
+OPCIONAL:
+https://learn.mongodb.com/courses/crud-operations-in-mongodb
+
+
+https://learn.mongodb.com/courses/fundamentals-of-data-transformation
+
+
+https://learn.mongodb.com/courses/schema-design-patterns-and-antipatterns

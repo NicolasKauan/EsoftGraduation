@@ -1310,6 +1310,46 @@ db.campeoes.aggregate([
   }
 ])
 //Ex3 a)
+db.pokemon.aggregate([
+  {
+    $bucket:{
+      groupBy:"$attack",
+      boundaries: [0,50,80,100,200],
+      default:200,
+      output: {
+        total: { $sum:1 },
+        mediaHP: { $avg:"$hp" }
+      }
+    }
+  },
+  {
+    $lookup:{
+      from: "faixas_ataque_pokemon",
+      localField: "_id",
+      foreignField: "min",
+      as: "faixaInfo"
+    }
+  },
+  {
+    $unwind:"$faixaInfo"
+  },
+  {
+  	$sort:{
+    	"faixaInfo.min":1
+  	}
+  },
+  {
+    $project: {
+      _id:0,
+      classe:"$faixaInfo.class",
+      total:"$total",
+      mediaHp:"$mediaHP",
+      Dica:"$faixaInfo.tip"
+    }
+  },
+])
+//Ex3 b)
+
 
 ```
 
@@ -1637,6 +1677,42 @@ db.titulos.aggregate([
       Titulo: "$_id", 
       Tipo: 1, 
       TotalMinPorTitulo: 1
+    }
+  }
+])
+```
+# Aula ?? - 11/11/2026
+```json
+db.titulos.aggregate([
+  {
+    $match: {
+      $expr:{
+        $gt:[
+          { $size:"$generos" },
+          { $size:"$elenco" }
+        ]
+      }
+    }
+  }
+])
+//Temos aqui o uso do size, lembre que ele só pode ser usado com string
+db.titulos.aggregate([
+  {
+    $match: {
+      $expr:{
+        $gt:[
+          { $size:"$generos" },
+          { $size:"$elenco" }
+        ]
+      }
+    }
+  },
+  {
+    $project:{
+      _id:0,
+      titulo:1,
+      generos:{ $size:"$generos" },
+      elenco:{ $size:"$elenco" }
     }
   }
 ])
